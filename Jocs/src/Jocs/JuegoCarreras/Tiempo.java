@@ -20,8 +20,8 @@ class Tiempo {
 	// Función para esperar 'x' tiempo.
     public static void esperarTiempo(long milisegundos) {
         long tiempoEspera = TimeUnit.MILLISECONDS.toNanos(milisegundos);
-
         long tiempoActual = System.nanoTime();
+        
         while (System.nanoTime() - tiempoActual < tiempoEspera) {
             // Esperar hasta que se cumpla el tiempo deseado.
         }

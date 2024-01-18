@@ -26,6 +26,8 @@ public class Vehiculo extends Thread {
 	private double penalizacionLluvia;
 	private double penalizacionAgarre;
 	private double penalizacionDerrape;
+	private boolean penalizacionDetencionTormenta;
+	private long penalizacionDetencionTormentaTiempo;
 	// Bonificaciones
 	private double bonificacionTurbo;
 
@@ -50,7 +52,7 @@ public class Vehiculo extends Thread {
 		this.color = generarColorAleatorio();
 		this.nombreCompleto = tipo + " " + color;
 		this.tipoJugador = esIA ? ElementosIU.TEXTO_NEGRITA + "IA" + ElementosIU.RESET : ElementosIU.TEXTO_NEGRITA + "Jugador" + ElementosIU.RESET;
-		this.icono = esIA ? ElementosIU.TEXTO_NEGRITA + ElementosIU.CIAN + "🤖" + ElementosIU.RESET : ElementosIU.TEXTO_NEGRITA + ElementosIU.CIAN_BRILLANTE + "👤" + ElementosIU.RESET;
+		this.icono = esIA ? ElementosIU.TEXTO_NEGRITA + ElementosIU.CIAN + "🤖" + ElementosIU.RESET : ElementosIU.TEXTO_NEGRITA + ElementosIU.CIAN_CLARO + "👤" + ElementosIU.RESET;
 		generarTipoVehiculo();
 	}
 
@@ -126,6 +128,10 @@ public class Vehiculo extends Thread {
 	public double getPenalizacionDerrape() {
 		return penalizacionDerrape;
 	}
+	
+	public boolean getPenalizacionDetencionTormenta() {
+		return penalizacionDetencionTormenta;
+	}
 
 	public boolean isDerrape() {
 		return derrape;
@@ -171,32 +177,32 @@ public class Vehiculo extends Thread {
 			this.tipoVehiculoString = tipoVehiculoString;
 		}
 
-		public String obtenerTipoVehiculo() {
+		private String obtenerTipoVehiculo() {
 			return tipoVehiculoString;
 		}
 	}
 
 	// Lista enumerada de los colores del vehiculo.
 	private enum ColorVehiculo {
-		ROJO(ElementosIU.ROJO_BRILLANTE + "Rojo" + ElementosIU.RESET),
-		VERDE(ElementosIU.VERDE_BRILLANTE + "Verde" + ElementosIU.RESET),
-		AZUL(ElementosIU.AZUL_BRILLANTE + "Azul" + ElementosIU.RESET), 
-		AMARILLO(ElementosIU.AMARILLO_BRILLANTE + "Amarillo" + ElementosIU.RESET),
-		MORADO(ElementosIU.MORADO_BRILLANTE + "Morado" + ElementosIU.RESET),
-		CELESTE(ElementosIU.CIAN_BRILLANTE + "Celeste" + ElementosIU.RESET),
+		ROJO(ElementosIU.ROJO_CLARO + "Rojo" + ElementosIU.RESET),
+		VERDE(ElementosIU.VERDE_CLARO + "Verde" + ElementosIU.RESET),
+		AZUL(ElementosIU.AZUL_CLARO + "Azul" + ElementosIU.RESET), 
+		AMARILLO(ElementosIU.AMARILLO_CLARO + "Amarillo" + ElementosIU.RESET),
+		MORADO(ElementosIU.MORADO_CLARO + "Morado" + ElementosIU.RESET),
+		CELESTE(ElementosIU.CIAN_CLARO + "Celeste" + ElementosIU.RESET),
 		GRANATE(ElementosIU.ROJO + "Granate" + ElementosIU.RESET),
 
 		DORADO(ElementosIU.AMARILLO + "Dorado" + ElementosIU.RESET),
 		ARCOIRIS(
 				ElementosIU.ROJO + "A" + 
-				ElementosIU.ROJO_BRILLANTE + "r" + 
-				ElementosIU.AMARILLO + "c" + 
-				ElementosIU.VERDE + "o" +
-				ElementosIU.VERDE_BRILLANTE + "i" + 
-				ElementosIU.AZUL_BRILLANTE + "r" +
-				ElementosIU.CIAN + "i" +
-				ElementosIU.MORADO_BRILLANTE + "s" +
-				ElementosIU.RESET);
+						ElementosIU.ROJO_CLARO + "r" + 
+						ElementosIU.AMARILLO + "c" + 
+						ElementosIU.VERDE + "o" +
+						ElementosIU.VERDE_CLARO + "i" + 
+						ElementosIU.AZUL_CLARO + "r" +
+						ElementosIU.CIAN + "i" +
+						ElementosIU.MORADO_CLARO + "s" +
+						ElementosIU.RESET);
 
 		private final String tipoColorString;
 
@@ -204,7 +210,7 @@ public class Vehiculo extends Thread {
 			this.tipoColorString = tipoColorString;
 		}
 
-		public String obtenerColorVehiculo() {
+		private String obtenerColorVehiculo() {
 			return tipoColorString;
 		}
 
@@ -225,7 +231,7 @@ public class Vehiculo extends Thread {
 	}
 
 	// Función para determinar los valores de los atributos del vehículo.
-	public void generarTipoVehiculo() {
+	private void generarTipoVehiculo() {
 
 		switch (tipo) {
 		case "Fórmula 1":
@@ -302,22 +308,22 @@ public class Vehiculo extends Thread {
 
 	// Función para asignar los atributos del vehículo.
 	private void generarAtributosVehiculo(double velocidad, double aceleracion, double peso, double manejo, double agarre, double turbo) {
-		
+
 		this.velocidad = FormatearNumero.formatearNumero(velocidad);
 		this.aceleracion = FormatearNumero.formatearNumero(aceleracion);
 		this.peso = FormatearNumero.formatearNumero(peso);
 		this.manejo = FormatearNumero.formatearNumero(manejo);
 		this.agarre = FormatearNumero.formatearNumero(agarre);
 		this.turbo = FormatearNumero.formatearNumero(turbo);
-		
+
 	}
 
 	// MECÁNICAS DE MOVIMIENTO
 	// Función para calcular la distancia que recorren los vehículos.
-	public double distanciaRecorridaVehiculo(double tiempo) {
+	private double distanciaRecorridaVehiculo(double tiempo) {
 		// Calcular la distancia recorrida con la fórmula de la cinemática.
 		//double distanciaRecorridaInicial = tiempo + 0.5 * (this.getVelocidad() * this.getAceleracion()) * Math.pow(tiempo, 2) * 0.1;
-		double distanciaRecorridaInicial = this.velocidad * tiempo + 0.5 * (this.velocidad * this.aceleracion * this.manejo * this.agarre) * Math.pow(tiempo, 2) * 0.02;
+		double distanciaRecorridaInicial = this.velocidad * tiempo + 0.5 * (this.velocidad * this.aceleracion * this.manejo * this.agarre) * Math.pow(tiempo, 2) * 0.012;
 
 		// Actualizar atributo.
 		this.distanciaRecorridaInicial = distanciaRecorridaInicial;
@@ -326,7 +332,7 @@ public class Vehiculo extends Thread {
 	}
 
 	// Función para calcular el avance del vehículo.
-	public double avanceVehiculo(double tiempo) {
+	private double avanceVehiculo(double tiempo) {
 		double distanciaRecorrida = distanciaRecorridaVehiculo(tiempo);
 
 		if(distanciaRecorrida > DISTANCIA_INICIAL_SIN_PENALIZACION) {
@@ -368,7 +374,7 @@ public class Vehiculo extends Thread {
 
 	// PENALIZACIÓN VIENTO
 	// Función para calcular la penalización de movimiento por viento.
-	public double calcularPenalizacionViento() {
+	private double calcularPenalizacionViento() {
 		double ajustePenalizacion = 0.5;
 		double velocidadViento = this.clima.getVelocidadViento();
 		double penalizacion = 0;
@@ -387,7 +393,7 @@ public class Vehiculo extends Thread {
 
 	// PENALIZACIÓN LLUVIA
 	// Función para calcular la penalización de movimiento por agarre.
-	public double calcularPenalizacionLluvia() {
+	private double calcularPenalizacionLluvia() {
 		double ajustePenalizacion = 0.1;
 		double penalizacion = 0;
 
@@ -407,7 +413,7 @@ public class Vehiculo extends Thread {
 
 	// PENALIZACIÓN AGARRE
 	// Función para calcular la penalización de movimiento por agarre.
-	public double calcularPenalizacionAgarre(double distanciaRecorrida) {
+	private double calcularPenalizacionAgarre(double distanciaRecorrida) {
 		double ajustePenalizacion = 0.1;
 		double penalizacion = 0;
 
@@ -428,7 +434,7 @@ public class Vehiculo extends Thread {
 
 	// PENALIZACIÓN DERRAPE
 	// Función para controlar el derrape.
-	public double penalizacionDerrape(double distanciaRecorrida) {
+	private double penalizacionDerrape(double distanciaRecorrida) {
 		// La probabilidad de derrapar depende del atributo agarre del vehículo.
 		double probabilidadDerrape = this.getAgarre() / 15;
 		double factorDerrape = Math.pow(2, 10 - this.agarre) * 0.1;
@@ -449,15 +455,72 @@ public class Vehiculo extends Thread {
 		return penalizacion;
 	}
 
+	// PENALIZACIÓN TORMENTA ELÉCTRICA.
+	// Función para determinar la aleatoriedad de la penalización por Tormenta Eléctrica.
+	private void penalizacionTormentaElectrica() {
+		boolean penalizacionActiva = false;
+		// La Tormenta Eléctrica generará fallos electrónicos en los vehículos de manera aleatoria.
+		// Estos fallos provocarán varios fallos en el vehículo:
+		// -> Detención del vehículo.
+		// -> Retroceder 'x' metros.
+		penalizacionActiva = Math.random() < 0.9; // 20% de probabilidad.
+
+		// Se activa solamente cuando hay Tormenta Eléctrica.
+		if(clima.getClima().equals("Tormenta Eléctrica")) {
+			// Establecer probabilidad de los fallos.
+			int tipoFallo = NumeroAleatorio.generarNumeroIntAleatorio(0, 1);
+			
+			detenerVehiculo();
+			
+			/*switch(tipoFallo) {
+			case 1:
+				// Detener vehículo 'x' tiempo.
+				detenerVehiculo();
+				break;
+			case 2:
+				retrocederMetros();
+				// Retroceder 'x' metros.
+				break;
+			default:
+				break;
+			}*/
+		}
+
+	}
+
+	// Función para detener el vehículo 'x' tiempo.
+	private void detenerVehiculo() {
+		long tiempoDetencion = (long) NumeroAleatorio.generarNumeroDoubleAleatorio(2, 5); // entre 0 y 4 segundos.
+		
+		this.distanciaRecorridaFinal = 0;
+		
+		this.penalizacionDetencionTormenta = true;
+		this.penalizacionDetencionTormentaTiempo = tiempoDetencion;
+		
+		Tiempo.esperarTiempo(tiempoDetencion * 1000);
+		
+		this.penalizacionDetencionTormenta = false;
+
+	}
+
+	private void retrocederMetros() {
+		double metrosRetrocedidos = NumeroAleatorio.generarNumeroDoubleAleatorio(0, 40);
+
+		this.distanciaRecorridaFinal = metrosRetrocedidos;
+		
+		System.out.println(ElementosIU.ROJO_CLARO + " ⏪ Retroceder: " + ElementosIU.RESET + "El vehículo ha retrocedido " + metrosRetrocedidos + " mts por un fallo electrónico!\n");
+
+	}
+
 	// BONIFICACIÓN TURBO
 	// Función para activar el turbo.
-	public boolean turboActivado() {
+	private boolean turboActivado() {
 		// La probabilidad de usar el turbo es del 60%.
 		return Math.random() < 0.6;
 	}
 
 	// Función para calcular la bonificación del turbo.
-	public double bonificacionTurbo() {
+	private double bonificacionTurbo() {
 		double factorTurbo = this.turbo * 3;
 		double bonificacion = 0;
 
@@ -473,10 +536,11 @@ public class Vehiculo extends Thread {
 		return bonificacion;
 	}
 
+	// TIEMPO ITERACIONES
 	// Calcular el tiempo de espera entre cada iteración (Recorrido).
 	private long calcularTiempoEspera() {
 		// Calcular el tiempo con la velocidad y aceleración.
-		double tiempoEspera = (long) (2 * 600 / ((11 - this.aceleracion) + this.velocidad)) + 2100;
+		double tiempoEspera = (long) (2 * 600 / ((11 - this.aceleracion) + this.velocidad)) + 2300;
 
 		// Controlar que el tiempo de espera mínimo sea de 1 segundo (1000 milisegundos).
 		tiempoEspera = Math.max(tiempoEspera, 1000);
@@ -484,6 +548,7 @@ public class Vehiculo extends Thread {
 		return (long) tiempoEspera;
 	}
 
+	// AVANCE
 	// Gestionar el avance del vehículo.
 	private void gestionarAvance(Tiempo tiempoTranscurrido) {
 		double distanciaAvance = avanceVehiculo(tiempoTranscurrido.getTiempo());
@@ -492,6 +557,7 @@ public class Vehiculo extends Thread {
 		synchronized (lock) {
 			if(distanciaRecorridaFinal > 0) {
 				mostrarMensajeAvance();
+				penalizacionTormentaElectrica();
 			} else {
 				mostrarMensajeArranque();
 			}
@@ -527,27 +593,30 @@ public class Vehiculo extends Thread {
 	// Función para mostrar el mensaje de penalizaciones.
 	private void mostrarMensajePenalizaciones() {
 		if (this.penalizacionAerodinamica > 0 && clima.getTipoViento().equals("Muy Fuerte") || this.penalizacionAerodinamica > 0 && clima.getTipoViento().equals("Fuerte")) {
-			System.out.println(" 🌬️ Viento: " + ElementosIU.ROJO_BRILLANTE + "-" + FormatearNumero.formatearNumero(this.getPenalizacionAerodinamica()) + ElementosIU.RESET + " mts");
+			System.out.println(" 🌬️ Viento: " + ElementosIU.ROJO_CLARO + "-" + FormatearNumero.formatearNumero(this.getPenalizacionAerodinamica()) + ElementosIU.RESET + " mts");
 		}
 		if (this.penalizacionAgarre > 0) {
-			System.out.println(" 🛞 Agarre: " + ElementosIU.ROJO_BRILLANTE + "-" + FormatearNumero.formatearNumero(this.getPenalizacionAgarre()) + ElementosIU.RESET + " mts");
+			System.out.println(" 🛞 Agarre: " + ElementosIU.ROJO_CLARO + "-" + FormatearNumero.formatearNumero(this.getPenalizacionAgarre()) + ElementosIU.RESET + " mts");
 		}
 		if (this.penalizacionLluvia > 0) {
-			System.out.println(" 🌧️ Lluvia: " + ElementosIU.ROJO_BRILLANTE + "-" + FormatearNumero.formatearNumero(this.getPenalizacionLluvia()) + ElementosIU.RESET + " mts");
+			System.out.println(" 🌧️ Lluvia: " + ElementosIU.ROJO_CLARO + "-" + FormatearNumero.formatearNumero(this.getPenalizacionLluvia()) + ElementosIU.RESET + " mts");
+		}
+		if(this.getPenalizacionDetencionTormenta()) {
+			System.out.println(" 🛑 Detención: " + ElementosIU.ROJO_CLARO + "-" + penalizacionDetencionTormentaTiempo + "s");
 		}
 	}
 
 	// Mostrar mensaje de turbo.
 	private void mostrarMensajeTurbo() {
 		if (this.bonificacionTurbo > 0 && turboActivado()) {
-			System.out.println(" 🚀 Turbo: " + ElementosIU.VERDE_BRILLANTE + "+" + FormatearNumero.formatearNumero(this.getBonificacionTurbo()) + ElementosIU.RESET + " mts");
+			System.out.println(" 🚀 Turbo: " + ElementosIU.VERDE_CLARO + "+" + FormatearNumero.formatearNumero(this.getBonificacionTurbo()) + ElementosIU.RESET + " mts");
 		}
 	}
 
 	// Mostrar mensaje de derrape.
 	private void mostrarMensajeDerrape() {
 		if(this.penalizacionDerrape > 0 && this.isDerrape()) {
-			System.out.println(" 🔄 Derrape: " + ElementosIU.ROJO_BRILLANTE + "-" + FormatearNumero.formatearNumero(this.getPenalizacionDerrape()) + ElementosIU.RESET + " mts");
+			System.out.println(" 🔄 Derrape: " + ElementosIU.ROJO_CLARO + "-" + FormatearNumero.formatearNumero(this.getPenalizacionDerrape()) + ElementosIU.RESET + " mts");
 		}
 	}
 
@@ -583,28 +652,28 @@ public class Vehiculo extends Thread {
 
 		while (this.getDistanciaRecorridaFinal() < circuito.getDistanciaMeta()) {
 			this.distanciaRecorridaFinal = this.avanceVehiculo(tiempoTranscurrido.getTiempo());
-			
+
 			// Esperar tiempo entre cada iteración.
 			try {
 				Thread.sleep(tiempoEspera);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-			
+
 			// Avance del vehículo.
 			gestionarAvance(tiempoTranscurrido);
-			
+
 			// Verificar si el vehículo ha cruzado la meta.
 			if (comprobarCruceMeta(circuito.getDistanciaMeta())) {
 				System.exit(0);
 				break;
 			}
-			
+
 			// Incrementar el tiempo transcurrido.
-			tiempoTranscurrido.incrementarTiempo(tiempoEspera / 1000);
-		
+			tiempoTranscurrido.incrementarTiempo(1); //tiempoEspera / 1000
+
 		}
-		
+
 	}
 
 	// Función para mostrar la información del vehículo.

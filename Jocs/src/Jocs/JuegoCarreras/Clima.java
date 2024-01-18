@@ -24,11 +24,11 @@ public class Clima {
 	}
 
 	// Lista enumerada de los tipos de clima.
-	public enum TipoClima {
+	private enum TipoClima {
 		//SOLEADO("Soleado"),
-		LLUVIA("Lluvia"),
-		LLUVIA_INTENSA("Lluvia Intensa");
-		//TORMENTA_ELECTRICA("Tormenta Eléctrica");
+		//LLUVIA("Lluvia"),
+		//LLUVIA_INTENSA("Lluvia Intensa"),
+		TORMENTA_ELECTRICA("Tormenta Eléctrica");
 
 		private final String tipoClimaString;
 
@@ -42,7 +42,7 @@ public class Clima {
 	}
 
 	// Lista enumerada de los tipos de viento.
-	public enum TipoViento {
+	private enum TipoViento {
 		MUY_FUERTE("Muy Fuerte"),
 		FUERTE("Fuerte"),
 		MODERADO("Moderado"),

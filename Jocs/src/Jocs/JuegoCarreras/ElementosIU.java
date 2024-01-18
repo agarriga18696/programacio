@@ -5,7 +5,7 @@ import java.util.Scanner;
 // Elementos de la Interfaz de Usuario.
 public class ElementosIU {
 
-	// Códigos de color ANSI.
+	// Colores ANSI.
 	public static final String RESET = "\u001B[0m";
 	public static final String NEGRO = "\u001B[30m";
 	public static final String ROJO = "\u001B[31m";
@@ -16,14 +16,14 @@ public class ElementosIU {
 	public static final String CIAN = "\u001B[36m";
 	public static final String BLANCO = "\u001B[37m";
 
-	// Colores brillantes (claros).
-	public static final String ROJO_BRILLANTE = "\u001B[91m";
-	public static final String VERDE_BRILLANTE = "\u001B[92m";
-	public static final String AZUL_BRILLANTE = "\u001B[94m";
-	public static final String CIAN_BRILLANTE = "\u001B[96m";
-	public static final String AMARILLO_BRILLANTE = "\u001B[93m";
-	public static final String MORADO_BRILLANTE = "\u001B[95m";
-	public static final String BLANCO_BRILLANTE = "\u001B[97m";
+	// Colores claros.
+	public static final String ROJO_CLARO = "\u001B[91m";
+	public static final String VERDE_CLARO = "\u001B[92m";
+	public static final String AZUL_CLARO = "\u001B[94m";
+	public static final String CIAN_CLARO = "\u001B[96m";
+	public static final String AMARILLO_CLARO = "\u001B[93m";
+	public static final String MORADO_CLARO = "\u001B[95m";
+	public static final String BLANCO_CLARO = "\u001B[97m";
 
 	// Estilos de texto.
 	public static final String TEXTO_NEGRITA = "\u001B[1m";
@@ -47,7 +47,7 @@ public class ElementosIU {
 	public static void esperarTecla(String mensaje, Scanner cin) {
 		mostrarSeparador2();
 		System.out.print("\n 🕹️ Pulsa " + TEXTO_NEGRITA + "Enter" + RESET + " para " + mensaje + ".\n");
-	    // Esperar a que el usuario pulse Enter
+	    // Esperar a que el usuario pulse Enter.
 	    cin.nextLine();
 	}
 
