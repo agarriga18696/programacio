@@ -65,12 +65,7 @@ public class JuegoCarreras {
 			if(cin.hasNextInt()) {
 				opcion = cin.nextInt();
 				cin.nextLine();
-				if(opcion <= 0) {
-					System.err.println(ElementosIU.TEXTO_NEGRITA + "\n 🚫 Error: " + ElementosIU.RESET + "Valor no válido.\n");
-					System.out.print(" Opción: ");
-				} else {
-					return opcion;
-				}
+				return opcion;
 			} else {
 				ElementosIU.mostrarSaltoLinea();
 				ElementosIU.mostrarSeparador2();
@@ -131,15 +126,19 @@ public class JuegoCarreras {
 		Vehiculo jugador = null;
 
 		do {
+			Tiempo.esperarTiempo(10);
 			System.out.print(" Número de vehículos IA (máx. " + MAX_VEHICULOS_IA + "): ");
+			
 			try {
 				opcion = opcionMenu(" Número de vehículos IA (máx. " + MAX_VEHICULOS_IA + "): ");
 				// Array para guardar a los jugadores IA.
 				jugadoresIA = nuevoVehiculoIA(opcion);
 				// Crear vehículo del jugador y verificar duplicados.
 				jugador = nuevoVehiculoJugador();
+				
 			} catch (IllegalArgumentException e) {
 				System.err.println(ElementosIU.TEXTO_NEGRITA + "\n 🚫 Error: " + ElementosIU.RESET + e.getMessage());
+				
 				continue;  // Reiniciar el bucle si hay un error.
 			}
 		} while (opcion <= 0 || opcion > MAX_VEHICULOS_IA || vehiculoRepetido(jugador, jugadoresIA));
@@ -207,14 +206,22 @@ public class JuegoCarreras {
 
 	// Función para verificar si el vehículo del jugador se repite con alguno de la IA.
 	private static boolean vehiculoRepetido(Vehiculo jugador, Vehiculo[] jugadoresIA) {
-		for (Vehiculo vehiculoIA : jugadoresIA) {
-			if (jugador.equals(vehiculoIA)) {
-				System.err.println(ElementosIU.TEXTO_NEGRITA + "\n 🚫 Error: " + ElementosIU.RESET + "El vehículo del Jugador se repite con un vehículo de la IA.\n");
-				ElementosIU.mostrarSaltoLinea();
-				System.out.println(" ⏳ Generando de nuevo... " + ElementosIU.generarFraseEspera("vehiculo") + "\n");
-				return true;
+		
+		try {
+			for (Vehiculo vehiculoIA : jugadoresIA) {
+				if (jugador.equals(vehiculoIA)) {
+					System.err.println(ElementosIU.TEXTO_NEGRITA + "\n 🚫 Error: " + ElementosIU.RESET + "El vehículo del Jugador se repite con un vehículo de la IA.\n");
+					ElementosIU.mostrarSaltoLinea();
+					
+					System.out.println(" ⏳ Generando de nuevo... " + ElementosIU.generarFraseEspera("vehiculo") + "\n");
+					
+					return true;
+				}
 			}
+		} catch(NullPointerException e) {
+			System.err.println(ElementosIU.TEXTO_NEGRITA + "\n 🚫 Error: " + ElementosIU.RESET + e.getMessage() + ".\n");
 		}
+		
 		return false;
 	}
 
