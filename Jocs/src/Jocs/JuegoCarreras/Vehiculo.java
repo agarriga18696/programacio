@@ -4,7 +4,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 
 public class Vehiculo extends Thread {
-	private final Object lock = new Object();
+	private static final Object lockImpresion = new Object();
 
 	// Distancia mínima que deberá recorrer el vehículo antes de que se le apliquen las penalizaciones y bonificaciones (arranque).
 	private static final double DISTANCIA_INICIAL_SIN_PENALIZACION = 70.0;
@@ -22,12 +22,11 @@ public class Vehiculo extends Thread {
 	private double agarre;
 	private double turbo;
 	// Penalizaciones.
-	private double penalizacionAerodinamica;
+	private double penalizacionViento;
 	private double penalizacionLluvia;
 	private double penalizacionAgarre;
 	private double penalizacionDerrape;
-	private boolean penalizacionDetencionTormenta;
-	private long penalizacionDetencionTormentaTiempo;
+	private double penalizacionTormentaElectrica;
 	// Bonificaciones
 	private double bonificacionTurbo;
 
@@ -113,8 +112,8 @@ public class Vehiculo extends Thread {
 		return distanciaRecorridaFinal;
 	}
 
-	public double getPenalizacionAerodinamica() {
-		return penalizacionAerodinamica;
+	public double getPenalizacionViento() {
+		return penalizacionViento;
 	}
 
 	public double getPenalizacionLluvia() {
@@ -127,10 +126,6 @@ public class Vehiculo extends Thread {
 
 	public double getPenalizacionDerrape() {
 		return penalizacionDerrape;
-	}
-	
-	public boolean getPenalizacionDetencionTormenta() {
-		return penalizacionDetencionTormenta;
 	}
 
 	public boolean isDerrape() {
@@ -340,16 +335,27 @@ public class Vehiculo extends Thread {
 			double penalizacionAgarre = calcularPenalizacionAgarre(distanciaRecorrida);
 			double penalizacionLluvia = calcularPenalizacionLluvia();
 			double penalizacionDerrape = penalizacionDerrape(distanciaRecorrida);
+			double penalizacionTormentaElectrica = penalizacionTormentaElectrica();
 			double bonificacionTurbo = bonificacionTurbo();
-
 			double distanciaFinal;
 
-			// Actualizar atributos penalizaciones.
-			this.penalizacionAerodinamica = penalizacionViento;
+			// Actualizar atributos penalizaciones.	
+			this.penalizacionViento = penalizacionViento;
 			this.penalizacionAgarre = penalizacionAgarre;
 			this.penalizacionLluvia = penalizacionLluvia;
+			this.penalizacionDerrape = penalizacionDerrape;
+
+			this.penalizacionViento *= penalizacionTormentaElectrica;
+			this.penalizacionAgarre *= penalizacionTormentaElectrica;
+			this.penalizacionLluvia *= penalizacionTormentaElectrica;
+			this.penalizacionDerrape *= penalizacionTormentaElectrica;
 
 			// Aplicar penalizaciones.
+			penalizacionViento *= penalizacionTormentaElectrica;
+			penalizacionAgarre *= penalizacionTormentaElectrica;
+			penalizacionLluvia *= penalizacionTormentaElectrica;
+			penalizacionDerrape *= penalizacionTormentaElectrica;
+
 			distanciaFinal = distanciaRecorrida;
 			distanciaFinal -= penalizacionViento;
 			distanciaFinal -= penalizacionAgarre;
@@ -386,7 +392,7 @@ public class Vehiculo extends Thread {
 		}
 
 		// Actualizar el atributo.
-		this.penalizacionAerodinamica = penalizacion;
+		this.penalizacionViento = penalizacion;
 
 		return penalizacion;
 	}
@@ -457,59 +463,23 @@ public class Vehiculo extends Thread {
 
 	// PENALIZACIÓN TORMENTA ELÉCTRICA.
 	// Función para determinar la aleatoriedad de la penalización por Tormenta Eléctrica.
-	private void penalizacionTormentaElectrica() {
-		boolean penalizacionActiva = false;
+	private boolean penalizacionTormentaElectricaActiva() {
+		return Math.random() < 0.4; // 40% de probabilidad.
+	}
+
+	private double penalizacionTormentaElectrica() {
 		// La Tormenta Eléctrica generará fallos electrónicos en los vehículos de manera aleatoria.
-		// Estos fallos provocarán varios fallos en el vehículo:
-		// -> Detención del vehículo.
-		// -> Retroceder 'x' metros.
-		penalizacionActiva = Math.random() < 0.9; // 20% de probabilidad.
+		double penalizacion = 1.0;
 
 		// Se activa solamente cuando hay Tormenta Eléctrica.
-		if(clima.getClima().equals("Tormenta Eléctrica")) {
+		if (clima.getClima().equals("Tormenta Eléctrica") && penalizacionTormentaElectricaActiva()) {
 			// Establecer probabilidad de los fallos.
-			int tipoFallo = NumeroAleatorio.generarNumeroIntAleatorio(0, 1);
-			
-			detenerVehiculo();
-			
-			/*switch(tipoFallo) {
-			case 1:
-				// Detener vehículo 'x' tiempo.
-				detenerVehiculo();
-				break;
-			case 2:
-				retrocederMetros();
-				// Retroceder 'x' metros.
-				break;
-			default:
-				break;
-			}*/
+			penalizacion = NumeroAleatorio.generarNumeroDoubleAleatorio(2, 5);
 		}
 
-	}
+		this.penalizacionTormentaElectrica = FormatearNumero.formatearNumero(penalizacion);
 
-	// Función para detener el vehículo 'x' tiempo.
-	private void detenerVehiculo() {
-		long tiempoDetencion = (long) NumeroAleatorio.generarNumeroDoubleAleatorio(2, 5); // entre 0 y 4 segundos.
-		
-		this.distanciaRecorridaFinal = 0;
-		
-		this.penalizacionDetencionTormenta = true;
-		this.penalizacionDetencionTormentaTiempo = tiempoDetencion;
-		
-		Tiempo.esperarTiempo(tiempoDetencion * 1000);
-		
-		this.penalizacionDetencionTormenta = false;
-
-	}
-
-	private void retrocederMetros() {
-		double metrosRetrocedidos = NumeroAleatorio.generarNumeroDoubleAleatorio(0, 40);
-
-		this.distanciaRecorridaFinal = metrosRetrocedidos;
-		
-		System.out.println(ElementosIU.ROJO_CLARO + " ⏪ Retroceder: " + ElementosIU.RESET + "El vehículo ha retrocedido " + metrosRetrocedidos + " mts por un fallo electrónico!\n");
-
+		return penalizacion;
 	}
 
 	// BONIFICACIÓN TURBO
@@ -554,10 +524,9 @@ public class Vehiculo extends Thread {
 		double distanciaAvance = avanceVehiculo(tiempoTranscurrido.getTiempo());
 		this.distanciaRecorridaFinal = distanciaAvance;
 
-		synchronized (lock) {
+		synchronized (lockImpresion) {
 			if(distanciaRecorridaFinal > 0) {
 				mostrarMensajeAvance();
-				penalizacionTormentaElectrica();
 			} else {
 				mostrarMensajeArranque();
 			}
@@ -579,8 +548,7 @@ public class Vehiculo extends Thread {
 		// Mostramos penalizaciones.
 		mostrarMensajePenalizaciones();
 
-		// Mostrar mensajes de turbo y derrape.
-		mostrarMensajeDerrape();
+		// Mostrar mensaje de turbo.
 		mostrarMensajeTurbo();
 
 		// Mostrar avance con penalizaciones aplicadas.
@@ -592,8 +560,11 @@ public class Vehiculo extends Thread {
 
 	// Función para mostrar el mensaje de penalizaciones.
 	private void mostrarMensajePenalizaciones() {
-		if (this.penalizacionAerodinamica > 0 && clima.getTipoViento().equals("Muy Fuerte") || this.penalizacionAerodinamica > 0 && clima.getTipoViento().equals("Fuerte")) {
-			System.out.println(" 🌬️ Viento: " + ElementosIU.ROJO_CLARO + "-" + FormatearNumero.formatearNumero(this.getPenalizacionAerodinamica()) + ElementosIU.RESET + " mts");
+		if(penalizacionTormentaElectrica > 1 && penalizacionTormentaElectricaActiva()) {
+			System.out.println(" 🌩️ Descarga: " + ElementosIU.ROJO_CLARO + "x" + penalizacionTormentaElectrica + ElementosIU.RESET + " !");
+		}
+		if (this.penalizacionViento > 0 && clima.getTipoViento().equals("Muy Fuerte") || this.penalizacionViento > 0 && clima.getTipoViento().equals("Fuerte")) {
+			System.out.println(" 🌬️ Viento: " + ElementosIU.ROJO_CLARO + "-" + FormatearNumero.formatearNumero(this.getPenalizacionViento()) + ElementosIU.RESET + " mts");
 		}
 		if (this.penalizacionAgarre > 0) {
 			System.out.println(" 🛞 Agarre: " + ElementosIU.ROJO_CLARO + "-" + FormatearNumero.formatearNumero(this.getPenalizacionAgarre()) + ElementosIU.RESET + " mts");
@@ -601,8 +572,8 @@ public class Vehiculo extends Thread {
 		if (this.penalizacionLluvia > 0) {
 			System.out.println(" 🌧️ Lluvia: " + ElementosIU.ROJO_CLARO + "-" + FormatearNumero.formatearNumero(this.getPenalizacionLluvia()) + ElementosIU.RESET + " mts");
 		}
-		if(this.getPenalizacionDetencionTormenta()) {
-			System.out.println(" 🛑 Detención: " + ElementosIU.ROJO_CLARO + "-" + penalizacionDetencionTormentaTiempo + "s");
+		if(this.penalizacionDerrape > 0 && this.isDerrape()) {
+			System.out.println(" 🔄 Derrape: " + ElementosIU.ROJO_CLARO + "-" + FormatearNumero.formatearNumero(this.getPenalizacionDerrape()) + ElementosIU.RESET + " mts");
 		}
 	}
 
@@ -610,13 +581,6 @@ public class Vehiculo extends Thread {
 	private void mostrarMensajeTurbo() {
 		if (this.bonificacionTurbo > 0 && turboActivado()) {
 			System.out.println(" 🚀 Turbo: " + ElementosIU.VERDE_CLARO + "+" + FormatearNumero.formatearNumero(this.getBonificacionTurbo()) + ElementosIU.RESET + " mts");
-		}
-	}
-
-	// Mostrar mensaje de derrape.
-	private void mostrarMensajeDerrape() {
-		if(this.penalizacionDerrape > 0 && this.isDerrape()) {
-			System.out.println(" 🔄 Derrape: " + ElementosIU.ROJO_CLARO + "-" + FormatearNumero.formatearNumero(this.getPenalizacionDerrape()) + ElementosIU.RESET + " mts");
 		}
 	}
 
@@ -647,21 +611,24 @@ public class Vehiculo extends Thread {
 	@Override
 	public void run() {
 		Tiempo tiempoTranscurrido = new Tiempo(0);
-
 		long tiempoEspera = calcularTiempoEspera();
 
 		while (this.getDistanciaRecorridaFinal() < circuito.getDistanciaMeta()) {
+
 			this.distanciaRecorridaFinal = this.avanceVehiculo(tiempoTranscurrido.getTiempo());
 
 			// Esperar tiempo entre cada iteración.
 			try {
-				Thread.sleep(tiempoEspera);
+				Thread.sleep(tiempoEspera); // milisegundos.
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
 
-			// Avance del vehículo.
-			gestionarAvance(tiempoTranscurrido);
+			// Sincronizar el acceso al método gestionarAvance.
+			synchronized (lockImpresion) {
+				// Avance del vehículo.
+				gestionarAvance(tiempoTranscurrido);
+			}
 
 			// Verificar si el vehículo ha cruzado la meta.
 			if (comprobarCruceMeta(circuito.getDistanciaMeta())) {
@@ -670,7 +637,7 @@ public class Vehiculo extends Thread {
 			}
 
 			// Incrementar el tiempo transcurrido.
-			tiempoTranscurrido.incrementarTiempo(1); //tiempoEspera / 1000
+			tiempoTranscurrido.incrementarTiempo(1); // 1 segundo.
 
 		}
 

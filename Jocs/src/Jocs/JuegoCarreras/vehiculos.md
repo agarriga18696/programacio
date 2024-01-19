@@ -14,3 +14,4 @@
 | Lego      |     	    |     X     |     X    |   X    |        |       |
 | Tractor   |     	    |     X     |          |        |   X    |   X   |
 | Playmobil |     X     |     X     |     X    |        |        |       |
+

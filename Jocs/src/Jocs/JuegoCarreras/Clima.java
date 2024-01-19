@@ -28,7 +28,9 @@ public class Clima {
 		//SOLEADO("Soleado"),
 		//LLUVIA("Lluvia"),
 		//LLUVIA_INTENSA("Lluvia Intensa"),
-		TORMENTA_ELECTRICA("Tormenta Eléctrica");
+		TORMENTA_ELECTRICA("Tormenta Eléctrica"),
+		TORMENTA_ELECTRICA2("Tormenta Eléctrica"),
+		TORMENTA_ELECTRICA3("Tormenta Eléctrica");
 
 		private final String tipoClimaString;
 
@@ -69,7 +71,7 @@ public class Clima {
 		int indiceClima = NumeroAleatorio.generarNumeroIntAleatorio(0, 9);
 		
 		if (indiceClima >= 8) { // menos posibilidades de que toque 'Tormenta Eléctrica'.
-			return tiposClimas[3].obtenerTipoClima();
+			return tiposClimas[TipoClima.values().length].obtenerTipoClima();
 		} else {
 			tipoClima = tiposClimas[NumeroAleatorio.generarNumeroIntAleatorio(0, tiposClimas.length - 1)];
 			return tipoClima.obtenerTipoClima();
