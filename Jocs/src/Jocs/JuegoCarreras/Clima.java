@@ -25,12 +25,11 @@ public class Clima {
 
 	// Lista enumerada de los tipos de clima.
 	private enum TipoClima {
-		//SOLEADO("Soleado"),
-		//LLUVIA("Lluvia"),
-		//LLUVIA_INTENSA("Lluvia Intensa"),
-		TORMENTA_ELECTRICA("Tormenta Eléctrica"),
-		TORMENTA_ELECTRICA2("Tormenta Eléctrica"),
-		TORMENTA_ELECTRICA3("Tormenta Eléctrica");
+		SOLEADO("Soleado"), // no hay penalizaciones (por clima).
+		LLUVIA("Lluvia"), // penal. manejo.
+		LLUVIA_INTENSA("Lluvia Intensa"), // penal. manejo x2
+		TORMENTA_ELECTRICA("Tormenta Eléctrica"), // multiplicador a todas penal.
+		NIEBLA("Niebla"); // penal. vel.
 
 		private final String tipoClimaString;
 

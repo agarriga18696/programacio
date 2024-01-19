@@ -27,13 +27,15 @@ public class Vehiculo extends Thread {
 	private double penalizacionAgarre;
 	private double penalizacionDerrape;
 	private double penalizacionTormentaElectrica;
+	private double penalizacionNiebla;
 	// Bonificaciones
 	private double bonificacionTurbo;
-
+	// Otros.
 	private String tipoJugador;
 	private boolean esIA;
 	private double distanciaRecorridaInicial;
 	private double distanciaRecorridaFinal;
+	private boolean meta;
 	private boolean derrape;
 
 	private ScheduledExecutorService executorService;
@@ -111,6 +113,10 @@ public class Vehiculo extends Thread {
 	public double getDistanciaRecorridaFinal() {
 		return distanciaRecorridaFinal;
 	}
+	
+	public boolean isMeta() {
+		return meta;
+	}
 
 	public double getPenalizacionViento() {
 		return penalizacionViento;
@@ -126,6 +132,10 @@ public class Vehiculo extends Thread {
 
 	public double getPenalizacionDerrape() {
 		return penalizacionDerrape;
+	}
+	
+	public double getPenalizacionNiebla() {
+		return penalizacionNiebla;
 	}
 
 	public boolean isDerrape() {
@@ -290,7 +300,7 @@ public class Vehiculo extends Thread {
 			generarAtributosVehiculo(4.50, 6.50, 3.00, 8.50, 5.00, 7.00);
 			break;
 		case "Tractor":
-			generarAtributosVehiculo(3.00, 8.50, 8.50, 2.00, 9.00, 2.00);
+			generarAtributosVehiculo(3.00, 8.50, 8.50, 2.00, 9.00, 3.00);
 			break;
 		case "Bici":
 			generarAtributosVehiculo(4.00, 6.50, 2.50, 9.00, 5.00, 8.50);
@@ -336,6 +346,7 @@ public class Vehiculo extends Thread {
 			double penalizacionLluvia = calcularPenalizacionLluvia();
 			double penalizacionDerrape = penalizacionDerrape(distanciaRecorrida);
 			double penalizacionTormentaElectrica = penalizacionTormentaElectrica();
+			double penalizacionNiebla = penalizacionNiebla();
 			double bonificacionTurbo = bonificacionTurbo();
 			double distanciaFinal;
 
@@ -344,7 +355,8 @@ public class Vehiculo extends Thread {
 			this.penalizacionAgarre = penalizacionAgarre;
 			this.penalizacionLluvia = penalizacionLluvia;
 			this.penalizacionDerrape = penalizacionDerrape;
-
+			this.penalizacionNiebla = penalizacionNiebla;
+			
 			this.penalizacionViento *= penalizacionTormentaElectrica;
 			this.penalizacionAgarre *= penalizacionTormentaElectrica;
 			this.penalizacionLluvia *= penalizacionTormentaElectrica;
@@ -361,6 +373,7 @@ public class Vehiculo extends Thread {
 			distanciaFinal -= penalizacionAgarre;
 			distanciaFinal -= penalizacionLluvia;
 			distanciaFinal -= penalizacionDerrape;
+			distanciaFinal -= penalizacionNiebla;
 
 			// Sumar la bonificación de 'turbo'.
 			distanciaFinal += bonificacionTurbo;
@@ -481,6 +494,23 @@ public class Vehiculo extends Thread {
 
 		return penalizacion;
 	}
+	
+	// Función para calcular la penalización por Niebla.
+	private double penalizacionNiebla() {
+		double ajustePenalizacion = 0.1;
+		double multiplicador = NumeroAleatorio.generarNumeroDoubleAleatorio(1, 3);
+		double penalizacion = 0;
+		
+		if(clima.getClima().equals("Niebla")) {
+			penalizacion = Math.pow(multiplicador, 10 - this.velocidad) * ajustePenalizacion;
+		}
+		
+		// Actualizar atributo.
+		this.penalizacionNiebla = penalizacion;
+		
+		return penalizacion;
+		
+	}
 
 	// BONIFICACIÓN TURBO
 	// Función para activar el turbo.
@@ -569,11 +599,14 @@ public class Vehiculo extends Thread {
 		if (this.penalizacionAgarre > 0) {
 			System.out.println(" 🛞 Agarre: " + ElementosIU.ROJO_CLARO + "-" + FormatearNumero.formatearNumero(this.getPenalizacionAgarre()) + ElementosIU.RESET + " mts");
 		}
+		if(this.penalizacionDerrape > 0 && this.isDerrape()) {
+			System.out.println(" 🔄 Derrape: " + ElementosIU.ROJO_CLARO + "-" + FormatearNumero.formatearNumero(this.getPenalizacionDerrape()) + ElementosIU.RESET + " mts");
+		}
 		if (this.penalizacionLluvia > 0) {
 			System.out.println(" 🌧️ Lluvia: " + ElementosIU.ROJO_CLARO + "-" + FormatearNumero.formatearNumero(this.getPenalizacionLluvia()) + ElementosIU.RESET + " mts");
 		}
-		if(this.penalizacionDerrape > 0 && this.isDerrape()) {
-			System.out.println(" 🔄 Derrape: " + ElementosIU.ROJO_CLARO + "-" + FormatearNumero.formatearNumero(this.getPenalizacionDerrape()) + ElementosIU.RESET + " mts");
+		if(this.penalizacionNiebla > 0 && clima.getClima().equals("Niebla")) {
+			System.out.println(" 🌫️ Niebla: " + ElementosIU.ROJO_CLARO + "-" + FormatearNumero.formatearNumero(this.getPenalizacionNiebla()) + ElementosIU.RESET + " mts");
 		}
 	}
 
@@ -592,6 +625,9 @@ public class Vehiculo extends Thread {
 	// Comprobar si el vehículo ha cruzado la meta.
 	private boolean comprobarCruceMeta(double distanciaMeta) {
 		if (this.distanciaRecorridaFinal >= distanciaMeta) {
+			// Actualizar atributo.
+			this.meta = true;
+			
 			System.out.println(System.lineSeparator());
 			System.out.println(" 🏁 Meta: (" + this.getTipoJugador() + ") " + this.getNombreCompleto() + " ha cruzado la meta.");
 			System.out.println(System.lineSeparator());
