@@ -3,41 +3,53 @@ package Exercicis.Exercici_6_9;
 public abstract class Empleat {
 
 	// Atributs.
-	private String Nom;
-	private String Cognoms;
-	private double Sou_base;
-	private String DNI;
+	public String nom;
+	public String cognoms;
+	public String dni;
+	public double souBase;
+	private static int nombreEmpleats = 0;
 	
 	// Constructor
-	public Empleat(String nom, String cognoms, double souBase, String dni) {
+	public Empleat(String nom, String cognoms, String dni, double souBase) {
 
-		this.Nom = nom;
-		this.Cognoms = cognoms;
-		this.Sou_base = souBase;
-		this.DNI = dni;
+		this.nom = nom;
+		this.cognoms = cognoms;
+		this.dni = dni;
+		this.souBase = souBase;
+		
+		comptarEmpleats();
 
 	}
 	
 	// Getters.
 	public String getNom() {
-		return Nom;
+		return nom;
 	}
 
 	public String getCognoms() {
-		return Cognoms;
+		return cognoms;
 	}
 
-	public double getSou_base() {
-		return Sou_base;
+	public double getSouBase() {
+		return souBase;
 	}
 
 	public String getDNI() {
-		return DNI;
+		return dni;
+	}
+	
+	public static int getNombreEmpleats() {
+		return nombreEmpleats;
+	}
+
+	// Funció per comptar els empleats creats.
+	public void comptarEmpleats() {
+		nombreEmpleats++;
 	}
 	
 	// Funció toString.
 	public String toString() {
-		return Nom + " | " + Cognoms + " | " + Sou_base + " | " + DNI;
+		return " [" + nombreEmpleats + "] | " + nom + " | " + cognoms + " | " + souBase + " | " + dni;
 	}
 
 }
