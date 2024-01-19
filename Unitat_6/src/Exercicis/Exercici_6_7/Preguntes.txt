@@ -1,0 +1,12 @@
+1. Pregunta: Pot compilar el programa? Hi ha qualque problema? Quin?
+
+1. Resposta: No, no pot compilar ja que la classe Musica és una classe abstracta i no es pot 
+instanciar a ella mateixa, si no que depèn de subclasses que heredin els seus atributs i mètodes.
+
+
+2. Pregunta: On crearies aquests constructors, dins la classe Musica o dins cadascuna de les
+classes derivades? Perquè?
+
+2. Resposta: Es pot crear un constructor a la classe Musica amb els atributs (superclasse) que 
+heredaràn les sub classes filles que a la vegada podràn tenir els seus propis constructors amb els
+seus atributs únics.

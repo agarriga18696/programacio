@@ -1,0 +1,18 @@
+1. Pregunta: Pot compilar el programa? Hi ha qualque problema? Quin?
+
+1. Resposta: La classe Figura és una classe abstracta, per lo que no es pot crear un objecte
+d'aquesta classe, si no que dependrà de classes filles (sub classes) que heredin els seus atributs
+i funcions.
+
+
+2. Pregunta: Abans d’executar el programa podríeu dir si és correcte la instrucció Figura f1 =
+new Cercle();, perquè?
+
+2. Resposta: Sí que és correcte la instrucció, ja que Cercle és una subclasse que hereda les 
+característiques de la classe pare (super classe) Figura.
+
+
+3. Pregunta: Quin serà el resultat de les instruccions f1.dibuixar(); i f2.dibuixar();
+
+3. Resposta: Imprimirà per pantalla "Dibuixant cercle" i "Dibuixant rectangle".
+
