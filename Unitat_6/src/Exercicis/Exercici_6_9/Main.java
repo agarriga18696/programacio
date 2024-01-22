@@ -6,10 +6,11 @@ public class Main {
 
 	private static Scanner cin = new Scanner(System.in);
 
-	// Codis de color pel text.
+	// Codis de color i estil pel text.
 	public static final String TEXT_GROC = "\u001B[33m";
 	private static final String TEXT_VERD = "\u001B[32m";
-	private static final String TEXT_PER_DEFECTE = "\u001B[0m";;
+	public static final String TEXT_NEGRETA = "\u001B[1m";
+	private static final String TEXT_PER_DEFECTE = "\u001B[0m";
 
 	// Array per guardar tots els Empleats.
 	// [0][i] -> Obrer
@@ -20,7 +21,7 @@ public class Main {
 	public static void main(String[] args) {
 
 		System.out.println(System.lineSeparator());
-		System.out.println(" BENVINGUT/DA AL SISTEMA");
+		System.out.println(TEXT_NEGRETA + " BENVINGUT/DA AL SISTEMA" + TEXT_PER_DEFECTE);
 
 		while(true) {
 			mostrarMenu();
@@ -32,7 +33,7 @@ public class Main {
 	public static void mostrarMenu() {
 
 		mostrarSeparador();
-		System.out.println(" MENÚ PRINCIPAL\n");
+		System.out.println(TEXT_NEGRETA + " MENÚ PRINCIPAL\n" + TEXT_PER_DEFECTE);
 		System.out.println(" (1) Nou empleat");
 		System.out.println(" (2) Veure empleat");
 		System.out.println(" (3) Sortir");
@@ -57,11 +58,11 @@ public class Main {
 	}
 
 	// Mètode per validar un int.
-	private static int validarInt(String opcio) {
+	private static int validarInt(String missatge) {
 		int nombre = 0;
 
 		while(true) {
-			System.out.print("\n " + opcio + ": ");
+			System.out.print("\n " + missatge + ": ");
 
 			if(cin.hasNextInt()) {
 				nombre = cin.nextInt();
@@ -75,11 +76,11 @@ public class Main {
 	}
 
 	// Mètode per validar un double.
-	private static double validarDouble(String opcio) {
+	private static double validarDouble(String missatge) {
 		double nombre = 0;
 
 		while(true) {
-			System.out.print("\n " + opcio + ": ");
+			System.out.print("\n " + missatge + ": ");
 
 			if(cin.hasNextDouble()) {
 				nombre = cin.nextDouble();
@@ -93,11 +94,11 @@ public class Main {
 	}
 
 	// Mètode per validar una cadena.
-	private static String validarCadena(String opcio) {
+	private static String validarCadena(String missatge) {
 		String cadena = null;
 
 		while(true) {
-			System.out.print("\n " + opcio + ": ");
+			System.out.print("\n " + missatge + ": ");
 
 			if(cin.hasNextLine()) {
 				cadena = cin.nextLine();
@@ -131,7 +132,7 @@ public class Main {
 	private static void nouEmpleat() {
 
 		mostrarSeparador();
-		System.out.println(" NOU EMPLEAT\n");
+		System.out.println(TEXT_NEGRETA + " NOU EMPLEAT\n" + TEXT_PER_DEFECTE);
 		System.out.println(" (1) Nou Obrer");
 		System.out.println(" (2) Nou Qualificat");
 		System.out.println(" (3) Nou Cap de Departament");
@@ -166,7 +167,7 @@ public class Main {
 		while(!objecteCorrecte) {
 
 			mostrarSeparador();
-			System.out.println(" 🛠️ NOU OBRER\n");
+			System.out.println(TEXT_NEGRETA + " 🛠️ NOU OBRER\n" + TEXT_PER_DEFECTE);
 
 			// Esperar un temps de control per evitar la superposició del missatge d'error al repetir el bucle.
 			esperarTemps(20);
@@ -229,7 +230,7 @@ public class Main {
 		while(!objecteCorrecte) {
 
 			mostrarSeparador();
-			System.out.println(" 🎓 NOU QUALIFICAT\n");
+			System.out.println(TEXT_NEGRETA + " 🎓 NOU QUALIFICAT\n" + TEXT_PER_DEFECTE);
 
 			// Esperar un temps de control per evitar la superposició del missatge d'error al repetir el bucle.
 			esperarTemps(20);
@@ -293,7 +294,7 @@ public class Main {
 		while(!objecteCorrecte) {
 
 			mostrarSeparador();
-			System.out.println(" 💼 NOU CAP DE DEPARTAMENT\n");
+			System.out.println(TEXT_NEGRETA + " 💼 NOU CAP DE DEPARTAMENT\n" + TEXT_PER_DEFECTE);
 
 			// Esperar un temps de control per evitar la superposició del missatge d'error al repetir el bucle.
 			esperarTemps(20);
@@ -352,7 +353,7 @@ public class Main {
 
 		// Obrers
 		mostrarSeparador();
-		System.out.println(" 🛠️ OBRERS");
+		System.out.println(TEXT_NEGRETA + " 🛠️ OBRERS" + TEXT_PER_DEFECTE);
 		System.out.println(System.lineSeparator());
 
 		// Mostrar els objectes Obrer creats per l'usuari.
@@ -368,7 +369,7 @@ public class Main {
 
 		// Qualificats
 		mostrarSeparador();
-		System.out.println(" 🎓 QUALIFICATS");
+		System.out.println(TEXT_NEGRETA + " 🎓 QUALIFICATS" + TEXT_PER_DEFECTE);
 		System.out.println(System.lineSeparator());
 
 		// Mostrar els objectes Obrer creats per l'usuari.
@@ -384,7 +385,7 @@ public class Main {
 
 		// Caps de Departament
 		mostrarSeparador();
-		System.out.println(" 💼 CAPS DE DEPARTAMENT");
+		System.out.println(TEXT_NEGRETA + " 💼 CAPS DE DEPARTAMENT" + TEXT_PER_DEFECTE);
 		System.out.println(System.lineSeparator());
 
 		// Mostrar els objectes Obrer creats per l'usuari.
