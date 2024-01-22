@@ -33,8 +33,10 @@ public class JuegoCarreras {
 		ElementosIU.mostrarSaltoLinea();
 		System.out.println(ElementosIU.TEXTO_NEGRITA + " MENÚ PRINCIPAL\n" + ElementosIU.RESET);
 		System.out.println(" (1) Jugar");
-		System.out.println(" (2) Manual");
-		System.out.println(" (3) Salir");
+		System.out.println(" (2) Taller");
+		System.out.println(" (3) Logros");
+		System.out.println(" (4) Ayuda");
+		System.out.println(" (5) Salir");
 		System.out.print("\n Opción: ");
 
 		opcion = opcionMenu(" Opción: ");
@@ -43,10 +45,10 @@ public class JuegoCarreras {
 		case 1:
 			modoJugar();
 			break;
-		case 2:
-			modoManual();
+		case 4:
+			ManualUsuario.modoManual();
 			break;
-		case 3:
+		case 5:
 			System.out.println("\n ¡Hasta la próxima!\n");
 			return true;
 		default:
@@ -58,7 +60,7 @@ public class JuegoCarreras {
 	}
 
 	// Función para controlar las opciones de los menús.
-	private static int opcionMenu(String mensajeError) {
+	public static int opcionMenu(String mensajeError) {
 		int opcion;
 
 		do {
@@ -76,45 +78,8 @@ public class JuegoCarreras {
 		} while(true);
 	}
 
-	private static void modoManual() {
-		int opcion;
-
-		ElementosIU.mostrarSaltoLinea();
-		ElementosIU.mostrarSeparador();
-		ElementosIU.mostrarSaltoLinea();
-		System.out.println(ElementosIU.TEXTO_NEGRITA + " MANUAL\n" + ElementosIU.RESET);
-		System.out.println(" (1) Sobre los vehículos");
-		System.out.println(" (2) Sobre el circuito");
-		System.out.println(" (3) Sobre el clima");
-		System.out.println(" (4) Volver atrás");
-		System.out.print("\n Opción: ");
-
-		opcion = opcionMenu(" Opción: ");
-
-		switch(opcion) {
-		case 1:
-			ManualUsuario.vehiculos();
-			modoManual();
-			break;
-		case 2:
-			ManualUsuario.circuito();
-			modoManual();
-			break;
-		case 3:
-			ManualUsuario.clima();
-			modoManual();
-		case 4:
-			return;
-		default:
-			ElementosIU.mostrarSaltoLinea();
-			ElementosIU.mostrarSeparador2();
-			System.err.println(ElementosIU.TEXTO_NEGRITA + "\n 🚫 Error: " + ElementosIU.RESET + "Opción no válida.\n");
-			break;
-		}
-	}
-
 	// Función de modo Un Jugador.
-	private static void modoJugar() {
+	public static void modoJugar() {
 		int opcion = 0;
 
 		ElementosIU.mostrarSaltoLinea();

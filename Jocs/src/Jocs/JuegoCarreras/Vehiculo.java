@@ -113,7 +113,7 @@ public class Vehiculo extends Thread {
 	public double getDistanciaRecorridaFinal() {
 		return distanciaRecorridaFinal;
 	}
-	
+
 	public boolean isMeta() {
 		return meta;
 	}
@@ -133,7 +133,7 @@ public class Vehiculo extends Thread {
 	public double getPenalizacionDerrape() {
 		return penalizacionDerrape;
 	}
-	
+
 	public double getPenalizacionNiebla() {
 		return penalizacionNiebla;
 	}
@@ -165,16 +165,20 @@ public class Vehiculo extends Thread {
 		BATMOVIL("Batmóvil"),
 		LEGO("Lego"), 
 		TRACTOR("Tractor"),
-
 		PLAYMOBIL("Playmobil"),
 		HOTWHEELS("Hotwheels"),
-		SCOOTER("Scooter"),
+		CICLOMOTOR("Ciclomotor"),
 		BICI("Bici"),
 		CAMION("Camión"),
 		LIMUSINA("Limusina"),
 		MONSTER_TRUCK("Monster Truck"),
 		BUGGY("Buggy"),
-		AUTOBUS("Autobús");
+		AUTOBUS("Autobús"),
+		AUTOCARAVANA("Autocaravana"),
+		EXCAVADORA("Excavadora"),
+		AMBULANCIA("Ambulancia"),
+		TAXI("Taxi"),
+		COCHE_PATRULLA("Coche Patrulla");
 
 		private final String tipoVehiculoString;
 
@@ -255,10 +259,10 @@ public class Vehiculo extends Thread {
 			generarAtributosVehiculo(7.50, 9.00, 2.00, 7.00, 5.00, 5.00);
 			break;
 		case "Todoterreno":
-			generarAtributosVehiculo(6.00, 5.50, 6.50, 3.00, 7.50, 4.00);
+			generarAtributosVehiculo(7.00, 5.50, 6.00, 4.00, 7.50, 4.00);
 			break;
 		case "Compacto":
-			generarAtributosVehiculo(5.50, 8.00, 5.50, 4.00, 7.00, 6.00);
+			generarAtributosVehiculo(5.50, 7.50, 5.50, 4.00, 6.00, 6.00);
 			break;
 		case "Kart":
 			generarAtributosVehiculo(6.00, 8.00, 4.00, 7.00, 6.00, 8.50);
@@ -279,31 +283,46 @@ public class Vehiculo extends Thread {
 			generarAtributosVehiculo(5.00, 4.00, 8.00, 3.00, 7.50, 6.00);
 			break;
 		case "Drift":
-			generarAtributosVehiculo(5.00, 8.00, 5.50, 9.00, 4.00, 7.50);
+			generarAtributosVehiculo(5.50, 8.00, 5.50, 9.00, 4.00, 7.50);
 			break;
 		case "Lego":
-			generarAtributosVehiculo(4.50, 6.50, 2.00, 8.00, 4.00, 7.00);
+			generarAtributosVehiculo(4.00, 7.00, 2.00, 8.00, 4.00, 7.50);
 			break;
 		case "Buggy":
 			generarAtributosVehiculo(5.00, 8.00, 4.00, 6.50, 7.00, 6.00);
 			break;
 		case "Limusina":
-			generarAtributosVehiculo(6.00, 3.50, 7.00, 3.00, 7.00, 5.00);
+			generarAtributosVehiculo(6.00, 3.50, 6.50, 3.00, 7.00, 5.00);
 			break;
 		case "Autobús":
-			generarAtributosVehiculo(5.50, 3.50, 9.00, 2.00, 6.50, 6.50);
+			generarAtributosVehiculo(5.50, 3.50, 9.00, 2.00, 6.50, 6.00);
 			break;
 		case "Microcar":
 			generarAtributosVehiculo(5.00, 7.00, 4.00, 8.00, 4.00, 7.50);
 			break;
-		case "Scooter":
+		case "Ciclomotor":
 			generarAtributosVehiculo(4.50, 6.50, 3.00, 8.50, 5.00, 7.00);
 			break;
 		case "Tractor":
-			generarAtributosVehiculo(3.00, 8.50, 8.50, 2.00, 9.00, 3.00);
+			generarAtributosVehiculo(3.00, 8.50, 8.50, 2.00, 9.00, 2.00);
 			break;
 		case "Bici":
 			generarAtributosVehiculo(4.00, 6.50, 2.50, 9.00, 5.00, 8.50);
+			break;
+		case "Autocaravana":
+			generarAtributosVehiculo(5.50, 4.00, 7.00, 3.00, 8.00, 5.00);
+			break;
+		case "Excavadora":
+			generarAtributosVehiculo(2.50, 7.00, 9.50, 2.00, 9.50, 2.00);
+			break;
+		case "Ambulancia":
+			generarAtributosVehiculo(6.00, 4.00, 8.00, 4.00, 3.50, 8.00);
+			break;
+		case "Taxi":
+			generarAtributosVehiculo(7.00, 6.00, 5.50, 7.50, 4.00, 5.00);
+			break;
+		case "Coche Patrulla":
+			generarAtributosVehiculo(8.00, 7.00, 6.50, 6.00, 4.00, 4.00);
 			break;
 		default:
 			generarAtributosVehiculo(5.00, 5.00, 5.00, 5.00, 5.00, 5.00);
@@ -356,7 +375,7 @@ public class Vehiculo extends Thread {
 			this.penalizacionLluvia = penalizacionLluvia;
 			this.penalizacionDerrape = penalizacionDerrape;
 			this.penalizacionNiebla = penalizacionNiebla;
-			
+
 			this.penalizacionViento *= penalizacionTormentaElectrica;
 			this.penalizacionAgarre *= penalizacionTormentaElectrica;
 			this.penalizacionLluvia *= penalizacionTormentaElectrica;
@@ -494,22 +513,22 @@ public class Vehiculo extends Thread {
 
 		return penalizacion;
 	}
-	
+
 	// Función para calcular la penalización por Niebla.
 	private double penalizacionNiebla() {
 		double ajustePenalizacion = 0.1;
 		double multiplicador = NumeroAleatorio.generarNumeroDoubleAleatorio(1, 3);
 		double penalizacion = 0;
-		
+
 		if(clima.getClima().equals("Niebla")) {
 			penalizacion = Math.pow(multiplicador, 10 - this.velocidad) * ajustePenalizacion;
 		}
-		
+
 		// Actualizar atributo.
 		this.penalizacionNiebla = penalizacion;
-		
+
 		return penalizacion;
-		
+
 	}
 
 	// BONIFICACIÓN TURBO
@@ -627,7 +646,7 @@ public class Vehiculo extends Thread {
 		if (this.distanciaRecorridaFinal >= distanciaMeta) {
 			// Actualizar atributo.
 			this.meta = true;
-			
+
 			System.out.println(System.lineSeparator());
 			System.out.println(" 🏁 Meta: (" + this.getTipoJugador() + ") " + this.getNombreCompleto() + " ha cruzado la meta.");
 			System.out.println(System.lineSeparator());

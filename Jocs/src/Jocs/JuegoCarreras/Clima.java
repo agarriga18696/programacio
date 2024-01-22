@@ -66,15 +66,10 @@ public class Clima {
 		TipoClima[] tiposClimas = TipoClima.values();
 		TipoClima tipoClima;
 
-		// Establecer un rango entre 0 y 9.
-		int indiceClima = NumeroAleatorio.generarNumeroIntAleatorio(0, 9);
-		
-		if (indiceClima >= 8) { // menos posibilidades de que toque 'Tormenta Eléctrica'.
-			return tiposClimas[TipoClima.values().length].obtenerTipoClima();
-		} else {
-			tipoClima = tiposClimas[NumeroAleatorio.generarNumeroIntAleatorio(0, tiposClimas.length - 1)];
-			return tipoClima.obtenerTipoClima();
-		}
+		tipoClima = tiposClimas[NumeroAleatorio.generarNumeroIntAleatorio(0, tiposClimas.length - 1)];
+
+		return tipoClima.obtenerTipoClima();
+
 	}
 
 	// Función para generar la intensidad del viento del circuito.

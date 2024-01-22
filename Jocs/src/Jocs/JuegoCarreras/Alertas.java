@@ -18,6 +18,8 @@ public class Alertas {
 			alerta.append(ElementosIU.TEXTO_NEGRITA + ElementosIU.AMARILLO_CLARO + " ⚠️ Alerta: " + ElementosIU.RESET + ElementosIU.AMARILLO_CLARO + clima.getClima() + " (penalización al manejo y el agarre)\n\n" + ElementosIU.RESET);
 		} else if(clima.getClima().equals("Tormenta Eléctrica")) {
 			alerta.append(ElementosIU.TEXTO_NEGRITA + ElementosIU.AMARILLO_CLARO + " ⚠️ Alerta: " + ElementosIU.RESET + ElementosIU.AMARILLO_CLARO + clima.getClima() + " (multiplicador a todas las penalizaciones)\n\n" + ElementosIU.RESET);
+		} else if(clima.getClima().equals("Niebla")) {
+			alerta.append(ElementosIU.TEXTO_NEGRITA + ElementosIU.AMARILLO_CLARO + " ⚠️ Alerta: " + ElementosIU.RESET + ElementosIU.AMARILLO_CLARO + clima.getClima() + " (penalización a la velocidad)\n\n" + ElementosIU.RESET);
 		}
 
 		// Mostrar alerta por tipo de pavimento.

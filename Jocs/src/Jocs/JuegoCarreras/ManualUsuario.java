@@ -1,15 +1,52 @@
 package Jocs.JuegoCarreras;
 
 public class ManualUsuario {
-	
+
+	public static void modoManual() {
+		int opcion;
+
+		ElementosIU.mostrarSaltoLinea();
+		ElementosIU.mostrarSeparador();
+		ElementosIU.mostrarSaltoLinea();
+		System.out.println(ElementosIU.TEXTO_NEGRITA + " MANUAL\n" + ElementosIU.RESET);
+		System.out.println(" (1) Sobre los vehículos");
+		System.out.println(" (2) Sobre el circuito");
+		System.out.println(" (3) Sobre el clima");
+		System.out.println(" (4) Volver atrás");
+		System.out.print("\n Opción: ");
+
+		opcion = JuegoCarreras.opcionMenu(" Opción: ");
+
+		switch(opcion) {
+		case 1:
+			ManualUsuario.vehiculos();
+			modoManual();
+			break;
+		case 2:
+			ManualUsuario.circuito();
+			modoManual();
+			break;
+		case 3:
+			ManualUsuario.clima();
+			modoManual();
+		case 4:
+			return;
+		default:
+			ElementosIU.mostrarSaltoLinea();
+			ElementosIU.mostrarSeparador2();
+			System.err.println(ElementosIU.TEXTO_NEGRITA + "\n 🚫 Error: " + ElementosIU.RESET + "Opción no válida.\n");
+			break;
+		}
+	}
+
 	public static void carrera() {
-		
+
 		ElementosIU.mostrarSaltoLinea();
 		ElementosIU.mostrarSeparador2();
 		ElementosIU.mostrarSaltoLinea();
 		System.out.println(" SOBRE LA CARRERA\n");
 		System.out.println("");
-		
+
 	}
 
 	public static void vehiculos() {
@@ -92,8 +129,10 @@ public class ManualUsuario {
 		System.out.println("       vehículo para una buena estabilización.");
 		System.out.println("     - " + ElementosIU.TEXTO_NEGRITA + "Lluvia Intensa: " + ElementosIU.RESET + "Todo estará encharcado. Aumenta todavía más la dificultad");
 		System.out.println("       de manejarse por la pista durante la carrera.");
-		System.out.println("     - " + ElementosIU.TEXTO_NEGRITA + "Tormenta Eléctrica: " + ElementosIU.RESET + "La pesadilla de todo vehículo. Provocará fallos");
-		System.out.println("       electrónicos en los vehículos de manera inesperada.\n");
+		System.out.println("     - " + ElementosIU.TEXTO_NEGRITA + "Tormenta Eléctrica: " + ElementosIU.RESET + "Serás objetivo de descarga eléctrica. Añadirá un");
+		System.out.println("       multiplicador que potenciará todas las penalizaciones recibidas.");
+		System.out.println("     - " + ElementosIU.TEXTO_NEGRITA + "Niebla: " + ElementosIU.RESET + "La presencia de una densa capa de niebla provoca reduce");
+		System.out.println("       significativamente la visibilidad, lo cual impone la necesidad de conducir con extrema precaución y reducir la velocidad.\n");
 		System.out.println(" 2. " + ElementosIU.TEXTO_SUBRAYADO + "Tipo Viento:" + ElementosIU.RESET);
 		System.out.println("     - " + ElementosIU.TEXTO_NEGRITA + "Calma: " + ElementosIU.RESET + "Sin viento o con viento mínimo.");
 		System.out.println("     - " + ElementosIU.TEXTO_NEGRITA + "Brisa: " + ElementosIU.RESET + "Brisa suave que empieza a notarse.");
