@@ -5,8 +5,7 @@ public class Obrer extends Empleat {
 	private String desti;
 	private double horesExtra;
 	private double preuHoresExtra;
-	private int id = 0;
-	private static int nombreObrers = 0;
+	private static int nombreObrer;
 
 	public Obrer(String nom, String cognoms, String dni, double souBase, String desti, double horesExtra, double preuHoresExtra) {
 		super(nom, cognoms, dni, souBase);
@@ -14,25 +13,17 @@ public class Obrer extends Empleat {
 		this.desti = desti;
 		this.horesExtra = horesExtra;
 		this.preuHoresExtra = preuHoresExtra;
-		
-		id += nombreObrers;
-		
-		comptarObrers();
+		this.nombreEmpleat = nombreObrer++;
 
 	}
 	
-	public static int getNombreObrers() {
-		return nombreObrers;
+	public int getNombreObrer() {
+		return nombreObrer;
 	}
-
-	// Funció per comptar els obrers creats.
-	public void comptarObrers() {
-		nombreObrers++;
-	}
-
+	
 	@Override
 	public String toString() {
-		return " [" + id + "] | " + nom + " | " + cognoms + " | " + dni + " | " + souBase + " | " + desti + " | " + horesExtra + " | " + preuHoresExtra;
+		return " [" + nombreEmpleat + "] | " + nom + " | " + cognoms + " | " + dni + " | " + souBase + " | " + desti + " | " + horesExtra + " | " + preuHoresExtra;
 	}
 
 }

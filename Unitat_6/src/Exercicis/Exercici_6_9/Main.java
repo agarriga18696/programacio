@@ -11,7 +11,9 @@ public class Main {
 	private static final String TEXT_VERD = "\u001B[32m";
 	public static final String TEXT_NEGRETA = "\u001B[1m";
 	private static final String TEXT_PER_DEFECTE = "\u001B[0m";
-
+	
+	// Contadors de cada tipus de empleat.
+	private static int contObrers = 0, contQualificats = 0, contCapsDepartament = 0;
 	// Array per guardar tots els Empleats.
 	// [0][i] -> Obrer
 	// [1][i] -> Qualificat
@@ -35,7 +37,7 @@ public class Main {
 		mostrarSeparador();
 		System.out.println(TEXT_NEGRETA + " MENÚ PRINCIPAL\n" + TEXT_PER_DEFECTE);
 		System.out.println(" (1) Nou empleat");
-		System.out.println(" (2) Veure empleat");
+		System.out.println(" (2) Veure empleats");
 		System.out.println(" (3) Sortir");
 
 		int opcio = validarInt("Opció");
@@ -119,7 +121,7 @@ public class Main {
 	// Mètode per mostrar un missatge d'advertència personalitzat.
 	private static void mostrarMissatgeAdvertencia(String missatge) {
 		System.out.println(System.lineSeparator());
-		System.out.println(TEXT_GROC + " ⚠️ Atenció: " + missatge + "." + TEXT_PER_DEFECTE);
+		System.out.println(TEXT_GROC + " ⚠️ Alerta: " + missatge + "." + TEXT_PER_DEFECTE);
 	}
 
 	// Mètode per mostrar un missatge d'èxit personalitzat.
@@ -214,7 +216,9 @@ public class Main {
 		}
 
 		// Afegir Obrer al array d'empleats.
-		empleats[0][Obrer.getNombreObrers()] = new Obrer(nom, cognoms, dni, souBase, desti, horesExtra, preuHoresExtra);
+		empleats[0][contObrers] = new Obrer(nom, cognoms, dni, souBase, desti, horesExtra, preuHoresExtra);
+		
+		contObrers++;
 
 		// Mostrar missatge d'èxit.
 		mostrarMissatgeExit("L'empleat " + nom + " " + cognoms + " s'ha creat correctament");
@@ -239,7 +243,7 @@ public class Main {
 			nom = validarCadena("Nom");
 			cognoms = validarCadena("Cognoms");
 			dni = validarCadena("DNI");
-			titulacio = validarCadena("Destí");
+			titulacio = validarCadena("Titulació");
 			departament = validarCadena("Departament");
 			souBase = validarDouble("Sou base");
 			plus = validarDouble("Plus");
@@ -277,7 +281,9 @@ public class Main {
 		}
 
 		// Afegir Obrer al array d'empleats.
-		empleats[1][Qualificat.getNombreQualificats()] = new Qualificat(nom, cognoms, dni, souBase, titulacio, departament, plus);
+		empleats[1][contQualificats] = new Qualificat(nom, cognoms, dni, titulacio, departament, souBase, plus);
+		
+		contQualificats++;
 
 		// Mostrar missatge d'èxit.
 		mostrarMissatgeExit("L'empleat " + nom + " " + cognoms + " s'ha creat correctament");
@@ -286,7 +292,7 @@ public class Main {
 
 	// Mètode per crear un nou Cap de Departament.
 	private static void nouCapDepartament() {
-		String nom = null, cognoms = null, dni = null;
+		String nom = null, cognoms = null, dni = null, titulacio = null, departament = null;
 		double souBase = 0, plus = 0;
 		int treballadorsACarrec = 0, projectes = 0;
 		boolean objecteCorrecte = false;
@@ -303,13 +309,15 @@ public class Main {
 			nom = validarCadena("Nom");
 			cognoms = validarCadena("Cognoms");
 			dni = validarCadena("DNI");
+			titulacio = validarCadena("Titulació");
+			departament = validarCadena("Departament");
 			souBase = validarDouble("Sou base");
+			plus = validarDouble("Plus");
 			treballadorsACarrec = validarInt("Treballadors a càrrec");
 			projectes = validarInt("Projectes");
-			plus = validarDouble("Plus");
 
 			// Verificar si s'ha deixat algun camp buit o un valor negatiu.
-			if(nom.isBlank() || cognoms.isBlank() || dni.isBlank() || souBase < 0 || plus < 0 || treballadorsACarrec < 0 || projectes < 0) {
+			if(nom.isBlank() || cognoms.isBlank() || dni.isBlank() || titulacio.isBlank() || departament.isBlank() || souBase < 0 || plus < 0 || treballadorsACarrec < 0 || projectes < 0) {
 
 				// Determinar el missatge d'error.
 				if(nom.isBlank()) {
@@ -320,6 +328,12 @@ public class Main {
 				}
 				if(dni.isBlank()) {
 					mostrarMissatgeError("El camp 'DNI' no pot estar buit");
+				}
+				if(titulacio.isBlank()) {
+					mostrarMissatgeError("El camp 'Titulació' no pot estar buit");
+				}
+				if(departament.isBlank()) {
+					mostrarMissatgeError("El camp 'Departament' no pot estar buit");
 				}
 				if(souBase < 0) {
 					mostrarMissatgeError("El camp 'Sou base' no pot contenir valors negatius");
@@ -341,60 +355,62 @@ public class Main {
 		}
 
 		// Afegir Obrer al array d'empleats.
-		empleats[2][CapDepartament.getNombreCapsDepartaments()] = new CapDepartament(nom, cognoms, dni, souBase, treballadorsACarrec, projectes, plus);
+		empleats[2][contCapsDepartament] = new CapDepartament(nom, cognoms, dni, titulacio, departament, souBase, plus, treballadorsACarrec, projectes);
 
+		contCapsDepartament++;
+		
 		// Mostrar missatge d'èxit.
 		mostrarMissatgeExit("L'empleat " + nom + " " + cognoms + " s'ha creat correctament");
 
 	}
 
-	// Mètode per veure un empleat.
+	// Mètode per veure els empleats creats.
 	private static void veureEmpleat() {
 
-		// Obrers
+		// Mostrar Obrers.
 		mostrarSeparador();
-		System.out.println(TEXT_NEGRETA + " 🛠️ OBRERS" + TEXT_PER_DEFECTE);
+		System.out.println(TEXT_NEGRETA + " 🛠️ OBRERS [" + contObrers + "]" + TEXT_PER_DEFECTE);
 		System.out.println(System.lineSeparator());
 
 		// Mostrar els objectes Obrer creats per l'usuari.
-		if(Obrer.getNombreObrers() <= 0) {
+		if(contObrers <= 0) {
 
 			mostrarMissatgeAdvertencia("Encara no s'ha creat cap Obrer");
 
 		} else {
-			for(int i = 0; i < Obrer.getNombreObrers(); i++) {
+			for(int i = 0; i < contObrers; i++) {
 				System.out.println(empleats[0][i].toString());
 			}
 		}
 
-		// Qualificats
+		// Mostrar Qualificats.
 		mostrarSeparador();
-		System.out.println(TEXT_NEGRETA + " 🎓 QUALIFICATS" + TEXT_PER_DEFECTE);
+		System.out.println(TEXT_NEGRETA + " 🎓 QUALIFICATS [" + contQualificats + "]" + TEXT_PER_DEFECTE);
 		System.out.println(System.lineSeparator());
 
 		// Mostrar els objectes Obrer creats per l'usuari.
-		if(Qualificat.getNombreQualificats() <= 0) {
+		if(contQualificats <= 0) {
 
 			mostrarMissatgeAdvertencia("Encara no s'ha creat cap Qualificat");
 
 		} else {
-			for(int i = 0; i < Qualificat.getNombreQualificats(); i++) {
+			for(int i = 0; i < contQualificats; i++) {
 				System.out.println(empleats[1][i].toString());
 			}
 		}
 
-		// Caps de Departament
+		// Mostrar Caps de Departament.
 		mostrarSeparador();
-		System.out.println(TEXT_NEGRETA + " 💼 CAPS DE DEPARTAMENT" + TEXT_PER_DEFECTE);
+		System.out.println(TEXT_NEGRETA + " 💼 CAPS DE DEPARTAMENT [" + contCapsDepartament + "]" + TEXT_PER_DEFECTE);
 		System.out.println(System.lineSeparator());
 
 		// Mostrar els objectes Obrer creats per l'usuari.
-		if(CapDepartament.getNombreCapsDepartaments() <= 0) {
+		if(contCapsDepartament <= 0) {
 
 			mostrarMissatgeAdvertencia("Encara no s'ha creat cap Cap de Departament");
 
 		} else {
-			for(int i = 0; i < CapDepartament.getNombreCapsDepartaments(); i++) {
+			for(int i = 0; i < contCapsDepartament; i++) {
 				System.out.println(empleats[2][i].toString());
 			}
 		}

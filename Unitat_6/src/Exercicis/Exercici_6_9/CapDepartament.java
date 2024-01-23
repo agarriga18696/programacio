@@ -1,38 +1,28 @@
 package Exercicis.Exercici_6_9;
 
-public class CapDepartament extends Empleat {
+public class CapDepartament extends Qualificat {
 
 	private int treballadorsACarrec;
 	private int projectes;
-	private double plus;
-	private int id = 0;
-	private static int nombreCapsDepartaments = 0;
+	private static int nombreCapDepartament;
 
-	public CapDepartament(String nom, String cognoms, String dni, double souBase, int treballadorsACarrec, int projectes, double plus) {
-		super(nom, cognoms, dni, souBase);
+	public CapDepartament(String nom, String cognoms, String dni, String titulacio, String departament, double souBase,
+			double plus, int treballadorsACarrec, int projectes) {
+		super(nom, cognoms, dni, titulacio, departament, souBase, plus);
 
 		this.treballadorsACarrec = treballadorsACarrec;
 		this.projectes = projectes;
-		this.plus = plus;
+		this.nombreEmpleat = nombreCapDepartament++;
 		
-		id += nombreCapsDepartaments;
-		
-		comptarCapsDepartament();
-
 	}
-
-	public static int getNombreCapsDepartaments() {
-		return nombreCapsDepartaments;
-	}
-
-	// Funció per comptar els obrers creats.
-	public void comptarCapsDepartament() {
-		nombreCapsDepartaments++;
+	
+	public int getNombreCapDepartament() {
+		return nombreCapDepartament;
 	}
 
 	@Override
 	public String toString() {
-		return " [" + id + "] | " + nom + " | " + cognoms + " | " + dni + " | " + souBase + " | " + treballadorsACarrec + " | " + projectes + " | " + plus;
+		return " [" + nombreEmpleat + "] | " + nom + " | " + cognoms + " | " + dni + " | " + titulacio + " | " + departament + " | " + souBase + " | "  + plus + " | " + treballadorsACarrec + " | " + projectes;
 	}
 
 }

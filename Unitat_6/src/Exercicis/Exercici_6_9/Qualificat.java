@@ -2,37 +2,28 @@ package Exercicis.Exercici_6_9;
 
 public class Qualificat extends Empleat {
 
-	private String titulacio;
-	private String departament;
-	private double plus;
-	private int id = 0;
-	private static int nombreQualificats = 0;
+	protected String titulacio;
+	protected String departament;
+	protected double plus;
+	private static int nombreQualificat;
 
-	public Qualificat(String nom, String cognoms, String dni, double souBase, String titulacio, String departament, double plus) {
+	public Qualificat(String nom, String cognoms, String dni, String titulacio, String departament, double souBase, double plus) {
 		super(nom, cognoms, dni, souBase);
 
 		this.titulacio = titulacio;
 		this.departament = departament;
 		this.plus = plus;
+		this.nombreEmpleat = nombreQualificat++;
 		
-		id += nombreQualificats;
-		
-		comptarQualificats();
-
 	}
-
-	public static int getNombreQualificats() {
-		return nombreQualificats;
-	}
-
-	// Funció per comptar els obrers creats.
-	public void comptarQualificats() {
-		nombreQualificats++;
+	
+	public int getNombreQualificat() {
+		return nombreQualificat;
 	}
 
 	@Override
 	public String toString() {
-		return " [" + id + "] | " + nom + " | " + cognoms + " | " + dni + " | " + souBase + " | " + titulacio + " | " + departament + " | " + plus;
+		return " [" + nombreEmpleat + "] | " + nom + " | " + cognoms + " | " + dni + " | " + titulacio + " | " + departament + " | " + souBase + " | "  + plus;
 	}
 
 }
