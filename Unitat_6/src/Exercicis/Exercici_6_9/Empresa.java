@@ -2,7 +2,7 @@ package Exercicis.Exercici_6_9;
 
 import java.util.Scanner;
 
-public class Main {
+public class Empresa {
 
 	private static Scanner cin = new Scanner(System.in);
 
@@ -24,7 +24,7 @@ public class Main {
 
 		System.out.println(System.lineSeparator());
 		System.out.println(TEXT_NEGRETA + " BENVINGUT/DA AL SISTEMA" + TEXT_PER_DEFECTE);
-
+		
 		while(true) {
 			mostrarMenu();
 		}
@@ -443,7 +443,5 @@ public class Main {
 		System.exit(0);
 
 	}
-
-
 
 }
