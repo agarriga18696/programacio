@@ -38,7 +38,7 @@ public class Matematiques {
 	public static void mostrarMenu() {
 
 		IU.mostrarSeparador();
-		System.out.println(IU.TEXT_NEGRETA + " MENÚ PRINCIPAL\n" + IU.TEXT_PER_DEFECTE + "\n");
+		System.out.println(IU.TEXT_NEGRETA + " MENÚ PRINCIPAL\n" + IU.TEXT_PER_DEFECTE);
 		System.out.println(" (1) Nova Figura Geomètrica");
 		System.out.println(" (2) Llistat de figures");
 		System.out.println(" (3) Sortir");
@@ -297,7 +297,7 @@ public class Matematiques {
 
 		// Mostrar Rectangles.
 		IU.mostrarSeparador();
-		System.out.println(IU.TEXT_NEGRETA + " RECTANGLES\n" + IU.TEXT_PER_DEFECTE);
+		System.out.println(IU.TEXT_NEGRETA + " ▭ RECTANGLES [" + contFigura[0][0] + "]" + IU.TEXT_PER_DEFECTE + "\n");
 
 		if(contFigura[0][0] <= 0) {
 			IU.mostrarMissatgeAdvertencia("No s'ha creat cap rectangle");
@@ -311,7 +311,7 @@ public class Matematiques {
 
 		// Mostrar Quadrats.
 		IU.mostrarSeparador();
-		System.out.println(IU.TEXT_NEGRETA + " QUADRATS\n" + IU.TEXT_PER_DEFECTE);
+		System.out.println(IU.TEXT_NEGRETA + " ⬜ QUADRATS [" + contFigura[1][0] + "]" + IU.TEXT_PER_DEFECTE + "\n");
 
 		if(contFigura[1][0] <= 0) {
 			IU.mostrarMissatgeAdvertencia("No s'ha creat cap quadrat");
@@ -325,7 +325,7 @@ public class Matematiques {
 
 		// Mostrar Rombes.
 		IU.mostrarSeparador();
-		System.out.println(IU.TEXT_NEGRETA + " ROMBES\n" + IU.TEXT_PER_DEFECTE);
+		System.out.println(IU.TEXT_NEGRETA + " 🔷 ROMBES [" + contFigura[2][0] + "]" + IU.TEXT_PER_DEFECTE + "\n");
 
 		if(contFigura[2][0] <= 0) {
 			IU.mostrarMissatgeAdvertencia("No s'ha creat cap rombe");
@@ -339,7 +339,7 @@ public class Matematiques {
 
 		// Mostrar Cercles.
 		IU.mostrarSeparador();
-		System.out.println(IU.TEXT_NEGRETA + " CERCLES\n" + IU.TEXT_PER_DEFECTE);
+		System.out.println(IU.TEXT_NEGRETA + " ⭕ CERCLES [" + contFigura[3][0] + "]" + IU.TEXT_PER_DEFECTE + "\n");
 
 		if(contFigura[3][0] <= 0) {
 			IU.mostrarMissatgeAdvertencia("No s'ha creat cap cercle");
