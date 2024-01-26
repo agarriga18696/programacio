@@ -2,7 +2,7 @@ package Exercicis.Exercici_6_10;
 
 import java.util.Scanner;
 
-public class ClaseDeMates {
+public class Matematiques {
 
 	private static Scanner cin = new Scanner(System.in);
 
@@ -38,9 +38,9 @@ public class ClaseDeMates {
 	public static void mostrarMenu() {
 
 		IU.mostrarSeparador();
-		System.out.println(IU.TEXT_NEGRETA + " MENÚ PRINCIPAL\n" + IU.TEXT_PER_DEFECTE);
+		System.out.println(IU.TEXT_NEGRETA + " MENÚ PRINCIPAL\n" + IU.TEXT_PER_DEFECTE + "\n");
 		System.out.println(" (1) Nova Figura Geomètrica");
-		System.out.println(" (2) Mostrar figures");
+		System.out.println(" (2) Llistat de figures");
 		System.out.println(" (3) Sortir");
 
 		opcioMenuPrincipal = Validar.Int(cin, "Opció");
@@ -70,15 +70,39 @@ public class ClaseDeMates {
 		CERCLE;
 	}
 
+	// Mètode per determinar la figura geomètrica que vol l'usuari.
 	private static void novaFigura() {
 		String nom = null, tipus = null;
 		double x = 0, y = 0, costatA = 0, costatB = 0, diagonalA = 0, diagonalB = 0, centre = 0, radi = 0, diametre = 0;
+		boolean figuraExistent = false;
 
-		System.out.println(System.lineSeparator());
-		System.out.println(IU.TEXT_NEGRETA + " NOVA FIGURA GEOMÈTRICA" + IU.TEXT_PER_DEFECTE);
+		IU.mostrarSeparador();
+		System.out.println(IU.TEXT_NEGRETA + " NOVA FIGURA GEOMÈTRICA" + IU.TEXT_PER_DEFECTE + "\n");
 
-		// Assignar valors a cada variable.
-		tipus = Validar.String(cin, "Tipus de figura (rectangle, quadrat, rombe, cercle)");
+		while(!figuraExistent) {
+
+			// Assignar valors a cada variable.
+			tipus = Validar.String(cin, "Tipus de figura (rectangle, quadrat, rombe, cercle)").toUpperCase().trim().replaceAll("\\s", "");;
+
+			// Comprovar si la figura que ha introduït l'usuari existeix.
+			for(Figures figura : Figures.values()) {
+
+				if(tipus.equals(figura.name())) {
+					figuraExistent = true;
+					break;
+				}
+			}
+
+			if(figuraExistent) {
+				break; // sortir del bucle while.
+			} else {
+				IU.mostrarMissatgeError("La figura introduïda no es pot crear. Per favor, escull una de\n\t   les anteriors");
+				IU.esperarTemps(20); // esperar 20 milisegons per no solapar el missatge d'error amb el de l'inici del bucle.
+				continue; // repetir bucle while.
+			}
+
+		}
+
 		Figures figura = Figures.valueOf(tipus);
 
 		switch(figura) {
@@ -98,8 +122,10 @@ public class ClaseDeMates {
 			break;
 		}
 
+
 	}
 
+	// Mètode per crear un nou rectangle.
 	private static void nouRectangle(String nom, double x, double y, double costatA, double costatB) {
 		boolean figuraCorrecta = false;
 
@@ -130,13 +156,14 @@ public class ClaseDeMates {
 			}
 		}
 
-		IU.mostrarMissatgeExit("La figura " + nom + " s'ha creat correctament" );
+		IU.mostrarMissatgeExit("El rectangle " + nom + " s'ha creat correctament" );
 
 		arrayFigures[0][contFigura[0][0]] = new Rectangle(nom, x, y, costatA, costatB);
 
 		contFigura[0][0]++;
 	}
 
+	// Mètode per crear un nou quadrat.
 	private static void nouQuadrat(String nom, double x, double y, double costat) {
 		boolean figuraCorrecta = false;
 
@@ -165,13 +192,14 @@ public class ClaseDeMates {
 
 		}
 
-		IU.mostrarMissatgeExit("La figura " + nom + " s'ha creat correctament" );
+		IU.mostrarMissatgeExit("El quadrat " + nom + " s'ha creat correctament" );
 
 		arrayFigures[1][contFigura[1][0]] = new Quadrat(nom, x, y, costat);
 
 		contFigura[1][0]++;
 	}
 
+	// Mètode per crear un nou rombe.
 	private static void nouRombe(String nom, double x, double y, double costat, double diagonalA, double diagonalB) {
 		boolean figuraCorrecta = false;
 
@@ -208,7 +236,7 @@ public class ClaseDeMates {
 
 		}
 
-		IU.mostrarMissatgeExit("La figura " + nom + " s'ha creat correctament" );
+		IU.mostrarMissatgeExit("El rombe " + nom + " s'ha creat correctament" );
 
 		arrayFigures[2][contFigura[2][0]] = new Rombe(nom, x, y, costat, diagonalA, diagonalB);
 
@@ -216,6 +244,7 @@ public class ClaseDeMates {
 
 	}
 
+	// Mètode per crear un nou cercle.
 	private static void nouCercle(String nom, double x, double y, double centre, double radi, double diametre) {
 		boolean figuraCorrecta = false;
 
@@ -251,15 +280,17 @@ public class ClaseDeMates {
 			}
 		}
 
-		IU.mostrarMissatgeExit("La figura " + nom + " s'ha creat correctament" );
+		IU.mostrarMissatgeExit("El cercle " + nom + " s'ha creat correctament" );
 
-		arrayFigures[3][contFigura[3][0]] = new Rombe(nom, x, y, centre, radi, diametre);
+		arrayFigures[3][contFigura[3][0]] = new Cercle(nom, x, y, centre, radi, diametre);
 
 		contFigura[3][0]++;
 
 	}
 
+	// Mètode per mostrar les figures geomètriques creades.
 	private static void mostrarFigures() {
+		long temps = 600; // milisegons.
 
 		IU.mostrarSeparador();
 		System.out.println(IU.TEXT_NEGRETA + " LLISTAT DE FIGURES" + IU.TEXT_PER_DEFECTE);
@@ -268,34 +299,57 @@ public class ClaseDeMates {
 		IU.mostrarSeparador();
 		System.out.println(IU.TEXT_NEGRETA + " RECTANGLES\n" + IU.TEXT_PER_DEFECTE);
 
-		for(int i = 0; i < contFigura[0].length; i++) {
-			arrayFigures[0][i].mostrarInfoFigura();
+		if(contFigura[0][0] <= 0) {
+			IU.mostrarMissatgeAdvertencia("No s'ha creat cap rectangle");
+		} else {
+			for(int i = 0; i < contFigura[0][0]; i++) {
+				arrayFigures[0][i].mostrarInfoFigura();
+				// Esperar temps (estètica).
+				IU.esperarTemps(temps);
+			}
 		}
 
 		// Mostrar Quadrats.
 		IU.mostrarSeparador();
 		System.out.println(IU.TEXT_NEGRETA + " QUADRATS\n" + IU.TEXT_PER_DEFECTE);
 
-		for(int i = 0; i < contFigura[1].length; i++) {
-			arrayFigures[1][i].mostrarInfoFigura();
+		if(contFigura[1][0] <= 0) {
+			IU.mostrarMissatgeAdvertencia("No s'ha creat cap quadrat");
+		} else {
+			for(int i = 0; i < contFigura[1][0]; i++) {
+				arrayFigures[1][i].mostrarInfoFigura();
+				// Esperar temps (estètica).
+				IU.esperarTemps(temps);
+			}
 		}
 
 		// Mostrar Rombes.
 		IU.mostrarSeparador();
 		System.out.println(IU.TEXT_NEGRETA + " ROMBES\n" + IU.TEXT_PER_DEFECTE);
 
-		for(int i = 0; i < contFigura[2].length; i++) {
-			arrayFigures[2][i].mostrarInfoFigura();
+		if(contFigura[2][0] <= 0) {
+			IU.mostrarMissatgeAdvertencia("No s'ha creat cap rombe");
+		} else {
+			for(int i = 0; i < contFigura[2][0]; i++) {
+				arrayFigures[2][i].mostrarInfoFigura();
+				// Esperar temps (estètica).
+				IU.esperarTemps(temps);
+			}
 		}
 
 		// Mostrar Cercles.
 		IU.mostrarSeparador();
 		System.out.println(IU.TEXT_NEGRETA + " CERCLES\n" + IU.TEXT_PER_DEFECTE);
 
-		for(int i = 0; i < contFigura[3].length; i++) {
-			arrayFigures[3][i].mostrarInfoFigura();
+		if(contFigura[3][0] <= 0) {
+			IU.mostrarMissatgeAdvertencia("No s'ha creat cap cercle");
+		} else {
+			for(int i = 0; i < contFigura[3][0]; i++) {
+				arrayFigures[3][i].mostrarInfoFigura();
+				// Esperar temps (estètica).
+				IU.esperarTemps(temps);
+			}
 		}
-
 
 	}
 

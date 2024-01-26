@@ -49,7 +49,7 @@ public class Validar {
 
 			if(cin.hasNextLine()) {
 				cadena = cin.nextLine();
-				return cadena.toUpperCase(); // retornar en majúscules (per no tenir problemes al comparar amb llista enum)
+				return cadena;
 			} else {
 				IU.mostrarMissatgeError("El caracter introduït no és vàlid");
 				cin.nextLine();

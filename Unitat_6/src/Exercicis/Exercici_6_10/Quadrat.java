@@ -31,6 +31,7 @@ public class Quadrat extends FiguraGeometrica {
 	@Override
 	public void mostrarInfoFigura() {
 
+		System.out.println(System.lineSeparator());
 		System.out.println(" ID:		" + idFigura);
 		System.out.println(" Nom:		" + nom);
 		System.out.println(" X:		" + x);
