@@ -11,14 +11,9 @@ public class IU {
 	private static final String VERMELL = "\033[0;31m";
 	private static final String VERD = "\033[0;32m";
 	private static final String GROC = "\033[0;33m";
-	private static final String BLAU = "\033[0;34m";
 
 	// Estils de text.
 	private static final String NEGRETA = "\033[0;1m";
-	private static final String VERMELL_NEGRETA = "\033[1;31m";
-	private static final String VERD_NEGRETA = "\033[1;32m";
-	private static final String GROC_NEGRETA = "\033[1;33m";
-	private static final String BLAU_NEGRETA = "\033[1;34m";
 
 	public static void Separador() {
 		System.out.println();
@@ -27,7 +22,7 @@ public class IU {
 	}
 	
 	public static void SaltLinea() {
-		System.out.println(System.lineSeparator());
+		System.out.println();
 	}
 
 	// Mètode per mostrar un missatge d'error personalitzat.
@@ -49,7 +44,9 @@ public class IU {
 	}
 
 	public static void Titol(String titol) {
+		Separador();
 		System.out.println(" " + NEGRETA + titol.toUpperCase().trim() + RESET);
+		SaltLinea();
 	}
 
 	// Generar un menu switch personalitzat de manera automatitzada.

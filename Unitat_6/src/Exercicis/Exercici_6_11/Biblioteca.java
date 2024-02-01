@@ -4,8 +4,6 @@ public class Biblioteca {
 
 	public static void main(String[] args) {
 		
-		IU.SaltLinea();
-		IU.Titol("BENVINGUT/DA A LA BIBLIOTECA");
 		while(true) {
 			menuPrincipal();
 		}
@@ -14,7 +12,7 @@ public class Biblioteca {
 	
 	private static void menuPrincipal() {
 		
-		IU.Separador();
+		IU.Titol("BIBLIOTECA");
 		IU.MenuOpcions("Insertar Llibre", "Eliminar Llibre", "Modificar Llibre", "Mostrar Llibre", "Sortir");
 		
 		int opcioMenu = Validar.Int(Entrada.input, "Opció");
