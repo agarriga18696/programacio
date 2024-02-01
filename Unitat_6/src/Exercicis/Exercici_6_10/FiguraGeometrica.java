@@ -22,6 +22,7 @@ public abstract class FiguraGeometrica {
 	// Mètode per calcula l'àrea.
 	public abstract double area();
 	
+	// Mètode per mostrar la informació de la figura.
 	public abstract void mostrarInfoFigura();
 
 }

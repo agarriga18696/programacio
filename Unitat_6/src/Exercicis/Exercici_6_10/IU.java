@@ -13,7 +13,7 @@ public class IU {
 	// Mètode per mostrar un missatge d'error personalitzat.
 	public static void mostrarMissatgeError(String missatge) {
 		System.out.println(System.lineSeparator());
-		System.err.println(" ❎ Error: " + missatge + ".");
+		System.err.println(" ❎ Error: " + missatge + "!");
 	}
 
 	// Mètode per mostrar un missatge d'advertència personalitzat.
@@ -25,7 +25,7 @@ public class IU {
 	// Mètode per mostrar un missatge d'èxit personalitzat.
 	public static void mostrarMissatgeExit(String missatge) {
 		System.out.println(System.lineSeparator());
-		System.out.println(TEXT_VERD + " ✅ Èxit: " + missatge + "." + TEXT_PER_DEFECTE);
+		System.out.println(TEXT_VERD + " ✅ Èxit: " + missatge + "!" + TEXT_PER_DEFECTE);
 	}
 
 	// Mètode per mostrar una línea separatoria.

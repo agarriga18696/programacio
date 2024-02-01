@@ -20,7 +20,7 @@ public class Rectangle extends FiguraGeometrica {
 		// Fórmula:
 		// P = cB * cA
 
-		return costatB * costatA;
+		return 2 * (costatA + costatB);
 	}
 
 	@Override
@@ -28,12 +28,13 @@ public class Rectangle extends FiguraGeometrica {
 		// Fórmula:
 		// A = 2 * cA + cB
 
-		return 2 * (costatA + costatB);
+		return costatB * costatA;
 	}
 	
 	@Override
 	public void mostrarInfoFigura() {
 		
+		System.out.println(System.lineSeparator());
 		System.out.println(" ID:		" + idFigura);
 		System.out.println(" Nom:		" + nom);
 		System.out.println(" X:		" + x);
