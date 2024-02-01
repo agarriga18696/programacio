@@ -3,7 +3,7 @@ package Exercicis.Exercici_6_11;
 public class LlistaLlibres {
 
 	private static int contLlibres = 0;
-	private static Llibre[] llibres = new Llibre[20];
+	private static Llibre[] llibres = new Llibre[50];
 
 	public static void insertarLlibre() {
 		String titol = null, autor = null, sinopsis = null;
