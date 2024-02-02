@@ -6,8 +6,8 @@ public class Lavadora extends Electrodomestico implements enReparacion {
 	private int capacidadTambor;
 	
 	// Constructor con parámetros.
-	public Lavadora(String marca, int consumo, int capacidadTambor, double precio) {
-		super(marca, consumo, precio);
+	public Lavadora(String modelo, int consumo, int capacidadTambor, double precio) {
+		super(modelo, consumo, precio);
 
 		this.setTipo("Lavadora");
 		this.capacidadTambor = capacidadTambor;
@@ -28,7 +28,7 @@ public class Lavadora extends Electrodomestico implements enReparacion {
 	// Métodos.
 	@Override
 	public String toString() {
-		return this.getMarca() + " | " + this.getConsumo() + " | " + this.capacidadTambor;
+		return "\n Modelo: " + this.getModelo() + " | Consumo: " + this.getConsumo() + " kWh | Capacidad tambor: " + this.capacidadTambor + "kg | Precio: " + this.getPrecio() + " €";
 	}
 	
 	@Override

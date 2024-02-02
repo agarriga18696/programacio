@@ -4,13 +4,13 @@ public abstract class Electrodomestico {
 
 	// Atributs.
 	private String tipo;
-	private String marca;
+	private String modelo;
 	private int consumo;
 	private double precio;
 
 	// Constructor con parámetros.
-	public Electrodomestico(String marca,int consumo, double precio) {
-		this.marca = marca;
+	public Electrodomestico(String modelo,int consumo, double precio) {
+		this.modelo = modelo;
 		this.consumo = consumo;
 		this.precio = precio;
 	}
@@ -27,12 +27,12 @@ public abstract class Electrodomestico {
 		this.tipo = tipo;
 	}
 
-	public String getMarca() {
-		return marca;
+	public String getModelo() {
+		return modelo;
 	}
 
-	public void setMarca(String marca) {
-		this.marca = marca;
+	public void setModelo(String modelo) {
+		this.modelo = modelo;
 	}
 
 	public int getConsumo() {
