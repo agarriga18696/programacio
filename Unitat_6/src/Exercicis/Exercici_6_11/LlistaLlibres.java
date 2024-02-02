@@ -2,7 +2,7 @@ package Exercicis.Exercici_6_11;
 
 public class LlistaLlibres {
 
-	private static int contLlibres = 0;
+	public static int contLlibres = 0;
 	private static Llibre[] llibres = new Llibre[50];
 
 	public static void insertarLlibre() {
@@ -55,18 +55,33 @@ public class LlistaLlibres {
 		IU.Titol("ELIMINAR LLIBRE");
 
 		if(contLlibres > 0) {
-			String titol = Validar.String(Entrada.input, "Títol");
+			boolean existeixLlibre = false;
+			String titol = Validar.String(Entrada.input, "Llibre (títol)");
 
-			for(int i = 0; i < llibres.length; i++) {
+			for(int i = 0; i < contLlibres; i++) {
 				Llibre llibre = llibres[i];
 
 				if(llibre != null && llibre.getTitol().equalsIgnoreCase(titol)) {
-					IU.MissatgeExit("Llibre '" + llibre.toString() + "' eliminat");
-					llibre = null;
+					IU.MissatgeExit("Llibre '" + llibre.getTitol() + "' eliminat");
+					llibre.eliminar();
+
+					// Reorganitzar l'array per no deixar index nulls entre mig.
+					for(int j = i; j < contLlibres - 1; j++) {
+						llibres[j] = llibres[j + 1];
+					}
+
+					llibres[contLlibres - 1] = null;
+					contLlibres--;
+					existeixLlibre = true;
+					break;
+
 				}
+
 			}
-			
-			contLlibres--;
+
+			if(!existeixLlibre) {
+				IU.MissatgeError("No s'ha trobat el llibre '" + titol + "'");
+			}
 
 		} else {
 			IU.MissatgeAdvertencia("No hi ha llibres a eliminar");
@@ -78,19 +93,84 @@ public class LlistaLlibres {
 
 		IU.Titol("MODIFICAR LLIBRE");
 
+		if(contLlibres > 0) {
+			boolean existeixLlibre = false;
+			String titol = Validar.String(Entrada.input, "Llibre (títol)");
+
+			for(Llibre llibre : llibres) {
+
+				if(llibre != null && llibre.getTitol().equalsIgnoreCase(titol)) {
+
+					boolean llibreCorrecte = false;
+
+					while(!llibreCorrecte) {
+						// Reassignar els valors.
+						llibre.setTitol(Validar.String(Entrada.input, "Títol"));
+						llibre.setAutor(Validar.String(Entrada.input, "Autor"));
+						llibre.setSinopsis(Validar.String(Entrada.input, "Sinopsis"));
+						llibre.setNumPagines(Validar.Int(Entrada.input, "Núm. Pàgines"));
+
+						// Comprovar que els camps siguin correctes.
+						if(
+								llibre.getTitol().isBlank() || 
+								llibre.getAutor().isBlank() || 
+								llibre.getSinopsis().isBlank() || 
+								llibre.getNumPagines() <= 0) {
+
+							if(llibre.getTitol().isBlank()) IU.MissatgeError("El camp 'Títol' no pot estar buit");
+							if(llibre.getAutor().isBlank()) IU.MissatgeError("El camp 'Autor' no pot estar buit");
+							if(llibre.getSinopsis().isBlank()) IU.MissatgeError("El camp 'Sinopsis' no pot estar buit");
+							if(llibre.getNumPagines() <= 0) IU.MissatgeError("El valor 'Núm. Pàgines' no pot ser negatiu o zero");
+
+						} else {
+							IU.MissatgeExit("Llibre '" + llibre + "' modificat correctament");
+							llibreCorrecte = true;
+							break; // sortir del bucle while.
+						}
+					}
+
+					existeixLlibre = true;
+					break; // sortir del bucle for-each.
+				}
+			}
+
+			if(!existeixLlibre) {
+				IU.MissatgeError("No s'ha trobat el llibre '" + titol + "'");
+			}
+
+		} else {
+			IU.MissatgeAdvertencia("No hi ha llibres a modificar");
+		}
 	}
 
 	public static void mostrarLlibre() {
 
-		IU.Titol("MOSTRAR LLIBRE");
+		IU.Titol("MOSTRAR LLIBRE [escriu 'tots' per mostrar tots els llibres]");
 
 		if(contLlibres > 0) {
-			for(int i = 0; i < contLlibres; i++) {
-				Llibre llibre = llibres[i];
-				if(llibre != null) {
-					System.out.println(" " + llibre.toString());
+			boolean existeixLlibre = false;
+			String titol = Validar.String(Entrada.input, "Llibre (títol)");
+
+			for(Llibre llibre : llibres) {
+				
+				if(titol.equalsIgnoreCase("tots") && llibre != null) {
+					// Mostrar tots els llibres.
+					System.out.println("\n " + llibre.toString());
+					existeixLlibre = true;
+					
+				} else if(llibre != null && llibre.getTitol().equalsIgnoreCase(titol)) {
+					// Mostrar un llibre.
+					System.out.println("\n " + llibre.toString());
+					existeixLlibre = true;
+					break;
 				}
+				
 			}
+
+			if(!existeixLlibre) {
+				IU.MissatgeError("No s'ha trobat el llibre '" + titol + "'");
+			}
+
 		} else {
 			IU.MissatgeAdvertencia("No hi ha llibres a mostrar");
 		}

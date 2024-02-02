@@ -1,10 +1,12 @@
 package Exercicis.Exercici_6_11;
 
 public class Biblioteca {
+	
+	private static int opcioMenu = 0;
 
 	public static void main(String[] args) {
 		
-		while(true) {
+		while(opcioMenu != 5) {
 			menuPrincipal();
 		}
 		
@@ -12,10 +14,10 @@ public class Biblioteca {
 	
 	private static void menuPrincipal() {
 		
-		IU.Titol("BIBLIOTECA");
+		IU.Titol("BIBLIOTECA [llibres: " + LlistaLlibres.contLlibres + "]");
 		IU.MenuOpcions("Insertar Llibre", "Eliminar Llibre", "Modificar Llibre", "Mostrar Llibre", "Sortir");
 		
-		int opcioMenu = Validar.Int(Entrada.input, "Opció");
+		opcioMenu = Validar.Int(Entrada.input, "Opció");
 		
 		switch(opcioMenu) {
 		case 1:
@@ -40,8 +42,7 @@ public class Biblioteca {
 	}
 
 	private static void Sortir() {
-		IU.SaltLinea();
-		System.out.println(" Que tinguis bona lectura! 👋");
+		IU.Titol("Que tinguis bona lectura! 👋📖");
 		System.exit(0);
 		
 	}

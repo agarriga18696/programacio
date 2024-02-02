@@ -49,7 +49,7 @@ public class Validar {
 
 			if(cin.hasNextLine()) {
 				cadena = cin.nextLine();
-				return cadena.toUpperCase();
+				return cadena.trim();
 			} else {
 				IU.MissatgeError("El caracter introduït no és vàlid");
 				cin.nextLine();

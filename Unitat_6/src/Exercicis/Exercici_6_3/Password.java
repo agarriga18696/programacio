@@ -1,7 +1,6 @@
 package Exercicis.Exercici_6_3;
 
 import java.util.Random;
-import java.util.random.*;
 
 public class Password {
 

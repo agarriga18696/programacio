@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 public class Validar {
 
-	// Mètode per validar un int.
+	// Validar Int.
 	public static int Int(Scanner cin, String missatge) {
 		int nombre = 0;
 
@@ -22,7 +22,7 @@ public class Validar {
 		}
 	}
 
-	// Mètode per validar un double.
+	// Validar Double.
 	public static double Double(Scanner cin, String missatge) {
 		double nombre = 0;
 
@@ -40,7 +40,7 @@ public class Validar {
 		}
 	}
 
-	// Mètode per validar una cadena.
+	// Validar String.
 	public static String String(Scanner cin, String missatge) {
 		String cadena = null;
 
