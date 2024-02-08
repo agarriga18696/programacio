@@ -42,5 +42,39 @@ public class Validar extends Entrada {
 
 		return cadena;
 	}
+	
+	public static String lletra(String missatge) {
+		String lletra = null;
+		boolean esValida = false;
+		
+		do {
+			lletra = Validar.cadena("Lletra");
+			
+			if(lletra != null && !lletra.isEmpty() && lletra.length() == 1) {
+				
+				// Comprovar que el caracter sigui una lletra.
+				if(Character.isAlphabetic(lletra.charAt(0))) {
+					esValida = true;
+					break;
+					
+				} else {
+					Missatge.Error(lletra + " no és una lletra");
+				}
+				
+			} else {
+				if(lletra.length() > 1) {
+					Missatge.Error("Escriu només una lletra");
+					
+				} else if(lletra.length() <= 0 || lletra == null && lletra.isEmpty()) {
+					Missatge.Error("Has d'escriure una lletra");
+				}
+				
+				continue;
+			}
+			
+		} while(!esValida);
+		
+		return lletra;
+	}
 
 }

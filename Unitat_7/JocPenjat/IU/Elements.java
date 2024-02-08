@@ -3,7 +3,7 @@ package IU;
 public class Elements {
 
 	public static void separador() {
-		System.out.println("-----------------------------------------");
+		System.out.println("-----------------------------------------\n");
 	}
 	
 	public static void saltLinia() {
