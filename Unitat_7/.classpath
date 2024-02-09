@@ -7,5 +7,6 @@
 	</classpathentry>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="JocPenjat"/>
+	<classpathentry kind="src" path="Exercici_Ordenacio_Nombres"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

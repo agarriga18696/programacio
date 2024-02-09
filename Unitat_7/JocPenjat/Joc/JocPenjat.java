@@ -13,7 +13,7 @@ public class JocPenjat {
 	private static String paraulaActual = null;
 	public static String paraulaActualNormalitzada = null;
 	public static String paraulaAmagada = null;
-	private static int videsJugador = 3;
+	public static int videsJugador = 8;
 	private static Jugador jugador;
 	private static boolean partidaFinalitzada;
 
@@ -46,6 +46,9 @@ public class JocPenjat {
 		// Partida.
 		do {
 			Element.taulaPuntuacio(jugador);
+			
+			// Mostrar el penjat.
+			Dibuixar.penjat(jugador);
 
 			// Mostrar paraula amagada.
 			System.out.println("\n " + Logica.mostrarParaulaAmbEspais(paraulaAmagada));

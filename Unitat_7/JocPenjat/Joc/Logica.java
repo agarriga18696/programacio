@@ -24,6 +24,7 @@ public class Logica {
 			jugador.restarVides();
 			Paraules.llistaLletresFallades.add(lletra);
 		}
+		
 	}
 
 	// Mètode per comprovar les condicions de victoria i derrota.
