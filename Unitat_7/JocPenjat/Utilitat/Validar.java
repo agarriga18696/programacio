@@ -4,6 +4,7 @@ import IU.Missatge;
 
 public class Validar extends Entrada {
 
+	// Validar un nombre int.
 	public static int enter(String missatge) {
 		boolean esValid = false;
 		int nombre = 0;
@@ -24,6 +25,7 @@ public class Validar extends Entrada {
 		return nombre;
 	}
 
+	// Validar un String.
 	public static String cadena(String missatge) {
 		boolean esValid = false;
 		String cadena = null;
@@ -40,9 +42,10 @@ public class Validar extends Entrada {
 			}
 		}
 
-		return cadena;
+		return cadena.trim();
 	}
 	
+	// Validar la lletra del jugador.
 	public static String lletra(String missatge) {
 		String lletra = null;
 		boolean esValida = false;
@@ -58,7 +61,7 @@ public class Validar extends Entrada {
 					break;
 					
 				} else {
-					Missatge.Error(lletra + " no és una lletra");
+					Missatge.Error("'" + lletra + "' no és una lletra");
 				}
 				
 			} else {
@@ -74,7 +77,7 @@ public class Validar extends Entrada {
 			
 		} while(!esValida);
 		
-		return lletra;
+		return lletra.trim();
 	}
 
 }

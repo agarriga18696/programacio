@@ -1,6 +1,6 @@
 package Joc;
 
-import IU.Elements;
+import IU.Element;
 import IU.Missatge;
 import Paraules.Paraules;
 import Utilitat.Aleatori;
@@ -12,23 +12,26 @@ public class JocPenjat {
 	private static String paraulaActual = null;
 	public static String paraulaActualNormalitzada = null;
 	public static String paraulaAmagada = null;
+	private static int videsJugador = 3;
+	private static Jugador jugador;
+	private static boolean partidaFinalitzada;
 
 	public static void main(String[] args) {
 		menu();
-		/*System.out.println("Paraules per defecte:\n");
-		for(Paraula paraula : LlistaParaules.llistaParaules) {
-			System.out.println(paraula);
-		}*/
 	}
 
+	//////////////////////
+	//					//
+	//		 MENÚ		//
+	//					//
+	//////////////////////
+
 	private static void opcionsMenu() {
-		Elements.saltLinia();
-		Elements.separador();
-		System.out.println(" JOC DEL PENJAT\n");
+		Element.saltLinia();
+		Element.titolAmbMarc("PENJAT");
 		System.out.println(" (1) Jugar");
-		System.out.println(" (2) Afegir paraules personalitzades");
-		System.out.println(" (3) Configuració del jugador");
-		System.out.println(" (4) Sortir");
+		System.out.println(" (2) Opcions");
+		System.out.println(" (3) Sortir");
 	}
 
 	private static void menu() {
@@ -43,73 +46,111 @@ public class JocPenjat {
 				jugar();
 				break;
 			case 2:
-				paraulaPersonalitzada();
-				break;
-			case 3:
 				configuracio();
 				break;
-			case 4:
+			case 3:
 				sortir();
 				break;
 			default:
 				Missatge.Error("Opció no vàlida");
 				break;
 			}
-		} while(opcio != 4);
+		} while(opcio != 3);
 	}
 
-	private static void jugar() {
-		Elements.saltLinia();
-		Elements.separador();
-		System.out.println(" JUGAR");
+	//////////////////////
+	//					//
+	//		JUGAR		//
+	//					//
+	//////////////////////
 
-		// Seleccionar una paraula al atzar.
+	private static void jugar() {
+		// Inicialitzar la variable com a false per poder jugar.
+		partidaFinalitzada = false;
+		
+		Element.saltLinia();
+		Element.titolAmbMarc("PARTIDA");
+
+		// Inicialitzar jugador.
+		jugador = new Jugador(videsJugador);
+
+		// Seleccionar una paraula al atzar de la llista de paraules.
 		paraulaActual = Paraules.llistaParaules.get(Aleatori.Int(0, Paraules.llistaParaules.size() - 1)).getParaula();
-		paraulaActualNormalitzada = Normalitzar.llevarAccents(paraulaActual);
+		paraulaActualNormalitzada = Normalitzar.llevarAccents(paraulaActual).toUpperCase();
 		paraulaAmagada = Paraules.amagarParaula(paraulaActualNormalitzada);
 
 		boolean paraulaEndevinada = false;
-		
-		while(!paraulaEndevinada) {
-			System.out.println("\n " + paraulaAmagada);
-			demanarLletra();
-			paraulaEndevinada = Paraules.paraulaEndevinada(paraulaAmagada);
-			
-			if(paraulaEndevinada) {
-				Missatge.Exit("Enhorabona! Has encertat la paraula!");
-				break;
-			}
-		}
 
+		while(!partidaFinalitzada) {
+			// Mostrar la puntuació.
+			Element.taulaPuntuacio(jugador);
+
+			// Mostrar paraula amagada.
+			System.out.println("\n " + Paraules.mostrarParaulaAmbEspais(paraulaAmagada));
+			Element.saltLinia();
+
+			// Comprovar si s'ha endevinat la paraula.
+	        if (Paraules.paraulaEndevinada(paraulaAmagada)) {
+	            Missatge.Personalitzat("🏆", "Victoria", "Has encertat la paraula");
+	            partidaFinalitzada = true;
+	            break;
+	        }
+
+	        // Comprovar si s'ha quedat sense vides.
+	        if (jugador.getVides() <= 0) {
+	            Missatge.Personalitzat("💔", "Derrota", "T'has quedat sense vides");
+	            partidaFinalitzada = true;
+	            break;
+	        }
+			
+			demanarLletra();
+		}
 	}
 
+	// Mètode per demanar una lletra al jugador.
 	private static void demanarLletra() {
 		String lletra = null;
 
-		lletra = Normalitzar.llevarAccents(Validar.lletra("Lletra"));
+		lletra = Normalitzar.llevarAccents(Validar.lletra("Lletra")).toUpperCase();
 
-		System.out.println(Paraules.comprovarSiParauleConteLletra(lletra) == true ? "\n 👍 Has endevinat la lletra" : "\n 👎 No has endevinat la lletra");
+		boolean lletraEncertada = Paraules.comprovarSiParauleConteLletra(lletra);
 
+		if (lletraEncertada) {
+			Missatge.Personalitzat("👍", "Acert", "'" + lletra + "' s'ha trobat a la paraula");
+			// Sumar punts.
+			jugador.sumarPunts();
+		} else {
+			Missatge.Personalitzat("👎", "Fall", "'" + lletra + "' no s'ha trobat a la paraula");
+			jugador.restarVides();
+		}
 	}
-	
+
+	// Mètode per actualitzar l'estat de la lletra amagada.
 	public static void actualitzarLletraAmagada(String paraula) {
 		paraulaAmagada = paraula;
-		System.out.println("paraula actualitzada");
+	}
+
+
+	//////////////////////
+	//					//
+	//	 CONFIGURACIÓ	//
+	//					//
+	//////////////////////
+
+	private static void configuracio() {
+		Element.saltLinia();
+		Element.titolAmbMarc("OPCIONS");
+
 	}
 
 	private static void paraulaPersonalitzada() {
-		// TODO Auto-generated method stub
+
 
 	}
 
-	private static void configuracio() {
-		// TODO Auto-generated method stub
-
-	}
-
+	// Mètode per sortir del joc.
 	private static void sortir() {
-		Elements.saltLinia();
-		Elements.separador();
+		Element.saltLinia();
 		System.out.println("Fins un altre cop!");
 		System.exit(0);
 	}
