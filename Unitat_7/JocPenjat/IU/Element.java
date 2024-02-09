@@ -1,11 +1,12 @@
 package IU;
 
 import Joc.Jugador;
+import Paraules.Paraules;
 
 public class Element {
 
 	public static void separador() {
-		System.out.println(" ─────────────────────────────────────────\n");
+		System.out.println(" ─────────────────────────────────────────");
 	}
 	
 	public static void saltLinia() {
@@ -25,6 +26,11 @@ public class Element {
 	public static void taulaPuntuacio(Jugador jugador) {
 		System.out.println("\n ❤️ Vides: " + jugador.getVides() + "\t     │\t      🌟 Punts: " + jugador.getPunts());
 		Element.separador();
+		System.out.print(" ❕ Falls: ");
+		for(String lletra : Paraules.llistaLletresFallades) {
+			System.out.print(lletra + " ");
+		}
+		saltLinia();
 	}
 	
 }

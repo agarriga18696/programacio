@@ -70,9 +70,8 @@ public class Validar extends Entrada {
 					
 				} else if(lletra.length() <= 0 || lletra == null && lletra.isEmpty()) {
 					Missatge.Error("Has d'escriure una lletra");
+					
 				}
-				
-				continue;
 			}
 			
 		} while(!esValida);

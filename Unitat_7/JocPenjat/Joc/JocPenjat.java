@@ -1,6 +1,7 @@
 package Joc;
 
 import IU.Element;
+import IU.Menu;
 import IU.Missatge;
 import Paraules.Paraules;
 import Utilitat.Aleatori;
@@ -17,46 +18,12 @@ public class JocPenjat {
 	private static boolean partidaFinalitzada;
 
 	public static void main(String[] args) {
-		menu();
+		// Inicialitzar jugador.
+		jugador = new Jugador(videsJugador);
+		
+		Menu.menu();
 	}
-
-	//////////////////////
-	//					//
-	//		 MENÚ		//
-	//					//
-	//////////////////////
-
-	private static void opcionsMenu() {
-		Element.saltLinia();
-		Element.titolAmbMarc("PENJAT");
-		System.out.println(" (1) Jugar");
-		System.out.println(" (2) Opcions");
-		System.out.println(" (3) Sortir");
-	}
-
-	private static void menu() {
-		int opcio = 0;
-
-		do {
-			opcionsMenu();
-			opcio = Validar.enter("Opció");
-
-			switch(opcio) {
-			case 1:
-				jugar();
-				break;
-			case 2:
-				configuracio();
-				break;
-			case 3:
-				sortir();
-				break;
-			default:
-				Missatge.Error("Opció no vàlida");
-				break;
-			}
-		} while(opcio != 3);
-	}
+	
 
 	//////////////////////
 	//					//
@@ -64,65 +31,33 @@ public class JocPenjat {
 	//					//
 	//////////////////////
 
-	private static void jugar() {
+	public static void jugar() {
 		// Inicialitzar la variable com a false per poder jugar.
 		partidaFinalitzada = false;
-		
+
 		Element.saltLinia();
 		Element.titolAmbMarc("PARTIDA");
-
-		// Inicialitzar jugador.
-		jugador = new Jugador(videsJugador);
 
 		// Seleccionar una paraula al atzar de la llista de paraules.
 		paraulaActual = Paraules.llistaParaules.get(Aleatori.Int(0, Paraules.llistaParaules.size() - 1)).getParaula();
 		paraulaActualNormalitzada = Normalitzar.llevarAccents(paraulaActual).toUpperCase();
-		paraulaAmagada = Paraules.amagarParaula(paraulaActualNormalitzada);
+		paraulaAmagada = Logica.amagarParaula(paraulaActualNormalitzada);
 
-		boolean paraulaEndevinada = false;
-
-		while(!partidaFinalitzada) {
-			// Mostrar la puntuació.
+		// Partida.
+		do {
 			Element.taulaPuntuacio(jugador);
 
 			// Mostrar paraula amagada.
-			System.out.println("\n " + Paraules.mostrarParaulaAmbEspais(paraulaAmagada));
+			System.out.println("\n " + Logica.mostrarParaulaAmbEspais(paraulaAmagada));
 			Element.saltLinia();
 
-			// Comprovar si s'ha endevinat la paraula.
-	        if (Paraules.paraulaEndevinada(paraulaAmagada)) {
-	            Missatge.Personalitzat("🏆", "Victoria", "Has encertat la paraula");
-	            partidaFinalitzada = true;
-	            break;
-	        }
+			partidaFinalitzada = Logica.comprovarVictoriaDerrota(paraulaAmagada, jugador);
 
-	        // Comprovar si s'ha quedat sense vides.
-	        if (jugador.getVides() <= 0) {
-	            Missatge.Personalitzat("💔", "Derrota", "T'has quedat sense vides");
-	            partidaFinalitzada = true;
-	            break;
-	        }
+			if(!partidaFinalitzada) {
+				Logica.demanarLletra(jugador);
+			}
 			
-			demanarLletra();
-		}
-	}
-
-	// Mètode per demanar una lletra al jugador.
-	private static void demanarLletra() {
-		String lletra = null;
-
-		lletra = Normalitzar.llevarAccents(Validar.lletra("Lletra")).toUpperCase();
-
-		boolean lletraEncertada = Paraules.comprovarSiParauleConteLletra(lletra);
-
-		if (lletraEncertada) {
-			Missatge.Personalitzat("👍", "Acert", "'" + lletra + "' s'ha trobat a la paraula");
-			// Sumar punts.
-			jugador.sumarPunts();
-		} else {
-			Missatge.Personalitzat("👎", "Fall", "'" + lletra + "' no s'ha trobat a la paraula");
-			jugador.restarVides();
-		}
+		} while(!partidaFinalitzada);
 	}
 
 	// Mètode per actualitzar l'estat de la lletra amagada.
@@ -137,19 +72,20 @@ public class JocPenjat {
 	//					//
 	//////////////////////
 
-	private static void configuracio() {
+	public static void configuracio() {
 		Element.saltLinia();
 		Element.titolAmbMarc("OPCIONS");
 
+
 	}
 
-	private static void paraulaPersonalitzada() {
+	public static void paraulaPersonalitzada() {
 
 
 	}
 
 	// Mètode per sortir del joc.
-	private static void sortir() {
+	public static void sortir() {
 		Element.saltLinia();
 		System.out.println("Fins un altre cop!");
 		System.exit(0);
