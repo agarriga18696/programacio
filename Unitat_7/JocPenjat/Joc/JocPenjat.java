@@ -3,6 +3,7 @@ package Joc;
 import IU.Element;
 import IU.Menu;
 import IU.Missatge;
+import Paraules.Paraula;
 import Paraules.Paraules;
 import Utilitat.Aleatori;
 import Utilitat.Normalitzar;
@@ -10,20 +11,23 @@ import Utilitat.Validar;
 
 public class JocPenjat {
 
-	private static String paraulaActual = null;
+	public static Paraula paraulaActual = null;
 	public static String paraulaActualNormalitzada = null;
 	public static String paraulaAmagada = null;
-	public static int videsJugador = 5;
+	public static int videsJugador = 6;
 	private static Jugador jugador;
 	private static boolean partidaFinalitzada;
 
 	public static void main(String[] args) {
 		// Inicialitzar jugador.
 		jugador = new Jugador(videsJugador);
-		
-		Menu.menu();
+
+		// Inicialitzar paraules per defecte.
+		Paraules.inicialitzarParaulesPerDefecte();
+
+		Menu.menuPrincipal();
 	}
-	
+
 
 	//////////////////////
 	//					//
@@ -39,16 +43,16 @@ public class JocPenjat {
 		Element.titolAmbMarc("PARTIDA");
 
 		// Seleccionar una paraula al atzar de la llista de paraules.
-		paraulaActual = Paraules.llistaParaules.get(Aleatori.Int(0, Paraules.llistaParaules.size() - 1)).getParaula();
-		paraulaActualNormalitzada = Normalitzar.llevarAccents(paraulaActual).toUpperCase();
+		paraulaActual = Paraules.llistaParaules.get(Aleatori.Int(0, Paraules.llistaParaules.size() - 1));
+		paraulaActualNormalitzada = Normalitzar.llevarAccents(paraulaActual.getParaula()).toUpperCase();
 		paraulaAmagada = Logica.amagarParaula(paraulaActualNormalitzada);
 
 		// Partida.
-		do {
+		while(!partidaFinalitzada) {
 			Element.taulaPuntuacio(jugador);
-			
+
 			// Mostrar el penjat.
-			//Dibuixar.penjat(jugador);
+			Dibuixar.penjat(jugador);
 
 			// Mostrar paraula amagada.
 			System.out.println("\n " + Logica.mostrarParaulaAmbEspais(paraulaAmagada));
@@ -59,8 +63,7 @@ public class JocPenjat {
 			if(!partidaFinalitzada) {
 				Logica.demanarLletra(jugador);
 			}
-			
-		} while(!partidaFinalitzada);
+		}
 	}
 
 	// Mètode per actualitzar l'estat de la lletra amagada.
@@ -75,15 +78,66 @@ public class JocPenjat {
 	//					//
 	//////////////////////
 
-	public static void configuracio() {
-		Element.saltLinia();
-		Element.titolAmbMarc("OPCIONS");
+	public static void afegirParaula() {
+		Element.titol("AFEGIR NOVA PARAULA");
 
+		String nomNovaParaula = null;
+		boolean paraulaValida = false;
 
-	}
+		do {
+			nomNovaParaula = Validar.cadena("Paraula");
 
-	public static void paraulaPersonalitzada() {
+			// Comprovar que la paraula no estigui buida o sigui null.
+			boolean paraulaBuida = false;
+			if(nomNovaParaula == null || nomNovaParaula.isEmpty()) {
+				paraulaBuida = true;
+			}
 
+			// Comprovar que la mida de la paraula sigui vàlida.
+			boolean midaValida = false;
+			if(nomNovaParaula.length() >= 3) {
+				midaValida = true;
+			}
+
+			// Comprovar que la paraula sigui una paraula.
+			boolean esParaula = true;
+			for(int i = 0; i < nomNovaParaula.length(); i++) {
+				if(!Character.isAlphabetic(nomNovaParaula.charAt(i))) {
+					esParaula = false;
+					break;
+				}
+			}
+
+			// Comprovar que la paraula no estigui repetida a la llista.
+			boolean existeixParaula = false;
+			for(Paraula paraulaLlista : Paraules.llistaParaules) {
+				if(nomNovaParaula.equalsIgnoreCase(paraulaLlista.getParaula())) {
+					existeixParaula = true;
+					break;
+				}
+			}
+
+			if(paraulaBuida) {
+				Missatge.Error("Introdueix una paraula vàlida");
+			} else if(!midaValida) {
+				Missatge.Error("La paraula ha de tenir com a mínim 3 lletres");
+			} else if(existeixParaula) {
+				Missatge.Error("La paraula '" + nomNovaParaula + "' ja existeix al joc");
+			} else if(!esParaula) {
+				Missatge.Error("La paraula '" + nomNovaParaula + "' no és vàlida");
+			} else {
+				paraulaValida = true;
+			}
+
+		} while(!paraulaValida);
+
+		// Crear la paraula.
+		Paraula novaParaula = new Paraula(nomNovaParaula);
+
+		// Afegir la paraula a la llista.
+		Paraules.afegirParaula(novaParaula);
+
+		Missatge.Exit("Paraula '" + nomNovaParaula + "' afegida al joc");
 
 	}
 

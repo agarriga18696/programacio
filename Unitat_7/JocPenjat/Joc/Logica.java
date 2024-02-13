@@ -3,6 +3,7 @@ package Joc;
 import IU.Missatge;
 import Utilitat.Normalitzar;
 import Utilitat.Validar;
+import Paraules.Paraula;
 import Paraules.Paraules;
 
 public class Logica {
@@ -24,7 +25,7 @@ public class Logica {
 			jugador.restarVides();
 			Paraules.llistaLletresFallades.add(lletra);
 		}
-		
+
 	}
 
 	// Mètode per comprovar les condicions de victoria i derrota.
@@ -32,6 +33,11 @@ public class Logica {
 		// Comprovar si s'ha endevinat la paraula.
 		if (paraulaEndevinada(paraulaAmagada)) {
 			Missatge.Personalitzat("🏆", "Victoria", "Has encertat la paraula");
+			System.out.println(" Paraules encertades:");
+			for(Paraula paraula : Paraules.llistaParaulesEncertades) {
+				System.out.println(" - " + paraula.getParaula());
+			}
+
 			return true;
 		}
 
@@ -103,6 +109,7 @@ public class Logica {
 	// Validar si has endevinat la paraula.
 	protected static boolean paraulaEndevinada(String paraulaAmagada) {
 		boolean paraulaEndevinada = false;
+		Paraula paraula = JocPenjat.paraulaActual;
 
 		for(int i = 0; i < paraulaAmagada.length(); i++) {
 			if(!paraulaAmagada.contains("_")) {
@@ -110,7 +117,22 @@ public class Logica {
 			}
 		}
 
+		// Afegir la paraula endevinada a la llista de paraules endevinades.
+		if(paraulaEndevinada) {
+			afegirParaulaEncertada(paraula);
+		}
+
 		return paraulaEndevinada;
+	}
+
+	// Mètode per afegir paraula encertada a la llista de paraules encertades.
+	public static void afegirParaulaEncertada(Paraula paraula) {
+		if(paraula != null) {
+			Paraules.llistaParaulesEncertades.add(paraula);
+
+		} else {
+			Missatge.ErrorFatal("No s'ha pogut afegir la paraula encertada a la llista");
+		}
 	}
 
 }

@@ -3,20 +3,62 @@ package Joc;
 public class Dibuixar {
 
 	public static void penjat(Jugador jugador) {
-		int videsMaxJugador = JocPenjat.videsJugador;
+		//int videsMaxJugador = JocPenjat.videsJugador;
 		int videsActualsJugador = jugador.getVides();
-		StringBuilder pal = new StringBuilder();
-		String base = "┴─────";
 
-		for(int i = 0; i < videsMaxJugador; i++) {
-			if(videsActualsJugador < videsMaxJugador) {
-				pal.append("│");
-			}
+		switch(videsActualsJugador) {
+		case 6:
+			System.out.println(" ┌────┐");
+			System.out.println(" │");
+			System.out.println(" │");
+			System.out.println(" │");
+			System.out.println(" ┴─────");
+			break;
+		case 5:
+			System.out.println(" ┌────┐");
+			System.out.println(" │    O");
+			System.out.println(" │");
+			System.out.println(" │");
+			System.out.println(" ┴─────");
+			break;
+		case 4:
+			System.out.println(" ┌────┐");
+			System.out.println(" │    O");
+			System.out.println(" │    |");
+			System.out.println(" │");
+			System.out.println(" ┴─────");
+			break;
+		case 3:
+			System.out.println(" ┌────┐");
+			System.out.println(" │    O");
+			System.out.println(" │   /|");
+			System.out.println(" │");
+			System.out.println(" ┴─────");
+			break;
+		case 2:
+			System.out.println(" ┌────┐");
+			System.out.println(" │    O");
+			System.out.println(" │   /|\\");
+			System.out.println(" │");
+			System.out.println(" ┴─────");
+			break;
+		case 1:
+			System.out.println(" ┌────┐");
+			System.out.println(" │    O");
+			System.out.println(" │   /|\\");
+			System.out.println(" │   /");
+			System.out.println(" ┴─────");
+			break;
+		case 0:
+			System.out.println(" ┌────┐");
+			System.out.println(" │    O");
+			System.out.println(" │   /|\\");
+			System.out.println(" │   / \\");
+			System.out.println(" ┴─────");
+			break;
+		default:
+			break;
 		}
-
-		System.out.println(" " + pal);
-		System.out.println(" " + base);
-
 	}
 
 }

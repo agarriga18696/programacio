@@ -3,8 +3,6 @@ package Paraules;
 import java.util.ArrayList;
 import java.util.List;
 
-import IU.Missatge;
-
 public class Paraules {
 
 	public static List<Paraula> llistaParaules = new ArrayList<>();
@@ -12,21 +10,21 @@ public class Paraules {
 	public static List<String> llistaLletresFallades = new ArrayList<>();
 
 	// Paraules per defecte.
-	protected static final Paraula PARAULA_01 = new Paraula("casa");
-	protected static final Paraula PARAULA_02 = new Paraula("gós");
-	protected static final Paraula PARAULA_03 = new Paraula("escola");
-	protected static final Paraula PARAULA_04 = new Paraula("java");
-	protected static final Paraula PARAULA_05 = new Paraula("tsunoda");
-	protected static final Paraula PARAULA_06 = new Paraula("alonso");
-
-	// Afegir paraula encertada a la llista de paraules encertades.
-	public static void afegirParaulaEncertada(Paraula paraula) {
-		if(paraula != null && paraula.isEncertada()) {
-			llistaParaulesEncertades.add(paraula);
-
-		} else {
-			Missatge.ErrorFatal("No s'ha pogut afegir la paraula encertada a la llista");
-		}
+	private static final Paraula PARAULA_01 = new Paraula("casa");
+	private static final Paraula PARAULA_02 = new Paraula("gós");
+	private static final Paraula PARAULA_03 = new Paraula("escola");
+	private static final Paraula PARAULA_04 = new Paraula("java");
+	
+	public static void inicialitzarParaulesPerDefecte() {
+		Paraules.llistaParaules.add(PARAULA_01);
+		Paraules.llistaParaules.add(PARAULA_02);
+		Paraules.llistaParaules.add(PARAULA_03);
+		Paraules.llistaParaules.add(PARAULA_04);
+	}
+	
+	// Mètode per afegir paraula a la llista.
+	public static void afegirParaula(Paraula paraula) {
+		llistaParaules.add(paraula);
 	}
 
 }

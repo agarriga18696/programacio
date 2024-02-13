@@ -11,19 +11,17 @@ public class Menu {
 	//					//
 	//////////////////////
 
-	private static void opcionsMenu() {
-		Element.saltLinia();
-		Element.titolAmbMarc("PENJAT");
-		System.out.println(" (1) Jugar");
-		System.out.println(" (2) Opcions");
-		System.out.println(" (3) Sortir");
-	}
-
-	public static void menu() {
+	// Menú principal.
+	public static void menuPrincipal() {
 		int opcio = 0;
 
 		do {
-			opcionsMenu();
+			Element.saltLinia();
+			Element.titolAmbMarc("PENJAT");
+			System.out.println(" (1) Jugar");
+			System.out.println(" (2) Afegir nova paraula");
+			System.out.println(" (3) Sortir");
+			
 			opcio = Validar.enter("Opció");
 
 			switch(opcio) {
@@ -31,7 +29,7 @@ public class Menu {
 				JocPenjat.jugar();
 				break;
 			case 2:
-				JocPenjat.configuracio();
+				JocPenjat.afegirParaula();
 				break;
 			case 3:
 				JocPenjat.sortir();

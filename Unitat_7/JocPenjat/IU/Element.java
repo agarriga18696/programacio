@@ -6,7 +6,7 @@ import Paraules.Paraules;
 public class Element {
 
 	public static void separador() {
-		System.out.println(" ─────────────────────────────────────────");
+		System.out.println(" +───────────────────────────────────────+");
 	}
 	
 	public static void saltLinia() {
@@ -19,7 +19,14 @@ public class Element {
 		System.out.println(" │		  " + titol.toUpperCase() + " 		 │");
 		System.out.println(" │					 │");
 		System.out.println(" +───────────────────────────────────────+");
-		System.out.println("");
+		System.out.println();
+	}
+	
+	public static void titol(String titol) {
+		saltLinia();
+		separador();
+		System.out.println("\n " + titol);
+		System.out.println();
 	}
 	
 	// Mètode per mostrar la puntuació.
