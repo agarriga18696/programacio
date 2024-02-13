@@ -16,6 +16,8 @@ public class Paraules {
 	protected static final Paraula PARAULA_02 = new Paraula("gós");
 	protected static final Paraula PARAULA_03 = new Paraula("escola");
 	protected static final Paraula PARAULA_04 = new Paraula("java");
+	protected static final Paraula PARAULA_05 = new Paraula("tsunoda");
+	protected static final Paraula PARAULA_06 = new Paraula("alonso");
 
 	// Afegir paraula encertada a la llista de paraules encertades.
 	public static void afegirParaulaEncertada(Paraula paraula) {
