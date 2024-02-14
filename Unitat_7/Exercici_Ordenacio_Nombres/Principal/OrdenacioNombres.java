@@ -2,7 +2,7 @@ package Principal;
 
 public class OrdenacioNombres {
 
-	private static int[] llistaNombres = {2,5,6,1,3,7,4,9,8};
+	private static int[] llistaNombres = {9,2,4,9,5,3,1,8,7};
 
 	public static void main(String[] args) {
 
@@ -11,14 +11,16 @@ public class OrdenacioNombres {
 	}
 
 	private static void ordenar() {
-		int midaLlistaNombres = llistaNombres.length;
 		
-		for(int i = midaLlistaNombres - 1; i > 0; i--) {
+		for(int i = 1; i < llistaNombres.length; i++) {
 			for(int j = i - 1; j >= 0; j--) {
-				if(llistaNombres[i] < llistaNombres[j]) {
-					llistaNombres[j] = llistaNombres[i];
-					llistaNombres[i] = i + 1;
+				if(llistaNombres[j] > llistaNombres[i]) {
+					llistaNombres[j + 1] = llistaNombres[j];
+				} else {
+					llistaNombres[j + 1] = llistaNombres[i];
+					break;
 				}
+				
 			}
 		}
 

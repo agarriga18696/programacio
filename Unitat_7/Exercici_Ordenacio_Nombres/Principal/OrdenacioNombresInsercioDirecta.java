@@ -1,6 +1,6 @@
 package Principal;
 
-public class OrdenacioNombresInsercioDirecte {
+public class OrdenacioNombresInsercioDirecta {
 
 	private static int[] llistaNombres = {2,5,6,1,3,4,7,9,8};
 
