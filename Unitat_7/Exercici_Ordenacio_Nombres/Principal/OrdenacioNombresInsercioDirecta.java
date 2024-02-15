@@ -2,7 +2,7 @@ package Principal;
 
 public class OrdenacioNombresInsercioDirecta {
 
-	private static int[] llistaNombres = {9,2,4,9,5,3,1,8,7};
+	private static int[] llistaNombres = {9,3,4,2,5,6,1,8,7};
 
 	public static void main(String[] args) {
 
@@ -13,12 +13,12 @@ public class OrdenacioNombresInsercioDirecta {
 	private static void ordenar() {
 		
 		for(int i = 1; i < llistaNombres.length; i++) {
-			int n = llistaNombres[i];
-			for(int j = i - 1; j >= 0; j--) {	
-				if(llistaNombres[j] > llistaNombres[i]) {
-					llistaNombres[j + 1] = llistaNombres[j];
+			int clau = llistaNombres[i];
+			for(int j = i - 1; j < llistaNombres.length - 1; j++) {	
+				if(llistaNombres[j] > clau) {
+					llistaNombres[j+1] = llistaNombres[j];
+					llistaNombres[i - 1] = clau;
 				}
-				llistaNombres[j + 1] = n;
 			}
 		}
 
