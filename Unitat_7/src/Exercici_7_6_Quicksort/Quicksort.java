@@ -1,4 +1,4 @@
-package Principal;
+package Exercici_7_6_Quicksort;
 
 public class Quicksort {
 

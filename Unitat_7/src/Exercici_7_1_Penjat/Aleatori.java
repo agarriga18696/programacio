@@ -1,4 +1,4 @@
-package Utilitat;
+package Exercici_7_1_Penjat;
 
 import java.util.Random;
 

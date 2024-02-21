@@ -1,4 +1,4 @@
-package Joc;
+package Exercici_7_1_Penjat;
 
 public class Jugador {
 

@@ -1,4 +1,4 @@
-package Paraules;
+package Exercici_7_1_Penjat;
 
 public class Paraula {
 

@@ -1,7 +1,4 @@
-package IU;
-
-import Joc.JocPenjat;
-import Utilitat.Validar;
+package Exercici_7_1_Penjat;
 
 public class Menu {
 
@@ -22,7 +19,7 @@ public class Menu {
 			System.out.println(" (2) Afegir nova paraula");
 			System.out.println(" (3) Sortir");
 			
-			opcio = Validar.enter("Opció");
+			opcio = Entrada.enter("Opció");
 
 			switch(opcio) {
 			case 1:

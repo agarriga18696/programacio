@@ -1,7 +1,4 @@
-package IU;
-
-import Joc.Jugador;
-import Paraules.Paraules;
+package Exercici_7_1_Penjat;
 
 public class Element {
 

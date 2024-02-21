@@ -1,13 +1,4 @@
-package Joc;
-
-import IU.Element;
-import IU.Menu;
-import IU.Missatge;
-import Paraules.Paraula;
-import Paraules.Paraules;
-import Utilitat.Aleatori;
-import Utilitat.Normalitzar;
-import Utilitat.Validar;
+package Exercici_7_1_Penjat;
 
 public class JocPenjat {
 
@@ -85,7 +76,7 @@ public class JocPenjat {
 		boolean paraulaValida = false;
 
 		do {
-			nomNovaParaula = Validar.cadena("Paraula");
+			nomNovaParaula = Entrada.cadena("Paraula");
 
 			// Comprovar que la paraula no estigui buida o sigui null.
 			boolean paraulaBuida = false;

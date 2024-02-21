@@ -1,4 +1,4 @@
-package Paraules;
+package Exercici_7_1_Penjat;
 
 import java.util.ArrayList;
 import java.util.List;

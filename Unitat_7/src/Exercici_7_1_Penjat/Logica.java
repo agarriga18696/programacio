@@ -1,10 +1,4 @@
-package Joc;
-
-import IU.Missatge;
-import Utilitat.Normalitzar;
-import Utilitat.Validar;
-import Paraules.Paraula;
-import Paraules.Paraules;
+package Exercici_7_1_Penjat;
 
 public class Logica {
 

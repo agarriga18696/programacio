@@ -1,8 +1,10 @@
-package Utilitat;
+package Exercici_7_1_Penjat;
 
-import IU.Missatge;
+import java.util.Scanner;
 
 public class Validar extends Entrada {
+	
+	private static Scanner in = new Scanner(System.in);
 
 	// Validar un nombre int.
 	public static int enter(String missatge) {
@@ -51,7 +53,7 @@ public class Validar extends Entrada {
 		boolean esValida = false;
 		
 		do {
-			lletra = Validar.cadena("Lletra");
+			lletra = Entrada.cadena("Lletra");
 			
 			if(lletra != null && !lletra.isEmpty() && lletra.length() == 1) {
 				

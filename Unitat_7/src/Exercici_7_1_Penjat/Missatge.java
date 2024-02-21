@@ -1,4 +1,4 @@
-package IU;
+package Exercici_7_1_Penjat;
 
 public class Missatge {
 	
