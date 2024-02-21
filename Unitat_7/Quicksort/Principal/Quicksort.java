@@ -7,13 +7,19 @@ public class Quicksort {
 		int[] array = {1,6,7,4,8,2,9,3,5};
 		int primerIndex = 0;
 		int darrerIndex = array.length - 1;
+		
+		System.out.println("+---------------+");
+		System.out.println("|   QUICKSORT   |");
+		System.out.println("+---------------+\n");
 
 		// Mostrar array antes d'ordenar.
+		System.out.println("Array desordenat: ");
 		mostrar(array);
 
 		quicksort(array, primerIndex, darrerIndex);
 
 		// Mostrar array després d'ordenar.
+		System.out.println("Array ordenat: ");
 		mostrar(array);
 
 	}
