@@ -60,7 +60,7 @@ public class Les8Reines {
 			}
 		}
 		
-		/* Comprovar diagonal principal.
+		/* Comprovar diagonals.
 		 * 
 		 *    0 1 2 3 4 5 6 7
 		 * 0: X X X X X X X X
