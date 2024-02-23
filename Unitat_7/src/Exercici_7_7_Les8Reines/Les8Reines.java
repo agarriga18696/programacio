@@ -1,13 +1,13 @@
 package Exercici_7_7_Les8Reines;
 
-import java.util.Arrays;
-
 public class Les8Reines {
 
 	private static final int MIDA_TAULER = 8;
 	private static CharSequence tauler[][] = new CharSequence[MIDA_TAULER][MIDA_TAULER];
-	private static final CharSequence REINA = "Q"; //♕
-	private static final CharSequence BUIT = "*"; //■
+	private static final String RESET = "\033[0m";
+	private static final String REINA = "\033[0;33m" + "♕" + RESET; //♕
+	private static final String NEGRE = "\033[0;30m" + "■" + RESET;
+	private static final String BLANC = "\033[0;37m" + "■" + RESET;
 	private static int contador = 0;
 
 	public static void main(String[] args) {
@@ -22,11 +22,29 @@ public class Les8Reines {
 		
 		// Inicialitzar el tauler amb el caracter BUIT.
 		for (int i = 0; i < MIDA_TAULER; i++) {
-			for (int j = 0; j < MIDA_TAULER; j++) {
-				tauler[i][j] = BUIT;
+			for (int j = 0; j < MIDA_TAULER; j++) {	
+				pintarCaselles(i, j);
 			}
 		}
 
+	}
+
+	private static void pintarCaselles(int fila, int columna) {
+		if(fila % 2 == 0) {
+			if(columna % 2 != 0) {
+				tauler[fila][columna] = NEGRE;
+			} else {
+				tauler[fila][columna] = BLANC;
+			}
+		}
+		
+		if(fila % 2 != 0) {
+			if(columna % 2 == 0) {
+				tauler[fila][columna] = NEGRE;
+			} else {
+				tauler[fila][columna] = BLANC;
+			}
+		}
 	}
 
 	// Mètode Check.
@@ -44,7 +62,7 @@ public class Les8Reines {
 				// Si no està en conflicte insereix la reina a l'índex de l'array.
 				tauler[fila][columna] = REINA;
 				check(columna + 1);
-				tauler[fila][columna] = BUIT;
+				pintarCaselles(fila, columna);
 			}
 		}
 
