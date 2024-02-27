@@ -27,7 +27,6 @@ public class JocPenjat {
 	//////////////////////
 
 	public static void jugar() {
-		// Inicialitzar la variable com a false per poder jugar.
 		partidaFinalitzada = false;
 
 		Element.saltLinia();
@@ -35,24 +34,34 @@ public class JocPenjat {
 
 		// Seleccionar una paraula al atzar de la llista de paraules.
 		paraulaActual = Paraules.llistaParaules.get(Aleatori.Int(0, Paraules.llistaParaules.size() - 1));
+		// Llevar accents de la paraula ja que si no el jugador també els haurà de posar quan el joc
+		// demani la lletra.
 		paraulaActualNormalitzada = Normalitzar.llevarAccents(paraulaActual.getParaula()).toUpperCase();
+		// Amagar la paraula, substituir les lletres per caracters especials.
 		paraulaAmagada = Logica.amagarParaula(paraulaActualNormalitzada);
 
-		// Partida.
+		///////////////
+		//			 //
+		//  PARTIDA  //
+		//			 //
 		while(!partidaFinalitzada) {
+			// Mostrar la taula de puntuació.
 			Element.taulaPuntuacio(jugador);
 
 			// Mostrar el penjat.
 			Dibuixar.penjat(jugador);
 
-			// Mostrar paraula amagada.
+			// Mostrar la paraula amagada.
 			System.out.println("\n " + Logica.mostrarParaulaAmbEspais(paraulaAmagada));
 			Element.saltLinia();
 
+			// Comprovar si la partida ha finalitzat.
 			partidaFinalitzada = Logica.comprovarVictoriaDerrota(paraulaAmagada, jugador);
 
+			// Mentre no hagi finalitzat la partida anirà demanant una lletra al jugador.
 			if(!partidaFinalitzada) {
 				Logica.demanarLletra(jugador);
+				
 			}
 		}
 	}
@@ -65,10 +74,11 @@ public class JocPenjat {
 
 	//////////////////////
 	//					//
-	//	 CONFIGURACIÓ	//
+	//	ALTRES MÈTODES	//
 	//					//
 	//////////////////////
 
+	// Mètode per afegir una paraula nova al joc.
 	public static void afegirParaula() {
 		Element.titol("AFEGIR NOVA PARAULA");
 

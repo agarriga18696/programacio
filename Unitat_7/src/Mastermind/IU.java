@@ -1,9 +1,5 @@
 package Mastermind;
 
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.List;
-
 public class IU {
 
 	//////////////////////////
@@ -44,6 +40,10 @@ public class IU {
 
 	public static void title(String title) {
 		System.out.println(" " + title.toUpperCase() + "\n");
+	}
+	
+	public static void missatge(String missatge) {
+		System.out.println(" " + missatge);
 	}
 
 	public static void missatgeError(String missatge) {

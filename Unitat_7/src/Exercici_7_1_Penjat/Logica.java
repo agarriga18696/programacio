@@ -22,26 +22,54 @@ public class Logica {
 
 	}
 
-	// Mètode per comprovar les condicions de victoria i derrota.
+	// Mètode per comprovar les condicions de victoria / derrota.
 	protected static boolean comprovarVictoriaDerrota(String paraulaAmagada, Jugador jugador) {
-		// Comprovar si s'ha endevinat la paraula.
+		// Comprovar si s'ha endevinat la paraula (victoria).
 		if (paraulaEndevinada(paraulaAmagada)) {
 			Missatge.Personalitzat("🏆", "Victoria", "Has encertat la paraula");
 			System.out.println(" Paraules encertades:");
 			for(Paraula paraula : Paraules.llistaParaulesEncertades) {
-				System.out.println(" - " + paraula.getParaula());
+				System.out.println(" - " + paraula.getParaula().toUpperCase());
 			}
+
+			// Com que has guanyat es mantindrà la puntuació i la llista de paraules encertades.
+			Logica.reiniciarPartida(jugador, "victoria");
 
 			return true;
 		}
 
-		// Comprovar si s'ha quedat sense vides.
+		// Comprovar si s'ha quedat sense vides (derrota).
 		if (jugador.getVides() <= 0) {
 			Missatge.Personalitzat("💔", "Derrota", "T'has quedat sense vides");
+
+			// Com que has perdut es perdrà la puntuació i la llista de paraules encertades.
+			Logica.reiniciarPartida(jugador, "derrota");
+
 			return true;
 		}
 
 		return false;
+	}
+
+	// Mètode per reiniciar la partida.
+	protected static void reiniciarPartida(Jugador jugador, String condicio) {
+
+		if(condicio.equalsIgnoreCase("victoria")) {
+			// Reiniciar les vides.
+			jugador.setVides(JocPenjat.videsJugador);
+			// Reiniciar contador de paraules fallades.
+			Paraules.llistaLletresFallades.clear();
+		}
+
+		if(condicio.equalsIgnoreCase("derrota")) {
+			// Reiniciar les vides.
+			jugador.setVides(JocPenjat.videsJugador);
+			// Reiniciar els punts.
+			jugador.setPunts(0);
+			// Reiniciar contador de paraules fallades.
+			Paraules.llistaLletresFallades.clear();
+		}
+
 	}
 
 	// Mètode per mostrar la paraula amagada amb espais.
@@ -120,7 +148,7 @@ public class Logica {
 	}
 
 	// Mètode per afegir paraula encertada a la llista de paraules encertades.
-	public static void afegirParaulaEncertada(Paraula paraula) {
+	protected static void afegirParaulaEncertada(Paraula paraula) {
 		if(paraula != null) {
 			Paraules.llistaParaulesEncertades.add(paraula);
 
