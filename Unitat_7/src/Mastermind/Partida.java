@@ -57,45 +57,183 @@ public class Partida {
 	}
 
 	// Mètode per comprovar tirada.
-	public Integer[] comprovarTirada(Tirada tirada) {
-		Integer[] solucio = new Integer[4];
-
-		/* Resposta ordinador.
+	public Character[] comprovarTirada(Tirada tirada) {
+		Character[] solucio = new Character[4];
+		int[] cont_combinacioSecreta = new int[6];
+		/*
+		 * cont_colors[0] : R
+		 * cont_colors[1] : B
+		 * cont_colors[2] : G
+		 * cont_colors[3] : M
+		 * cont_colors[4] : Y
+		 * cont_colors[5] : C
 		 * 
+		 */
+
+		/* Resposta ordinador:
 		 * -> Negre (b): color correcte en la posició correcta.
 		 * -> Blanc (w): color correcte en una posició incorrecta.
 		 * -> Buit (null): color incorrecte.
 		 * 
-		 * Format de sortida:
 		 * 
+		 * Format de sortida:
 		 * [b][w]
 		 * [w][b]
 		 * 
-		 * -> w: 0
-		 * -> b: 1
+		 * 
+		 * Crear un array contador de 6 posicions que correspondràn als 6 colors del joc.
+		 * -> Incrementar el valor dels contadors en funció dels colors de la combinació secreta.
+		 * -> Comparar quants colors endevinats hi ha a la combinació introduïda pel jugador amb la combinació secreta.
 		 * 
 		 */
+
+		// Incrementar el contador de colors segons la combinació secreta.
+		for(int i = 0; i < 4; i++) {
+			if(combinacioSecreta[i] == 'R') {
+				cont_combinacioSecreta[0]++;
+			} else if(combinacioSecreta[i] == 'B') {
+				cont_combinacioSecreta[1]++;
+			} else if(combinacioSecreta[i] == 'G') {
+				cont_combinacioSecreta[2]++;
+			} else if(combinacioSecreta[i] == 'M') {
+				cont_combinacioSecreta[3]++;
+			} else if(combinacioSecreta[i] == 'Y') {
+				cont_combinacioSecreta[4]++;
+			} else if(combinacioSecreta[i] == 'C') {
+				cont_combinacioSecreta[5]++;
+			}
+		}
+
+		/*for(int i = 0; i < cont_combinacioSecreta.length; i++) {
+			if(cont_combinacioSecreta[i] > 0) {
+				if(i == 0) {
+					System.out.println("\n R: " + cont_combinacioSecreta[i]);
+				} else if(i == 1) {
+					System.out.println(" B: " + cont_combinacioSecreta[i]);
+				} else if(i == 2) {
+					System.out.println(" G: " + cont_combinacioSecreta[i]);
+				} else if(i == 3) {
+					System.out.println(" M: " + cont_combinacioSecreta[i]);
+				} else if(i == 4) {
+					System.out.println(" Y: " + cont_combinacioSecreta[i]);
+				} else if(i == 5) {
+					System.out.println(" C: " + cont_combinacioSecreta[i]);
+				}
+			}
+		}
+
+		System.out.println();*/
+
+
 
 		// Comparar la tirada del jugador amb la combinació secreta.
 		Character[] combinacioIntentada = tirada.getCombinacioIntentada();
 
 		for(int i = 0; i < 4; i++) {
-			// Quant coincideix el mateix color a la mateixa posició.
+			// Comprovar si coincideix el mateix color a la mateixa posició.
 			if(combinacioSecreta[i].equals(combinacioIntentada[i])) {
-				solucio[i] = 1; //b
+				switch(combinacioSecreta[i]) {
+				case 'R':
+					if(cont_combinacioSecreta[0] > 0) {
+						solucio[i] = 'B';
+						cont_combinacioSecreta[0]--;
+					}
+					break;
+				case 'B':
+					if(cont_combinacioSecreta[1] > 0) {
+						solucio[i] = 'B';
+						cont_combinacioSecreta[1]--;
+					}
+					break;
+				case 'G':
+					if(cont_combinacioSecreta[2] > 0) {
+						solucio[i] = 'B';
+						cont_combinacioSecreta[2]--;
+					}
+					break;
+				case 'M':
+					if(cont_combinacioSecreta[3] > 0) {
+						solucio[i] = 'B';
+						cont_combinacioSecreta[3]--;
+					}
+					break;
+				case 'Y':
+					if(cont_combinacioSecreta[4] > 0) {
+						solucio[i] = 'B';
+						cont_combinacioSecreta[4]--;
+					}
+					break;
+				case 'C':
+					if(cont_combinacioSecreta[5] > 0) {
+						solucio[i] = 'B';
+						cont_combinacioSecreta[5]--;
+					}
+					break;
+				default:
+					System.err.println("Error al iterar sobre un valor desconegut.");
+					break;
+				}
+				//solucio[i] = 'B';
 
 			} else {
+				// Comprovar si coincideix el mateix color a una posició diferent.
 				boolean colorTrobat = false;
 				for(int j = 0; j < 4; j++) {
 					if(i != j && combinacioIntentada[i].equals(combinacioSecreta[j])) {
-						// Quant coincideix el mateix color a una posició diferent.
-						solucio[i] = 0; //w
-						colorTrobat = true;
+						switch(combinacioSecreta[j]) {
+						case 'R':
+							if(cont_combinacioSecreta[0] > 0) {
+								solucio[i] = 'W';
+								cont_combinacioSecreta[0]--;
+								colorTrobat = true;
+							}
+							break;
+						case 'B':
+							if(cont_combinacioSecreta[1] > 0) {
+								solucio[i] = 'W';
+								cont_combinacioSecreta[1]--;
+								colorTrobat = true;
+							}
+							break;
+						case 'G':
+							if(cont_combinacioSecreta[2] > 0) {
+								solucio[i] = 'W';
+								cont_combinacioSecreta[2]--;
+								colorTrobat = true;
+							}
+							break;
+						case 'M':
+							if(cont_combinacioSecreta[3] > 0) {
+								solucio[i] = 'W';
+								cont_combinacioSecreta[3]--;
+								colorTrobat = true;
+							}
+							break;
+						case 'Y':
+							if(cont_combinacioSecreta[4] > 0) {
+								solucio[i] = 'W';
+								cont_combinacioSecreta[4]--;
+								colorTrobat = true;
+							}
+							break;
+						case 'C':
+							if(cont_combinacioSecreta[5] > 0) {
+								solucio[i] = 'W';
+								cont_combinacioSecreta[5]--;
+								colorTrobat = true;
+							}
+							break;
+						default:
+							System.err.println("Error al iterar sobre un valor desconegut.");
+							break;
+						}
+						
+						//solucio[i] = 'W';
 						break;
 					}
 				}
-				
-				// El color és incorrecte.
+
+				// Comprovar si no coincideix el color.
 				if(!colorTrobat) {
 					solucio[i] = null;
 				}

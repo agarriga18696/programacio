@@ -2,10 +2,11 @@ package Mastermind;
 
 import java.util.Arrays;
 
-public class Principal {
+public class Joc {
 
 	private static final int INTENTS_MAX = 16;
 	private static int intentsRestants = INTENTS_MAX;
+	private static boolean partidaFinalitzada = false;
 
 	public static void main(String[] args) {
 
@@ -62,10 +63,10 @@ public class Principal {
 
 		IU.missatge("Combinació secreta: " + Arrays.toString(partida.getCombinacioSecreta()));
 
-		// Condicions per acabar la partida.
+		// Condicions per acabar la partida:
 		// -> No tenir més intents (has perdut).
 		// -> Haver endevinat la combinació de l'ordinador (has guanyat).
-		while(intentsRestants > 1) {
+		while(intentsRestants > 1 && !partidaFinalitzada) {
 			
 			IU.missatge("Intents restants: " + intentsRestants);
 
@@ -73,7 +74,7 @@ public class Principal {
 			Character[] combinacioIntentada = demanarColors();
 
 			IU.saltLinia();
-			IU.missatge("Combinació intentada: " + Arrays.toString(combinacioIntentada));
+			IU.missatge("Combinació intentada: " + imprimirColors(combinacioIntentada, 0));
 
 			// Crear nova tirada.
 			Tirada tirada = new Tirada(combinacioIntentada);
@@ -83,30 +84,96 @@ public class Principal {
 			intentsRestants--; // Restar 1 als intents.
 
 			// Comprovar la tirada.
-			Integer[] resultatTirada = partida.comprovarTirada(tirada);
+			Character[] resultatTirada = partida.comprovarTirada(tirada);
+			
+			IU.missatge("Tirada: " + imprimirColors(resultatTirada, 1));
 			
 			comprovarResultat(resultatTirada);
-			
-			IU.missatge("Tirada: " + Arrays.toString(resultatTirada));
-
 
 		}
 
 	}
+	
+	private static String imprimirColors(Character[] combinacio, int opcio) {
+		String[] colors = new String[4];
+		
+		// Colors de la combinació.
+		if(opcio == 0) {
+			for(int i = 0; i < combinacio.length; i++) {
+				if(combinacio[i] != null) {
+					switch(combinacio[i]) {
+					case 'R':
+						colors[i] = IU.VERMELL + IU.CERCLE + IU.RESET;
+						break;
+					case 'B':
+						colors[i] = IU.BLAU + IU.CERCLE + IU.RESET;
+						break;
+					case 'G':
+						colors[i] = IU.VERD + IU.CERCLE + IU.RESET;
+						break;
+					case 'M':
+						colors[i] = IU.MAGENTA + IU.CERCLE + IU.RESET;
+						break;
+					case 'Y':
+						colors[i] = IU.GROC + IU.CERCLE + IU.RESET;
+						break;
+					case 'C':
+						colors[i] = IU.CIAN + IU.CERCLE + IU.RESET;
+						break;
+					default:
+						System.err.println("Error al iterar sobre un valor desconegut.");
+						break;
+					}
+				}
+				
+				if(combinacio[i] == null) {
+					colors[i] = " ";
+				}
+			}
+			
+		} else if(opcio == 1) { // Colors Tirada B / W.
+			for(int i = 0; i < combinacio.length; i++) {
+				if(combinacio[i] != null) {
+					switch(combinacio[i]) {
+					case 'B':
+						colors[i] = IU.NEGRE + IU.CERCLE + IU.RESET;
+						break;
+					case 'W':
+						colors[i] = IU.BLANC + IU.CERCLE + IU.RESET;
+						break;
+					default:
+						System.err.println("Error al iterar sobre un valor desconegut.");
+						break;
+					}
+				}
+				
+				if(combinacio[i] == null) {
+					colors[i] = " ";
+				}
+			}
+		}
+		
+		return Arrays.toString(colors);
+	}
 
-	private static void comprovarResultat(Integer[] resultatTirada) {
+	private static void comprovarResultat(Character[] resultatTirada) {
 		
 		boolean victoria = true;
 		
-		for(Integer i : resultatTirada) {
-			if(!i.equals(1)) {
+		for(Character i : resultatTirada) {
+			if(i != null && !i.equals('B')) {
+				victoria = false;
+				break;
+				
+			} else if(i == null) {
 				victoria = false;
 				break;
 			}
 		}
 		
 		if(victoria) {
-			IU.missatge("Has guanyat! Has endivinat la combinació exacta!");
+			IU.missatge("\nHas guanyat! Has endivinat la combinació exacta!");
+			partidaFinalitzada = true;
 		}
 		
 	}
@@ -121,7 +188,7 @@ public class Principal {
 			while(!colorCorrecte) {
 				combinacioIntentada[i] = Entrada.cadena("Color " + (i + 1)).toUpperCase().charAt(0);
 				
-				colorCorrecte = validarColor(combinacioIntentada[i]);
+				colorCorrecte = validarColorEntrada(combinacioIntentada[i]);
 
 				if(!colorCorrecte) {
 					IU.missatgeError("El color introduït no és vàlid");
@@ -143,7 +210,7 @@ public class Principal {
 
 	}
 
-	private static boolean validarColor(Character c) {
+	private static boolean validarColorEntrada(Character c) {
 
 		char color = Character.toUpperCase(c);
 

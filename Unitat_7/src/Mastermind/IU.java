@@ -4,7 +4,26 @@ public class IU {
 
 	//////////////////////////
 	//						//
-	//		ELEMENTS		//
+	//		ESTIL TEXT		//
+	//						//
+	//////////////////////////
+	
+	public static final String RESET = "\u001B[0m";
+	public static final String VERMELL = "\u001B[31m";
+	public static final String BLAU = "\u001B[34m";
+	public static final String VERD = "\u001B[32m";
+	public static final String MAGENTA = "\u001B[35m";
+	public static final String GROC = "\u001B[33m";
+	public static final String CIAN = "\u001B[36m";
+	public static final String NEGRE = "\u001B[30m";
+	public static final String BLANC = "\u001B[37m";
+	
+	// Símbol per al cercle de color.
+	public static final char CERCLE = '⬤';
+
+	//////////////////////////
+	//						//
+	//		 ELEMENTS		//
 	//						//
 	//////////////////////////
 
@@ -21,15 +40,15 @@ public class IU {
 	//		   MENU			//
 	//						//
 	//////////////////////////
-	
+
 	public static void menu(String... opcions) {
 		int i = 1;
-		
+
 		for(String opcio : opcions) {
 			System.out.println(" (" + i + ") " + opcio.trim());
 			i++;
 		}
-		
+
 	}
 
 	//////////////////////////
@@ -41,7 +60,7 @@ public class IU {
 	public static void title(String title) {
 		System.out.println(" " + title.toUpperCase() + "\n");
 	}
-	
+
 	public static void missatge(String missatge) {
 		System.out.println(" " + missatge);
 	}
