@@ -4,22 +4,23 @@ public class IU {
 
 	//////////////////////////
 	//						//
-	//		ESTIL TEXT		//
+	//	  ESTIL DE TEXT		//
 	//						//
 	//////////////////////////
 	
-	public static final String RESET = "\u001B[0m";
-	public static final String VERMELL = "\u001B[31m";
-	public static final String BLAU = "\u001B[34m";
-	public static final String VERD = "\u001B[32m";
-	public static final String MAGENTA = "\u001B[35m";
-	public static final String GROC = "\u001B[33m";
-	public static final String CIAN = "\u001B[36m";
-	public static final String NEGRE = "\u001B[30m";
-	public static final String BLANC = "\u001B[37m";
+	public static final String TEXT_RESET = "\u001B[0m";
+	public static final String TEXT_VERMELL = "\u001B[31m";
+	public static final String TEXT_BLAU = "\u001B[34m";
+	public static final String TEXT_VERD = "\u001B[32m";
+	public static final String TEXT_MAGENTA = "\u001B[35m";
+	public static final String TEXT_GROC = "\u001B[33m";
+	public static final String TEXT_CIAN = "\u001B[36m";
+	public static final String TEXT_NEGRE = "\u001B[30m";
+	public static final String TEXT_BLANC = "\u001B[37m";
 	
 	// Símbol per al cercle de color.
-	public static final char CERCLE = '⬤';
+	public static final char CERCLE = '⚫';
+	public static final char BUIT = '✖';
 
 	//////////////////////////
 	//						//
@@ -57,7 +58,7 @@ public class IU {
 	//						//
 	//////////////////////////
 
-	public static void title(String title) {
+	public static void titol(String title) {
 		System.out.println(" " + title.toUpperCase() + "\n");
 	}
 
