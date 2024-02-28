@@ -5,20 +5,19 @@ import java.util.Arrays;
 public class Joc {
 
 	private static final int INTENTS_MAX = 16;
-	private static int intentsRestants = INTENTS_MAX;
-	private static boolean combinacioEndevinada = false;
+	public static int intentsRestants = INTENTS_MAX;
 
 	public static void main(String[] args) {
 		menuPrincipal();
 	}
 
-	// Mètode per mostrar el menú.
+	// Mètode per mostrar el menú principal.
 	private static void menuPrincipal() {
 
-		while(true) {
+		do {
 			IU.separador();
 			IU.titol("Mastermind");
-			IU.menu("Nova Partida", "Sortir");
+			IU.opcionsMenu("Nova Partida", "Sortir");
 			int opcio = Entrada.enter("Opció");
 
 			switch(opcio) {
@@ -32,205 +31,131 @@ public class Joc {
 				IU.missatgeError("Opció no vàlida");
 				break;
 			}
-		}
+
+		} while(true);
 	}
 
-	// Mètode per iniciar una nova pa rtida.
-	private static void novaPartida() {
-		boolean partidaValida = false;
-		String nom = null; 
+	// Mètode per seleccionar la dificultat del joc.
+	private static void seleccionarDificultat(Partida partida) {
+		/*
+		 * Característiques de les dificultats:
+		 * 
+		 * -> PRINCIPIANT: el resultat de cada tirada, mostrarà els acerts (cercle blanc o negre) i els falls (creu)
+		 * en el mateix ordre que la combinació introduïda pel jugador, és a dir, cada índex correspondrà a la mateixa posició.
+		 * D'aquesta manera el joc és més intuitiu i senzill.
+		 * 
+		 * -> AVANÇAT: el resultat de la tirada no es mostrarà de manera ordenada, per tant, els índexs no coincidiràn.
+		 * 
+		 * -> EXPERT: el mateix que l'avançat, amb l'afegit que hi ha 3 colors adicionals i que la combinació és de 6 colors enlloc de 4.
+		 * 
+		 */
+		
+		boolean dificultatValida = false;
 
-		// Demanar el nom del jugador.
 		do {
-			nom = Entrada.cadena("Nom Jugador").trim().toUpperCase();
+			IU.separador();
+			IU.titol("DIFICULTAT");
+			IU.opcionsMenu("Principiant", "Avançat", "Expert");
+			int opcio = Entrada.enter("Opció");
 
-			if(nom.isEmpty() || nom == null) {
-				IU.missatgeError("El nom del Jugador no pot estar en blanc");
-			} else {
-				partidaValida = true;
+			switch(opcio) {
+			case 1:
+				partida.setDificultat("Principiant");
+				return;
+			case 2:
+				partida.setDificultat("Avançat");
+				return;
+			case 3:
+				partida.setDificultat("Expert");
+				Partida.maxCombColors = 6;
+				return;
+			default:
+				IU.missatgeError("Dificultat no vàlida");
+				break;
 			}
 
-		} while(!partidaValida);
+		} while(!dificultatValida);
 
+	}
+
+	// Mètode per iniciar una nova partida.
+	private static void novaPartida() {
 		// Crear objecte partida.
-		Partida partida = new Partida(nom);
+		Partida partida = new Partida();
+
+		// Seleccionar la dificultat del joc.
+		seleccionarDificultat(partida);
+		
+		// Crear la combinació de colors secreta.
+		partida.crearCombinacio();
+
+		// Demanar el nom del jugador.
+		boolean jugadorValid = false;
+		String nomJugador = null;
+		do {
+			IU.separador();
+			IU.titol("JUGADOR");
+			nomJugador = Entrada.cadena("Nom").trim().toUpperCase();
+
+			if(nomJugador.isEmpty() || nomJugador == null) {
+				IU.missatgeError("El nom del Jugador no pot estar en blanc");
+			} else {
+				jugadorValid = true;
+			}
+
+		} while(!jugadorValid);
+
+		partida.setNomJugador(nomJugador);
 
 		IU.separador();
-		IU.titol("Nova Partida");
+		IU.titol("Nova Partida (Jugador: " + partida.getNomJugador() + " | " + "Dificultat: " + partida.getDificultat() + ")");
 
 		//IU.missatge("Combinació secreta: " + Arrays.toString(partida.getCombinacioSecreta()));
 
-		// Condicions per acabar la partida:
-		// -> Haver endevinat la combinació secreta (victòria).
-		// -> No tenir més intents (derrota).
-		boolean partidaFinalitzada = false;
+		/*
+		 * Condicions per acabar la partida:
+		 * -> Haver endevinat la combinació secreta (victòria).
+		 * -> No tenir més intents (derrota).
+		 *
+		 */
+		boolean partidaFinalitzada = false, combinacioEndevinada = false;
+		
 		while(!partidaFinalitzada) {
-			
-			IU.missatge("Intents restants: " + intentsRestants);
+			// Crear una nova tirada.
+			Tirada tirada = new Tirada();
+
+			IU.missatge("TIRADA " + tirada.getIdTirada() + " (intents restants: " + intentsRestants + ")");
 
 			// Anar demanant al Jugador que introdueixi els colors.
-			Character[] combinacioIntentada = demanarColors();
+			Character[] combinacioIntentada = Logica.demanarColors(partida);
+			// Afegir la combinació intentada a la tirada.
+			tirada.setCombinacioIntentada(combinacioIntentada);
 
-			IU.saltLinia();
-			IU.missatge("Combinació intentada:\n " + imprimirColors(combinacioIntentada, 0));
+			IU.missatge("Combinació:\t" + Logica.imprimirColors(combinacioIntentada, 0));
 
-			// Crear nova tirada.
-			Tirada tirada = new Tirada(combinacioIntentada);
-			
 			// Afegir la tirada a la llista de tirades.
 			partida.getLlistaTirades().add(tirada);
 			intentsRestants--;
 
 			// Comprovar la tirada i mostrar el resultat.
-			Character[] resultatTirada = partida.comprovarTirada(tirada);
-			IU.missatge("\n Resultat tirada:\n " + imprimirColors(resultatTirada, 1));
+			tirada.setRespostaOrdinador(partida.comprovarTirada(tirada));
+			IU.missatge("Resultat:\t" + Logica.imprimirColors(tirada.getRespostaOrdinador(), 1));
 			IU.saltLinia();
-			
+
 			// Comprovar si s'ha endevinat la combinació secreta.
-			combinacioEndevinada = comprovarResultat(resultatTirada);
-			
+			combinacioEndevinada = Logica.comprovarResultat(tirada.getRespostaOrdinador());
+
 			// Comprovar les condicions de victoria i derrota.
 			if(combinacioEndevinada) partidaFinalitzada = true;
 			if(intentsRestants <= 0) partidaFinalitzada = true;
-
 		}
-		
+
 		// Mostrar missatge de victoria o derrota.
-		if(partidaFinalitzada && combinacioEndevinada) {
-			IU.missatge("🏆 Has guanyat! Has endivinat la combinació!");
-			
-		} else if(partidaFinalitzada && intentsRestants <= 0){
-			IU.missatge("💔 Has perdut... T'has quedat sense intents.");
-			IU.missatge("La combinació secreta era:\n " + imprimirColors(partida.getCombinacioSecreta(), 0));
-		}
+		IU.resultatPartida(partidaFinalitzada, combinacioEndevinada, partida);
 
-	}
-	
-	// Mètode per imprimir els cercles de colors per pantalla.
-	private static String imprimirColors(Character[] combinacio, int opcio) {
-		String[] colors = new String[4];
-		
-		// Colors de la combinació.
-		if(opcio == 0) {
-			for(int i = 0; i < 4; i++) {
-				if(combinacio[i] != null) {
-					switch(combinacio[i]) {
-					case Partida.VERMELL:
-						colors[i] = IU.TEXT_VERMELL + IU.CERCLE + IU.TEXT_RESET;
-						break;
-					case Partida.BLAU:
-						colors[i] = IU.TEXT_BLAU + IU.CERCLE + IU.TEXT_RESET;
-						break;
-					case Partida.VERD:
-						colors[i] = IU.TEXT_VERD + IU.CERCLE + IU.TEXT_RESET;
-						break;
-					case Partida.MAGENTA:
-						colors[i] = IU.TEXT_MAGENTA + IU.CERCLE + IU.TEXT_RESET;
-						break;
-					case Partida.GROC:
-						colors[i] = IU.TEXT_GROC + IU.CERCLE + IU.TEXT_RESET;
-						break;
-					case Partida.CIAN:
-						colors[i] = IU.TEXT_CIAN + IU.CERCLE + IU.TEXT_RESET;
-						break;
-					default:
-						System.err.println(" Error al iterar sobre un valor desconegut.");
-						break;
-					}
-				}
-				
-				// Valor null = espai en blanc.
-				if(combinacio[i] == null) {
-					colors[i] = Character.toString(IU.BUIT);
-				}
-			}
-			
-		} else if(opcio == 1) { // Colors Tirada.
-			for(int i = 0; i < combinacio.length; i++) {
-				if(combinacio[i] != null) {
-					switch(combinacio[i]) {
-					case Partida.NEGRE:
-						colors[i] = IU.TEXT_NEGRE + IU.CERCLE + IU.TEXT_RESET;
-						break;
-					case Partida.BLANC:
-						colors[i] = IU.TEXT_BLANC + IU.CERCLE + IU.TEXT_RESET;
-						break;
-					default:
-						System.err.println(" Error al iterar sobre un valor desconegut.");
-						break;
-					}
-				}
-				
-				// Valor null = espai en blanc.
-				if(combinacio[i] == null) {
-					colors[i] = Character.toString(IU.BUIT);
-				}
-			}
-		}
-		
-		return Arrays.toString(colors);
-	}
-
-	// Mètode per comprovar el resultat de la tirada.
-	private static boolean comprovarResultat(Character[] resultatTirada) {
-		
-		for(Character i : resultatTirada) {
-			if(i != null && !i.equals(Partida.NEGRE)) {
-				return false;
-				
-			} else if(i == null) {
-				return false;
-			}
-		}
-		
-		return true;
-		
-	}
-
-	// Mètode per demanar l'entrada de colors al jugador.
-	private static Character[] demanarColors() {
-		Character[] combinacioIntentada = new Character[4];
-
-		for(int i = 0; i < 4; i++) {
-			boolean colorCorrecte = false;
-
-			while(!colorCorrecte) {
-				combinacioIntentada[i] = Entrada.cadena("Color " + (i + 1)).toUpperCase().charAt(0);
-				
-				colorCorrecte = validarColorEntrada(combinacioIntentada[i]);
-
-				if(!colorCorrecte) {
-					IU.missatgeError("El color introduït no és vàlid");
-					IU.missatge("Els colors vàlids son:");
-					IU.missatge(IU.TEXT_VERMELL + IU.CERCLE + IU.TEXT_RESET + ": " + Partida.VERMELL);
-					IU.missatge(IU.TEXT_BLAU + IU.CERCLE + IU.TEXT_RESET + ": " + Partida.BLAU);
-					IU.missatge(IU.TEXT_VERD + IU.CERCLE + IU.TEXT_RESET + ": " + Partida.VERD);
-					IU.missatge(IU.TEXT_GROC + IU.CERCLE + IU.TEXT_RESET + ": " + Partida.GROC);
-					IU.missatge(IU.TEXT_MAGENTA + IU.CERCLE + IU.TEXT_RESET + ": " + Partida.MAGENTA);
-					IU.missatge(IU.TEXT_CIAN + IU.CERCLE + IU.TEXT_RESET + ": " + Partida.CIAN);
-
-				} else {
-					break;
-				}
-			}
-		}
-		
-		return combinacioIntentada;
-
-	}
-
-	// Mètode per validar que el color (char) introduït pel jugador sigui vàlid.
-	private static boolean validarColorEntrada(Character c) {
-		char color = Character.toUpperCase(c);
-
-		// Comprovar si el color introduït és un color vàlid.
-		if (color == Partida.VERMELL || color == Partida.BLAU || color == Partida.VERD ||
-				color == Partida.GROC || color == Partida.MAGENTA || color == Partida.CIAN) {
-			return true;
-		} else {
-			return false;
-		}
-
+		// Mostrar l'historial de tirades.
+		IU.titol("Resum de partida:");
+		IU.historialTirades(partida);
 	}
 
 	// Mètode per sortir del joc.

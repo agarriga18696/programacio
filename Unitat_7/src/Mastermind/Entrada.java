@@ -8,15 +8,24 @@ public class Entrada {
 
 	// Int
 	public static int enter(String opcio) {
-		int nombre = 0;
+		String nombre = null;
 
 		while(true) {
 			System.out.print("\n " + opcio.trim() + ": ");
 
-			if(in.hasNextInt()) {
-				nombre = in.nextInt();
-				in.nextLine();
-				return nombre;
+			if(in.hasNextLine()) {
+				nombre = in.nextLine();
+				if(nombre.length() > 0 && Character.isDigit(nombre.charAt(0))) {
+					return Integer.parseInt(nombre.trim());
+					
+				} else {
+					if(nombre.length() == 0) {
+						IU.missatgeError("L'entrada no pot estar buida");
+					} else {
+						IU.missatgeError("El valor introduït no és vàlid");
+					}
+				}
+				
 			} else {
 				IU.missatgeError("El valor introduït no és vàlid");
 				in.nextLine();
@@ -33,7 +42,13 @@ public class Entrada {
 
 			if(in.hasNextLine()) {
 				cadena = in.nextLine();
-				return cadena.trim();
+				if(cadena.length() > 0) {
+					return cadena.trim();
+					
+				} else {
+					IU.missatgeError("L'entrada no pot estar buida");
+				}
+				
 			} else {
 				IU.missatgeError("El caracter introduït no és vàlid");
 				in.nextLine();
