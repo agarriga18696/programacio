@@ -39,19 +39,7 @@ public class Logica {
 				if(!colorCorrecte) {
 					IU.missatgeError("El color introduït no és vàlid");
 					IU.missatge("Els colors vàlids son:");
-					IU.missatge(IU.TEXT_VERMELL + IU.CERCLE + IU.TEXT_RESET + ": " + Partida.VERMELL);
-					IU.missatge(IU.TEXT_BLAU + IU.CERCLE + IU.TEXT_RESET + ": " + Partida.BLAU);
-					IU.missatge(IU.TEXT_VERD + IU.CERCLE + IU.TEXT_RESET + ": " + Partida.VERD);
-					IU.missatge(IU.TEXT_GROC + IU.CERCLE + IU.TEXT_RESET + ": " + Partida.GROC);
-					IU.missatge(IU.TEXT_MAGENTA + IU.CERCLE + IU.TEXT_RESET + ": " + Partida.MAGENTA);
-					IU.missatge(IU.TEXT_CIAN + IU.CERCLE + IU.TEXT_RESET + ": " + Partida.CIAN);
-					
-					if(partida.getDificultat().equalsIgnoreCase("Expert")) {
-						IU.missatge(IU.TEXT_ROSA + IU.CERCLE + IU.TEXT_RESET + ": " + Partida.ROSA);
-						IU.missatge(IU.TEXT_NEGRE + IU.CERCLE + IU.TEXT_RESET + ": " + Partida.NEGRE_K);
-						IU.missatge(IU.TEXT_BLANC + IU.CERCLE + IU.TEXT_RESET + ": " + Partida.BLANC);
-					}
-
+					IU.llistaColors(partida);
 				} else {
 					break;
 				}

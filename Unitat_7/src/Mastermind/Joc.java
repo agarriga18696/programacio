@@ -67,7 +67,7 @@ public class Joc {
 				return;
 			case 3:
 				partida.setDificultat("Expert");
-				Partida.maxCombColors = 6;
+				Partida.maxCombColors = 6; // les combinacions seràn de 6 colors.
 				return;
 			default:
 				IU.missatgeError("Dificultat no vàlida");
@@ -124,6 +124,9 @@ public class Joc {
 			// Crear una nova tirada.
 			Tirada tirada = new Tirada();
 
+			// Mostrar els colors disponibles.
+			IU.llistaColors(partida);
+			
 			IU.missatge("TIRADA " + tirada.getIdTirada() + " (intents restants: " + intentsRestants + ")");
 
 			// Anar demanant al Jugador que introdueixi els colors.

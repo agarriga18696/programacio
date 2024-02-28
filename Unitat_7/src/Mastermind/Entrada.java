@@ -11,7 +11,7 @@ public class Entrada {
 		String nombre = null;
 
 		while(true) {
-			System.out.print("\n " + opcio.trim() + ": ");
+			IU.missatgeSeguit("\n " + opcio.trim() + ": ");
 
 			if(in.hasNextLine()) {
 				nombre = in.nextLine();
@@ -38,7 +38,7 @@ public class Entrada {
 		String cadena = null;
 
 		while(true) {
-			System.out.print("\n " + opcio.trim() + ": ");
+			IU.missatgeSeguit("\n " + opcio.trim() + ": ");
 
 			if(in.hasNextLine()) {
 				cadena = in.nextLine();
