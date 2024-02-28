@@ -49,7 +49,7 @@ public class Joc {
 		 * -> EXPERT: el mateix que l'avançat, amb l'afegit que hi ha 3 colors adicionals i que la combinació és de 6 colors enlloc de 4.
 		 * 
 		 */
-		
+
 		boolean dificultatValida = false;
 
 		do {
@@ -85,7 +85,7 @@ public class Joc {
 
 		// Seleccionar la dificultat del joc.
 		seleccionarDificultat(partida);
-		
+
 		// Crear la combinació de colors secreta.
 		partida.crearCombinacio();
 
@@ -119,7 +119,7 @@ public class Joc {
 		 *
 		 */
 		boolean partidaFinalitzada = false, combinacioEndevinada = false;
-		
+
 		while(!partidaFinalitzada) {
 			// Crear una nova tirada.
 			Tirada tirada = new Tirada();
@@ -150,12 +150,25 @@ public class Joc {
 			if(intentsRestants <= 0) partidaFinalitzada = true;
 		}
 
-		// Mostrar missatge de victoria o derrota.
-		IU.resultatPartida(partidaFinalitzada, combinacioEndevinada, partida);
-
 		// Mostrar l'historial de tirades.
-		IU.titol("Resum de partida:");
+		IU.titol("Resum de la partida:");
 		IU.historialTirades(partida);
+
+		// Mostrar missatge de victoria o derrota.
+		resultatPartida(partidaFinalitzada, combinacioEndevinada, partida);
+	}
+
+	// Mètode per mostrar el missatge de victoria o derrota.
+	private static void resultatPartida(boolean partidaFinalitzada, boolean combinacioEndevinada, Partida partida) {
+		if(partidaFinalitzada && combinacioEndevinada) {
+			IU.missatge("🏆 Has guanyat! Has endivinat la combinació!");
+
+		} else if(partidaFinalitzada && Joc.intentsRestants <= 0){
+			IU.missatge("💔 Has perdut... T'has quedat sense intents.");
+			IU.missatge("La combinació era: " + Logica.imprimirColors(partida.getCombinacioSecreta(), 0));
+		}
+
+		IU.saltLinia();
 	}
 
 	// Mètode per sortir del joc.

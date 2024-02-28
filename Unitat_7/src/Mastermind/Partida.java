@@ -162,13 +162,6 @@ public class Partida {
 		Character[] combinacioIntentada = tirada.getCombinacioIntentada();
 		Character[] resultatTirada = new Character[maxCombColors];
 
-		/*
-		 * Segons la dificultat del joc triarà una lògica més fàcil o més difícil.
-		 * 
-		 * -> Fàcil (per defecte): es mostrarà el resultat (blanc, negre, null) ordenat a la mateixa posició de la combinació del jugador.
-		 * -> Difícil: es mostrarà el resultat (blanc, negre, null) sense ordre.
-		 * 
-		 */
 		for(int i = 0; i < maxCombColors; i++) {
 			// Comprovar si coincideix el mateix color a la mateixa posició (NEGRE).
 			if(combinacioSecreta[i].equals(combinacioIntentada[i])) {

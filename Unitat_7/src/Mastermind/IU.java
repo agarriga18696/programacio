@@ -85,16 +85,6 @@ public class IU {
 		System.out.println("\n ✔️ Èxit: " + missatge + ".\n");
 	}
 
-	protected static void resultatPartida(boolean partidaFinalitzada, boolean combinacioEndevinada, Partida partida) {
-		if(partidaFinalitzada && combinacioEndevinada) {
-			missatge("🏆 Has guanyat! Has endivinat la combinació!\n");
-
-		} else if(partidaFinalitzada && Joc.intentsRestants <= 0){
-			missatge("💔 Has perdut... T'has quedat sense intents.");
-			missatge("La combinació secreta era:\n " + Logica.imprimirColors(partida.getCombinacioSecreta(), 0) + "\n");
-		}
-	}
-
 
 	//////////////////////////
 	//						//
