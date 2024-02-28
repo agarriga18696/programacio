@@ -16,8 +16,7 @@ public class Partida {
 	protected static final char GROC = 'Y';
 	protected static final char CIAN = 'C';
 	protected static final char ROSA = 'P';
-	protected static final char NEGRE_K = 'K';
-	protected static final char NEGRE = 'B';
+	protected static final char NEGRE = 'K';
 	protected static final char BLANC = 'W';
 	
 	protected static int maxCombColors = 4;
@@ -86,7 +85,7 @@ public class Partida {
 
 		// En cas de que la dificultat sigui 'Expert' afegir nous colors adicionals.
 		if(dificultat.equalsIgnoreCase("Expert")) {
-			colors = new Character[]{VERMELL, BLAU, VERD, MAGENTA, GROC, CIAN, ROSA, NEGRE_K, BLANC};
+			colors = new Character[]{VERMELL, BLAU, VERD, MAGENTA, GROC, CIAN, ROSA, NEGRE, BLANC};
 			
 		} else {
 			colors = new Character[]{VERMELL, BLAU, VERD, MAGENTA, GROC, CIAN};
@@ -148,7 +147,7 @@ public class Partida {
 			} else if(combinacioSecreta[i] == ROSA) {
 				cont_combinacioSecreta[6]++;
 				
-			} else if(combinacioSecreta[i] == NEGRE_K) {
+			} else if(combinacioSecreta[i] == NEGRE) {
 				cont_combinacioSecreta[7]++;
 				
 			} else if(combinacioSecreta[i] == BLANC) {
@@ -209,7 +208,7 @@ public class Partida {
 						cont_combinacioSecreta[6]--;
 					}
 					break;
-				case NEGRE_K:
+				case NEGRE:
 					if(cont_combinacioSecreta[7] > 0) {
 						resultatTirada[i] = NEGRE;
 						cont_combinacioSecreta[7]--;
@@ -274,7 +273,7 @@ public class Partida {
 								cont_combinacioSecreta[6]--;
 							}
 							break;
-						case NEGRE_K:
+						case NEGRE:
 							if(cont_combinacioSecreta[7] > 0) {
 								resultatTirada[i] = BLANC;
 								cont_combinacioSecreta[7]--;

@@ -59,7 +59,7 @@ public class Logica {
 
 		} else if(partida.getDificultat().equals("Expert") && (color == Partida.VERMELL || color == Partida.BLAU || color == Partida.VERD ||
 				color == Partida.GROC || color == Partida.MAGENTA || color == Partida.CIAN || color == Partida.ROSA || 
-				color == Partida.NEGRE_K || color == Partida.BLANC)) {
+				color == Partida.NEGRE || color == Partida.BLANC)) {
 			return true;
 			
 		} else {
@@ -106,7 +106,7 @@ public class Logica {
 					case Partida.ROSA:
 						colors[i] = IU.TEXT_ROSA + IU.CERCLE + IU.TEXT_RESET;
 						break;
-					case Partida.NEGRE_K:
+					case Partida.NEGRE:
 						colors[i] = IU.TEXT_NEGRE + IU.CERCLE + IU.TEXT_RESET;
 						break;
 					case Partida.BLANC:
