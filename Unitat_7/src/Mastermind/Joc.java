@@ -2,6 +2,14 @@ package Mastermind;
 
 import java.util.Arrays;
 
+/**
+ * 
+ * MASTERMIND
+ * 
+ * @author Andreu Garriga
+ * 
+ */
+
 public class Joc {
 
 	private static final int INTENTS_MAX = 16;
