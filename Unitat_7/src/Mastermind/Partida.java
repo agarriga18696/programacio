@@ -21,7 +21,6 @@ public class Partida {
 	protected static final char BLANC = 'W';
 	
 	protected static int maxCombColors = 4;
-	private static int sasdf = 5;
 
 	// Atributs.
 	private String nomJugador;
