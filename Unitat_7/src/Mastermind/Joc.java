@@ -110,6 +110,7 @@ public class Joc {
 		IU.separador();
 		IU.titol("Nova Partida (Jugador: " + partida.getNomJugador() + " | " + "Dificultat: " + partida.getDificultat() + ")");
 
+		// Mostrar la combinació secreta (només per proves).
 		//IU.missatge("Combinació secreta: " + Arrays.toString(partida.getCombinacioSecreta()));
 
 		/*
