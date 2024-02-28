@@ -116,7 +116,7 @@ public class IU {
 		
 		if(partida.getDificultat().equalsIgnoreCase("Expert")) {
 			missatgeSeguit(Partida.ROSA + ": " + TEXT_ROSA + CERCLE + TEXT_RESET + " ");
-			missatgeSeguit(Partida.NEGRE + ": " + TEXT_NEGRE + CERCLE + TEXT_RESET + " ");
+			missatgeSeguit(Partida.NEGRE_K + ": " + TEXT_NEGRE + CERCLE + TEXT_RESET + " ");
 			missatgeSeguit(Partida.BLANC + ": " + TEXT_BLANC + CERCLE + TEXT_RESET + " ");
 		}
 		

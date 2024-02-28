@@ -26,7 +26,7 @@ public class Partida {
 	private String nomJugador;
 	private Character[] combinacioSecreta;
 	protected List<Tirada> llistaTirades;
-	private int puntuacio;
+	private int puntuacio; // pendent.
 	private String dificultat;
 
 	// Constructor.

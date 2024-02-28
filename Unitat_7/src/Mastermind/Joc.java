@@ -126,8 +126,9 @@ public class Joc {
 			Tirada tirada = new Tirada();
 
 			// Mostrar els colors disponibles.
+			IU.missatge("Colors disponibles:");
 			IU.llistaColors(partida);
-			
+
 			IU.missatge("TIRADA " + tirada.getIdTirada() + " (intents restants: " + intentsRestants + ")");
 
 			// Anar demanant al Jugador que introdueixi els colors.
