@@ -26,9 +26,9 @@ public class Logica {
 
 	// Mètode per demanar l'entrada de colors al jugador.
 	protected static Character[] demanarColors(Partida partida) {
-		Character[] combinacioIntentada = new Character[Partida.maxCombColors];
+		Character[] combinacioIntentada = new Character[partida.getMaxCombColors()];
 
-		for(int i = 0; i < Partida.maxCombColors; i++) {
+		for(int i = 0; i < partida.getMaxCombColors(); i++) {
 			boolean colorCorrecte = false;
 
 			while(!colorCorrecte) {
@@ -75,12 +75,12 @@ public class Logica {
 	//////////////////////////
 
 	// Mètode per imprimir els cercles de colors per pantalla.
-	protected static String imprimirColors(Character[] combinacio, int opcio) {
-		String[] colors = new String[Partida.maxCombColors];
+	protected static String imprimirColors(Character[] combinacio, int opcio, Partida partida) {
+		String[] colors = new String[partida.getMaxCombColors()];
 
 		// Colors de la combinació de la tirada.
 		if(opcio == 0) {
-			for(int i = 0; i < Partida.maxCombColors; i++) {
+			for(int i = 0; i < partida.getMaxCombColors(); i++) {
 				if(combinacio[i] != null) {
 					// Switch 1
 					// Imprimir els cercles segons el color.

@@ -75,7 +75,7 @@ public class Joc {
 				return;
 			case 3:
 				partida.setDificultat("Expert");
-				Partida.maxCombColors = 6; // les combinacions seràn de 6 colors.
+				partida.setMaxCombColors(6); // les combinacions seràn de 6 colors.
 				return;
 			default:
 				IU.missatgeError("Dificultat no vàlida");
@@ -144,7 +144,7 @@ public class Joc {
 			// Afegir la combinació intentada a la tirada.
 			tirada.setCombinacioIntentada(combinacioIntentada);
 
-			IU.missatge("Combinació:\t" + Logica.imprimirColors(combinacioIntentada, 0));
+			IU.missatge("Combinació:\t" + Logica.imprimirColors(combinacioIntentada, 0, partida));
 
 			// Afegir la tirada a la llista de tirades.
 			partida.getLlistaTirades().add(tirada);
@@ -152,7 +152,7 @@ public class Joc {
 
 			// Comprovar la tirada i mostrar el resultat.
 			tirada.setRespostaOrdinador(partida.comprovarTirada(tirada));
-			IU.missatge("Resultat:\t" + Logica.imprimirColors(tirada.getRespostaOrdinador(), 1));
+			IU.missatge("Resultat:\t" + Logica.imprimirColors(tirada.getRespostaOrdinador(), 1, partida));
 			IU.saltLinia();
 
 			// Comprovar si s'ha endevinat la combinació secreta.
@@ -178,7 +178,7 @@ public class Joc {
 
 		} else if(partidaFinalitzada && Joc.intentsRestants <= 0){
 			IU.missatge("💔 Has perdut... T'has quedat sense intents.");
-			IU.missatge("La combinació era: " + Logica.imprimirColors(partida.getCombinacioSecreta(), 0));
+			IU.missatge("La combinació era: " + Logica.imprimirColors(partida.getCombinacioSecreta(), 0, partida));
 		}
 
 		IU.saltLinia();

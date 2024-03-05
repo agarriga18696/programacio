@@ -100,8 +100,8 @@ public class IU {
 	protected static void historialTirades(Partida partida) {
 		for (Tirada tirada : partida.getLlistaTirades()) {	
 			missatge("TIRADA " + tirada.getIdTirada());
-			missatge("Combinació:	" + Logica.imprimirColors(tirada.getCombinacioIntentada(), 0));
-			missatge("Resultat:	" + Logica.imprimirColors(tirada.getRespostaOrdinador(), 1) + "\n");
+			missatge("Combinació:	" + Logica.imprimirColors(tirada.getCombinacioIntentada(), 0, partida));
+			missatge("Resultat:	" + Logica.imprimirColors(tirada.getRespostaOrdinador(), 1, partida) + "\n");
 		}
 	}
 	

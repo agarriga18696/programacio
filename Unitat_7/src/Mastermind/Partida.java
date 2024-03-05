@@ -18,8 +18,6 @@ public class Partida {
 	protected static final char ROSA = 'P';
 	protected static final char NEGRE = 'K';
 	protected static final char BLANC = 'W';
-	
-	protected static int maxCombColors = 4;
 
 	// Atributs.
 	private String nomJugador;
@@ -27,6 +25,7 @@ public class Partida {
 	protected List<Tirada> llistaTirades;
 	private int puntuacio; // pendent.
 	private String dificultat;
+	private int maxCombColors;
 
 	// Constructor.
 	public Partida() {
@@ -35,6 +34,7 @@ public class Partida {
 		this.llistaTirades = new ArrayList<>();
 		this.puntuacio = 0;
 		this.dificultat = null;
+		this.maxCombColors = 4;
 	}
 
 	// Getters i setters.
@@ -69,14 +69,23 @@ public class Partida {
 	public void setDificultat(String dificultat) {
 		this.dificultat = dificultat;
 	}
+	
+	public int getMaxCombColors() {
+		return maxCombColors;
+	}
+
+	public void setMaxCombColors(int maxCombColors) {
+		this.maxCombColors = maxCombColors;
+	}
 
 
+	
 	//////////////////////////
 	//						//
 	//		 MÈTODES		//
 	//						//
 	//////////////////////////
-	
+
 	// Mètode per crear una combinació de colors aleatoriament.
 	protected void crearCombinacio() {
 		Character[] combinacioColors = new Character[maxCombColors];
