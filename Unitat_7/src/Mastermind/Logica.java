@@ -2,6 +2,8 @@ package Mastermind;
 
 import java.util.Arrays;
 
+import Mastermind.Joc.Dificultats;
+
 public class Logica {
 
 	//////////////////////////
@@ -53,11 +55,11 @@ public class Logica {
 	protected static boolean validarColorEntrada(Character c, Partida partida) {
 		char color = Character.toUpperCase(c);
 
-		if(!partida.getDificultat().equalsIgnoreCase("Expert") && (color == Partida.VERMELL || color == Partida.BLAU || color == Partida.VERD ||
+		if(!partida.getDificultat().equals(Dificultats.EXPERT) && (color == Partida.VERMELL || color == Partida.BLAU || color == Partida.VERD ||
 				color == Partida.GROC || color == Partida.MAGENTA || color == Partida.CIAN)) {
 			return true;
 
-		} else if(partida.getDificultat().equalsIgnoreCase("Expert") && (color == Partida.VERMELL || color == Partida.BLAU || color == Partida.VERD ||
+		} else if(partida.getDificultat().equals(Dificultats.EXPERT) && (color == Partida.VERMELL || color == Partida.BLAU || color == Partida.VERD ||
 				color == Partida.GROC || color == Partida.MAGENTA || color == Partida.CIAN || color == Partida.ROSA || 
 				color == Partida.NEGRE || color == Partida.BLANC)) {
 			return true;

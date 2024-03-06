@@ -1,10 +1,12 @@
 package Mastermind;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * 
- * MASTERMIND
+ * MASTERMIND v1.0
  * 
  * @author Andreu Garriga
  * 
@@ -13,26 +15,39 @@ import java.util.Arrays;
 public class Joc {
 
 	private static final int INTENTS_MAX = 16;
-	public static int intentsRestants = INTENTS_MAX;
+	protected static int intentsRestants = INTENTS_MAX;
+	private static List<Partida> llistaPartides = new ArrayList<>();
+
+	// Llista de dificultats del joc.
+	protected static enum Dificultats {
+		PRINCIPIANT,
+		AVANCAT,
+		EXPERT
+	}
 
 	public static void main(String[] args) {
 		menuPrincipal();
+
+		// Tancar entrada.
+		Entrada.in.close();
 	}
 
 	// Mètode per mostrar el menú principal.
 	private static void menuPrincipal() {
-
 		do {
 			IU.separador();
 			IU.titol("Mastermind");
-			IU.opcionsMenu("Nova Partida", "Sortir");
+			IU.opcionsMenu("Nova Partida", "Historial Partides", "Sortir");
 			int opcio = Entrada.enter("Opció");
 
 			switch(opcio) {
 			case 1:
 				novaPartida();
-				return;
+				break;
 			case 2:
+				historialPartides();
+				break;
+			case 3:
 				sortir();
 				return;
 			default:
@@ -45,16 +60,13 @@ public class Joc {
 
 	// Mètode per seleccionar la dificultat del joc.
 	private static void seleccionarDificultat(Partida partida) {
-		/*
-		 * Característiques de les dificultats:
-		 * 
-		 * -> PRINCIPIANT: el resultat de cada tirada, mostrarà els acerts (cercle blanc o negre) i els falls (creu)
+		/* 
+		 * Dificultats del joc:
+		 * -> Principiant: el resultat de cada tirada mostrarà els acerts (cercle blanc o negre) i els falls (creu)
 		 * en el mateix ordre que la combinació introduïda pel jugador, és a dir, cada índex correspondrà a la mateixa posició.
 		 * D'aquesta manera el joc és més intuitiu i senzill.
-		 * 
-		 * -> AVANÇAT: el resultat de la tirada no es mostrarà de manera ordenada, per tant, els índexs no coincidiràn.
-		 * 
-		 * -> EXPERT: el mateix que l'avançat, amb l'afegit que hi ha 3 colors adicionals i que la combinació és de 6 colors enlloc de 4.
+		 * -> Avançat: el resultat de la tirada no es mostrarà de manera ordenada, per tant, els índexs no coincidiràn.
+		 * -> Expert: el mateix que l'avançat, amb l'afegit que hi ha 3 colors adicionals i que la combinació és de 6 colors enlloc de 4.
 		 * 
 		 */
 
@@ -68,13 +80,13 @@ public class Joc {
 
 			switch(opcio) {
 			case 1:
-				partida.setDificultat("Principiant");
+				partida.setDificultat(Dificultats.PRINCIPIANT);
 				return;
 			case 2:
-				partida.setDificultat("Avançat");
+				partida.setDificultat(Dificultats.AVANCAT);
 				return;
 			case 3:
-				partida.setDificultat("Expert");
+				partida.setDificultat(Dificultats.EXPERT);
 				partida.setMaxCombColors(6); // les combinacions seràn de 6 colors.
 				return;
 			default:
@@ -98,20 +110,20 @@ public class Joc {
 		partida.crearCombinacio();
 
 		// Demanar el nom del jugador.
-		boolean jugadorValid = false;
 		String nomJugador = null;
+		boolean nomJugadorValid = false;
 		do {
 			IU.separador();
 			IU.titol("JUGADOR");
 			nomJugador = Entrada.cadena("Nom").trim().toUpperCase();
 
-			if(nomJugador.isEmpty() || nomJugador == null) {
-				IU.missatgeError("El nom del Jugador no pot estar en blanc");
+			if(nomJugador != null && !nomJugador.isEmpty()) {
+				nomJugadorValid = true;
 			} else {
-				jugadorValid = true;
+				IU.missatgeError("El nom del Jugador no pot estar en blanc");
 			}
 
-		} while(!jugadorValid);
+		} while(!nomJugadorValid);
 
 		partida.setNomJugador(nomJugador);
 
@@ -128,7 +140,6 @@ public class Joc {
 		 *
 		 */
 		boolean partidaFinalitzada = false, combinacioEndevinada = false;
-
 		while(!partidaFinalitzada) {
 			// Crear una nova tirada.
 			Tirada tirada = new Tirada();
@@ -163,12 +174,11 @@ public class Joc {
 			if(intentsRestants <= 0) partidaFinalitzada = true;
 		}
 
-		// Mostrar l'historial de tirades.
-		IU.titol("Resum de la partida:");
-		IU.historialTirades(partida);
-
 		// Mostrar missatge de victoria o derrota.
 		resultatPartida(partidaFinalitzada, combinacioEndevinada, partida);
+		
+		// Emmagatzemar la partida dins de la llista de partides.
+		llistaPartides.add(partida);
 	}
 
 	// Mètode per mostrar el missatge de victoria o derrota.
@@ -182,6 +192,24 @@ public class Joc {
 		}
 
 		IU.saltLinia();
+	}
+
+	// Mètode per mostrar l'historial de partides.
+	private static void historialPartides() {
+		// Mostrar l'historial de tirades.
+		int i = 0;
+		
+		if(llistaPartides.size() > 0) {
+			for(Partida partida : llistaPartides) {
+				IU.separador();
+				IU.titol("Resum de la partida " + (i + 1) + ":");
+				IU.historialTirades(partida);
+				IU.saltLinia();
+				i++;
+			}
+		} else {
+			IU.missatgeAdvertencia("No s'ha trobat cap partida registrada.");
+		}
 	}
 
 	// Mètode per sortir del joc.

@@ -1,5 +1,7 @@
 package Mastermind;
 
+import Mastermind.Joc.Dificultats;
+
 public class IU {
 
 	//////////////////////////
@@ -114,7 +116,7 @@ public class IU {
 		missatgeSeguit(Partida.MAGENTA + ": " + TEXT_MAGENTA + CERCLE + TEXT_RESET + " ");
 		missatgeSeguit(Partida.CIAN + ": " + TEXT_CIAN + CERCLE + TEXT_RESET + " ");
 		
-		if(partida.getDificultat().equalsIgnoreCase("Expert")) {
+		if(partida.getDificultat().equals(Dificultats.EXPERT)) {
 			missatgeSeguit(Partida.ROSA + ": " + TEXT_ROSA + CERCLE + TEXT_RESET + " ");
 			missatgeSeguit(Partida.NEGRE + ": " + TEXT_NEGRE + CERCLE + TEXT_RESET + " ");
 			missatgeSeguit(Partida.BLANC + ": " + TEXT_BLANC + CERCLE + TEXT_RESET + " ");

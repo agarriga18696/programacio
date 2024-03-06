@@ -5,6 +5,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
+import Mastermind.Joc;
+import Mastermind.Joc.Dificultats;
+
 public class Partida {
 
 	// Constants.
@@ -24,7 +27,7 @@ public class Partida {
 	private Character[] combinacioSecreta;
 	protected List<Tirada> llistaTirades;
 	private int puntuacio; // pendent.
-	private String dificultat;
+	private Dificultats dificultat;
 	private int maxCombColors;
 
 	// Constructor.
@@ -62,11 +65,11 @@ public class Partida {
 		return puntuacio;
 	}
 
-	public String getDificultat() {
+	public Dificultats getDificultat() {
 		return dificultat;
 	}
 
-	public void setDificultat(String dificultat) {
+	public void setDificultat(Dificultats dificultat) {
 		this.dificultat = dificultat;
 	}
 	
@@ -93,7 +96,7 @@ public class Partida {
 		Random random = new Random();
 
 		// En cas de que la dificultat sigui 'Expert' afegir nous colors adicionals.
-		if(dificultat.equalsIgnoreCase("Expert")) {
+		if(dificultat.equals(Dificultats.EXPERT)) {
 			colors = new Character[]{VERMELL, BLAU, VERD, MAGENTA, GROC, CIAN, ROSA, NEGRE, BLANC};
 			
 		} else {
@@ -307,7 +310,7 @@ public class Partida {
 		}
 
 		// Desordenar el resultat en cas de dificultat avançada.
-		if(dificultat.equalsIgnoreCase("Avançat") || dificultat.equalsIgnoreCase("Expert")) {
+		if(dificultat.equals(Dificultats.AVANCAT) || dificultat.equals(Dificultats.EXPERT)) {
 			// Crear una nova llista per emmagatzemar el resultat desordenat.
 			List<Character> resultatDesordenat = new ArrayList<>();
 
