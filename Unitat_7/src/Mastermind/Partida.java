@@ -32,6 +32,8 @@ public class Partida {
 	private int maxCombColors;
 	private String resultatPartida; // victoria | derrota
 	private int intentsRestants;
+	
+	private Character[] resultatTirada;
 
 	// Constructor.
 	public Partida() {
@@ -192,138 +194,18 @@ public class Partida {
 
 		// Comparar la tirada del jugador amb la combinació secreta.
 		Character[] combinacioIntentada = tirada.getCombinacioIntentada();
-		Character[] resultatTirada = new Character[maxCombColors];
+		resultatTirada = new Character[maxCombColors];
 
 		for(int i = 0; i < maxCombColors; i++) {
 			// Comprovar si coincideix el mateix color a la mateixa posició (NEGRE).
 			if(combinacioSecreta[i].equals(combinacioIntentada[i])) {
-				// Switch 1
-				switch(combinacioSecreta[i]) {
-				case VERMELL:
-					if(cont_combinacioSecreta[0] > 0) {
-						resultatTirada[i] = NEGRE;
-						cont_combinacioSecreta[0]--;
-					}
-					break;
-				case BLAU:
-					if(cont_combinacioSecreta[1] > 0) {
-						resultatTirada[i] = NEGRE;
-						cont_combinacioSecreta[1]--;
-					}
-					break;
-				case VERD:
-					if(cont_combinacioSecreta[2] > 0) {
-						resultatTirada[i] = NEGRE;
-						cont_combinacioSecreta[2]--;
-					}
-					break;
-				case MAGENTA:
-					if(cont_combinacioSecreta[3] > 0) {
-						resultatTirada[i] = NEGRE;
-						cont_combinacioSecreta[3]--;
-					}
-					break;
-				case GROC:
-					if(cont_combinacioSecreta[4] > 0) {
-						resultatTirada[i] = NEGRE;
-						cont_combinacioSecreta[4]--;
-					}
-					break;
-				case CIAN:
-					if(cont_combinacioSecreta[5] > 0) {
-						resultatTirada[i] = NEGRE;
-						cont_combinacioSecreta[5]--;
-					}
-					break;
-				case ROSA:
-					if(cont_combinacioSecreta[6] > 0) {
-						resultatTirada[i] = NEGRE;
-						cont_combinacioSecreta[6]--;
-					}
-					break;
-				case NEGRE:
-					if(cont_combinacioSecreta[7] > 0) {
-						resultatTirada[i] = NEGRE;
-						cont_combinacioSecreta[7]--;
-					}
-					break;
-				case BLANC:
-					if(cont_combinacioSecreta[8] > 0) {
-						resultatTirada[i] = NEGRE;
-						cont_combinacioSecreta[8]--;
-					}
-					break;
-				default:
-					IU.missatgeErrorCritic("Error en el mètode 'comprovarTirada' de la classe 'Partida' al intentar "
-							+ "iterar sobre un valor desconegut en el 'switch 1'.");
-					break;
-				}
+				reduirContadorCombinacioSecreta(combinacioSecreta[i], cont_combinacioSecreta, i, NEGRE);
 
 			} else {
 				// Comprovar si coincideix el mateix color a una posició diferent (BLANC).
 				for(int j = 0; j < maxCombColors; j++) {
 					if(i != j && combinacioIntentada[i].equals(combinacioSecreta[j])) {
-						switch(combinacioSecreta[j]) {
-						case VERMELL:
-							if(cont_combinacioSecreta[0] > 0) {
-								resultatTirada[i] = BLANC;
-								cont_combinacioSecreta[0]--;
-							}
-							break;
-						case BLAU:
-							if(cont_combinacioSecreta[1] > 0) {
-								resultatTirada[i] = BLANC;
-								cont_combinacioSecreta[1]--;
-							}
-							break;
-						case VERD:
-							if(cont_combinacioSecreta[2] > 0) {
-								resultatTirada[i] = BLANC;
-								cont_combinacioSecreta[2]--;
-							}
-							break;
-						case MAGENTA:
-							if(cont_combinacioSecreta[3] > 0) {
-								resultatTirada[i] = BLANC;
-								cont_combinacioSecreta[3]--;
-							}
-							break;
-						case GROC:
-							if(cont_combinacioSecreta[4] > 0) {
-								resultatTirada[i] = BLANC;
-								cont_combinacioSecreta[4]--;
-							}
-							break;
-						case CIAN:
-							if(cont_combinacioSecreta[5] > 0) {
-								resultatTirada[i] = BLANC;
-								cont_combinacioSecreta[5]--;
-							}
-							break;
-						case ROSA:
-							if(cont_combinacioSecreta[6] > 0) {
-								resultatTirada[i] = BLANC;
-								cont_combinacioSecreta[6]--;
-							}
-							break;
-						case NEGRE:
-							if(cont_combinacioSecreta[7] > 0) {
-								resultatTirada[i] = BLANC;
-								cont_combinacioSecreta[7]--;
-							}
-							break;
-						case BLANC:
-							if(cont_combinacioSecreta[8] > 0) {
-								resultatTirada[i] = BLANC;
-								cont_combinacioSecreta[8]--;
-							}
-							break;
-						default:
-							IU.missatgeErrorCritic("Error en el mètode 'comprovarTirada' de la classe 'Partida' al intentar "
-									+ "iterar sobre un valor desconegut en el 'switch 2'.");
-							break;
-						}
-
+						reduirContadorCombinacioSecreta(combinacioSecreta[j], cont_combinacioSecreta, i, BLANC);
 						break;
 					}
 				}
@@ -358,6 +240,70 @@ public class Partida {
 		}
 
 		return resultatTirada;
+	}
+
+	// Mètode per reduir el contador de colors de la combinació secreta.
+	private void reduirContadorCombinacioSecreta(int indexCombSecreta, int[] cont_combinacioSecreta, int indexResultatTirada, char color) {
+		switch(indexCombSecreta) {
+		case VERMELL:
+			if(cont_combinacioSecreta[0] > 0) {
+				resultatTirada[indexResultatTirada] = color;
+				cont_combinacioSecreta[0]--;
+			}
+			break;
+		case BLAU:
+			if(cont_combinacioSecreta[1] > 0) {
+				resultatTirada[indexResultatTirada] = color;
+				cont_combinacioSecreta[1]--;
+			}
+			break;
+		case VERD:
+			if(cont_combinacioSecreta[2] > 0) {
+				resultatTirada[indexResultatTirada] = color;
+				cont_combinacioSecreta[2]--;
+			}
+			break;
+		case MAGENTA:
+			if(cont_combinacioSecreta[3] > 0) {
+				resultatTirada[indexResultatTirada] = color;
+				cont_combinacioSecreta[3]--;
+			}
+			break;
+		case GROC:
+			if(cont_combinacioSecreta[4] > 0) {
+				resultatTirada[indexResultatTirada] = color;
+				cont_combinacioSecreta[4]--;
+			}
+			break;
+		case CIAN:
+			if(cont_combinacioSecreta[5] > 0) {
+				resultatTirada[indexResultatTirada] = color;
+				cont_combinacioSecreta[5]--;
+			}
+			break;
+		case ROSA:
+			if(cont_combinacioSecreta[6] > 0) {
+				resultatTirada[indexResultatTirada] = color;
+				cont_combinacioSecreta[6]--;
+			}
+			break;
+		case NEGRE:
+			if(cont_combinacioSecreta[7] > 0) {
+				resultatTirada[indexResultatTirada] = color;
+				cont_combinacioSecreta[7]--;
+			}
+			break;
+		case BLANC:
+			if(cont_combinacioSecreta[8] > 0) {
+				resultatTirada[indexResultatTirada] = color;
+				cont_combinacioSecreta[8]--;
+			}
+			break;
+		default:
+			IU.missatgeErrorCritic("Error en el mètode 'reduirContadorCombinacioSecreta' de la classe 'Partida' al intentar "
+					+ "iterar sobre un valor desconegut.");
+			break;
+		}
 	}
 
 }
