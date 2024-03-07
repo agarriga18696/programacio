@@ -5,7 +5,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
-import Mastermind.Joc;
 import Mastermind.Joc.Dificultats;
 
 public class Partida {
@@ -21,6 +20,8 @@ public class Partida {
 	protected static final char ROSA = 'P';
 	protected static final char NEGRE = 'K';
 	protected static final char BLANC = 'W';
+	
+	protected static final int MAX_INTENTS = 16;
 
 	// Atributs.
 	private String nomJugador;
@@ -29,6 +30,8 @@ public class Partida {
 	private int puntuacio; // pendent.
 	private Dificultats dificultat;
 	private int maxCombColors;
+	private String resultatPartida; // victoria | derrota
+	private int intentsRestants;
 
 	// Constructor.
 	public Partida() {
@@ -38,6 +41,8 @@ public class Partida {
 		this.puntuacio = 0;
 		this.dificultat = null;
 		this.maxCombColors = 4;
+		this.resultatPartida = null;
+		this.intentsRestants = MAX_INTENTS;
 	}
 
 	// Getters i setters.
@@ -80,8 +85,24 @@ public class Partida {
 	public void setMaxCombColors(int maxCombColors) {
 		this.maxCombColors = maxCombColors;
 	}
+	
+	public String getResultatPartida() {
+		return resultatPartida.toUpperCase();
+	}
 
+	public void setResultatPartida(String resultatPartida) {
+		this.resultatPartida = resultatPartida;
+	}
+	
+	public int getIntentsRestants() {
+		return intentsRestants;
+	}
 
+	public void setIntentsRestants(int intentsRestants) {
+		this.intentsRestants = intentsRestants;
+	}
+
+	
 	
 	//////////////////////////
 	//						//

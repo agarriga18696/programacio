@@ -14,9 +14,7 @@ import java.util.List;
 
 public class Joc {
 
-	private static final int INTENTS_MAX = 16;
-	protected static int intentsRestants = INTENTS_MAX;
-	private static List<Partida> llistaPartides = new ArrayList<>();
+	protected static List<Partida> llistaPartides = new ArrayList<>();
 
 	// Llista de dificultats del joc.
 	protected static enum Dificultats {
@@ -36,7 +34,7 @@ public class Joc {
 	private static void menuPrincipal() {
 		do {
 			IU.separador();
-			IU.titol("Mastermind");
+			IU.titol("Mastermind (v1.0)");
 			IU.opcionsMenu("Nova Partida", "Historial Partides", "Sortir");
 			int opcio = Entrada.enter("Opció");
 
@@ -45,7 +43,7 @@ public class Joc {
 				novaPartida();
 				break;
 			case 2:
-				historialPartides();
+				Logica.historialPartides();
 				break;
 			case 3:
 				sortir();
@@ -102,6 +100,9 @@ public class Joc {
 	private static void novaPartida() {
 		// Crear objecte partida.
 		Partida partida = new Partida();
+		// Reiniciar variables per pròximes partides.
+		Tirada.numTirada = 1; // contador de tirades.
+		partida.setIntentsRestants(Partida.MAX_INTENTS);
 
 		// Seleccionar la dificultat del joc.
 		seleccionarDificultat(partida);
@@ -148,7 +149,7 @@ public class Joc {
 			IU.missatge("Colors disponibles:");
 			IU.llistaColors(partida);
 
-			IU.missatge("TIRADA " + tirada.getIdTirada() + " (intents restants: " + intentsRestants + ")");
+			IU.missatge("TIRADA " + tirada.getIdTirada() + " (intents restants: " + partida.getIntentsRestants() + ")");
 
 			// Anar demanant al Jugador que introdueixi els colors.
 			Character[] combinacioIntentada = Logica.demanarColors(partida);
@@ -159,7 +160,8 @@ public class Joc {
 
 			// Afegir la tirada a la llista de tirades.
 			partida.getLlistaTirades().add(tirada);
-			intentsRestants--;
+			// Reduir en 1 els intents restants.
+			partida.setIntentsRestants(partida.getIntentsRestants() - 1);
 
 			// Comprovar la tirada i mostrar el resultat.
 			tirada.setRespostaOrdinador(partida.comprovarTirada(tirada));
@@ -171,45 +173,15 @@ public class Joc {
 
 			// Comprovar les condicions de victoria i derrota.
 			if(combinacioEndevinada) partidaFinalitzada = true;
-			if(intentsRestants <= 0) partidaFinalitzada = true;
+			if(partida.getIntentsRestants() <= 0) partidaFinalitzada = true;
 		}
 
 		// Mostrar missatge de victoria o derrota.
-		resultatPartida(partidaFinalitzada, combinacioEndevinada, partida);
-		
+		Logica.resultatPartida(partidaFinalitzada, combinacioEndevinada, partida);
+
 		// Emmagatzemar la partida dins de la llista de partides.
 		llistaPartides.add(partida);
-	}
 
-	// Mètode per mostrar el missatge de victoria o derrota.
-	private static void resultatPartida(boolean partidaFinalitzada, boolean combinacioEndevinada, Partida partida) {
-		if(partidaFinalitzada && combinacioEndevinada) {
-			IU.missatge("🏆 Has guanyat! Has endivinat la combinació!");
-
-		} else if(partidaFinalitzada && Joc.intentsRestants <= 0){
-			IU.missatge("💔 Has perdut... T'has quedat sense intents.");
-			IU.missatge("La combinació era: " + Logica.imprimirColors(partida.getCombinacioSecreta(), 0, partida));
-		}
-
-		IU.saltLinia();
-	}
-
-	// Mètode per mostrar l'historial de partides.
-	private static void historialPartides() {
-		// Mostrar l'historial de tirades.
-		int i = 0;
-		
-		if(llistaPartides.size() > 0) {
-			for(Partida partida : llistaPartides) {
-				IU.separador();
-				IU.titol("Resum de la partida " + (i + 1) + ":");
-				IU.historialTirades(partida);
-				IU.saltLinia();
-				i++;
-			}
-		} else {
-			IU.missatgeAdvertencia("No s'ha trobat cap partida registrada.");
-		}
 	}
 
 	// Mètode per sortir del joc.

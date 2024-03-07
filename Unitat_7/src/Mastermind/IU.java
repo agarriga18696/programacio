@@ -100,7 +100,11 @@ public class IU {
 
 	// Mètode per mostrar la llista de tirades de tota la partida.
 	protected static void historialTirades(Partida partida) {
-		for (Tirada tirada : partida.getLlistaTirades()) {	
+		missatge("👤 Jugador: " + partida.getNomJugador());
+		missatge("📊 Dificultat: " + partida.getDificultat());
+		missatge("🏆 Resultat: " + partida.getResultatPartida());
+		missatge("🔢 Intents: " + partida.getLlistaTirades().size() + "\n");
+		for (Tirada tirada : partida.getLlistaTirades()) {
 			missatge("TIRADA " + tirada.getIdTirada());
 			missatge("Combinació:	" + Logica.imprimirColors(tirada.getCombinacioIntentada(), 0, partida));
 			missatge("Resultat:	" + Logica.imprimirColors(tirada.getRespostaOrdinador(), 1, partida) + "\n");

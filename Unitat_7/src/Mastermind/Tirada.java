@@ -7,7 +7,7 @@ public class Tirada {
 	private Character[] respostaOrdinador;
 	private int puntuacioTirada;
 	private int idTirada;
-	private static int numTirada = 1;
+	protected static int numTirada = 1;
 	
 	// Constructor.
 	public Tirada() {

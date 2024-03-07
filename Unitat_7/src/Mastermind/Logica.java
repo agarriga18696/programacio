@@ -63,9 +63,42 @@ public class Logica {
 				color == Partida.GROC || color == Partida.MAGENTA || color == Partida.CIAN || color == Partida.ROSA || 
 				color == Partida.NEGRE || color == Partida.BLANC)) {
 			return true;
-			
+
 		} else {
 			return false;
+		}
+	}
+
+	// Mètode per mostrar el missatge de victoria o derrota.
+	protected static void resultatPartida(boolean partidaFinalitzada, boolean combinacioEndevinada, Partida partida) {
+		if(partidaFinalitzada && combinacioEndevinada) {
+			IU.missatge("🏆 Has guanyat! Has endivinat la combinació!");
+			partida.setResultatPartida("Victòria");
+
+		} else if(partidaFinalitzada && partida.getIntentsRestants() <= 0){
+			IU.missatge("💔 Has perdut... T'has quedat sense intents.");
+			IU.missatge("La combinació era: " + Logica.imprimirColors(partida.getCombinacioSecreta(), 0, partida));
+			partida.setResultatPartida("Derrota");
+		}
+
+		IU.saltLinia();
+	}
+
+	// Mètode per mostrar l'historial de partides.
+	protected static void historialPartides() {	
+		int i = 0;
+
+		// Mostrar l'historial de tirades.
+		if(Joc.llistaPartides.size() > 0) { // Comprovar si existeixen partides.
+			for(Partida partida : Joc.llistaPartides) {
+				IU.separador();
+				IU.titol("Resum de la partida " + (i + 1) + ":");
+				IU.historialTirades(partida);
+				IU.saltLinia();
+				i++;
+			}
+		} else {
+			IU.missatgeAdvertencia("No s'ha trobat cap partida registrada");
 		}
 	}
 
