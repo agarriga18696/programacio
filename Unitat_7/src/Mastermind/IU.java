@@ -1,6 +1,6 @@
 package Mastermind;
 
-import Mastermind.Joc.Dificultats;
+import Mastermind.Partida.Dificultats;
 
 public class IU {
 

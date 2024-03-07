@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import Mastermind.Partida.Dificultats;
+
 /**
  * 
  * MASTERMIND v1.0
@@ -15,13 +17,6 @@ import java.util.List;
 public class Joc {
 
 	protected static List<Partida> llistaPartides = new ArrayList<>();
-
-	// Llista de dificultats del joc.
-	protected static enum Dificultats {
-		PRINCIPIANT,
-		AVANCAT,
-		EXPERT
-	}
 
 	public static void main(String[] args) {
 		menuPrincipal();

@@ -2,7 +2,7 @@ package Mastermind;
 
 import java.util.Arrays;
 
-import Mastermind.Joc.Dificultats;
+import Mastermind.Partida.Dificultats;
 
 public class Logica {
 
@@ -94,7 +94,6 @@ public class Logica {
 				IU.separador();
 				IU.titol("Resum de la partida " + (i + 1) + ":");
 				IU.historialTirades(partida);
-				IU.saltLinia();
 				i++;
 			}
 		} else {

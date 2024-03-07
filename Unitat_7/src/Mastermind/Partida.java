@@ -5,11 +5,10 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
-import Mastermind.Joc.Dificultats;
-
 public class Partida {
 
 	// Constants.
+	protected static final int MAX_INTENTS = 16;
 	protected static final int MAX_COLORS = 9;
 	protected static final char VERMELL = 'R';
 	protected static final char BLAU = 'B';
@@ -20,10 +19,19 @@ public class Partida {
 	protected static final char ROSA = 'P';
 	protected static final char NEGRE = 'K';
 	protected static final char BLANC = 'W';
-	
-	protected static final int MAX_INTENTS = 16;
 
-	// Atributs.
+	// Variables globals.
+	private static Character[] resultatTirada;
+	private static int[] cont_combinacioSecreta;
+
+	// Llista de dificultats del joc.
+	protected enum Dificultats {
+		PRINCIPIANT,
+		AVANCAT,
+		EXPERT
+	}
+
+	// Atributs de la classe.
 	private String nomJugador;
 	private Character[] combinacioSecreta;
 	protected List<Tirada> llistaTirades;
@@ -32,8 +40,6 @@ public class Partida {
 	private int maxCombColors;
 	private String resultatPartida; // victoria | derrota
 	private int intentsRestants;
-	
-	private Character[] resultatTirada;
 
 	// Constructor.
 	public Partida() {
@@ -79,7 +85,7 @@ public class Partida {
 	public void setDificultat(Dificultats dificultat) {
 		this.dificultat = dificultat;
 	}
-	
+
 	public int getMaxCombColors() {
 		return maxCombColors;
 	}
@@ -87,7 +93,7 @@ public class Partida {
 	public void setMaxCombColors(int maxCombColors) {
 		this.maxCombColors = maxCombColors;
 	}
-	
+
 	public String getResultatPartida() {
 		return resultatPartida.toUpperCase();
 	}
@@ -95,7 +101,7 @@ public class Partida {
 	public void setResultatPartida(String resultatPartida) {
 		this.resultatPartida = resultatPartida;
 	}
-	
+
 	public int getIntentsRestants() {
 		return intentsRestants;
 	}
@@ -104,8 +110,8 @@ public class Partida {
 		this.intentsRestants = intentsRestants;
 	}
 
-	
-	
+
+
 	//////////////////////////
 	//						//
 	//		 MÈTODES		//
@@ -121,11 +127,11 @@ public class Partida {
 		// En cas de que la dificultat sigui 'Expert' afegir nous colors adicionals.
 		if(dificultat.equals(Dificultats.EXPERT)) {
 			colors = new Character[]{VERMELL, BLAU, VERD, MAGENTA, GROC, CIAN, ROSA, NEGRE, BLANC};
-			
+
 		} else {
 			colors = new Character[]{VERMELL, BLAU, VERD, MAGENTA, GROC, CIAN};
 		}
-		
+
 		for(int i = 0; i < maxCombColors; i++) {
 			combinacioColors[i] = colors[random.nextInt(colors.length - 1)];
 		}
@@ -135,14 +141,16 @@ public class Partida {
 
 	// Mètode per comprovar tirada.
 	protected Character[] comprovarTirada(Tirada tirada) {
-		int[] cont_combinacioSecreta = new int[MAX_COLORS];
+		cont_combinacioSecreta = new int[MAX_COLORS];
 		/* 
-		 * El contador de colors servirà per controlar el número de colors que conté la combinació secreta.
-		 * Quan s'inicialitzi el contador, recorrerà l'array de la combinació secreta i contarà quants colors hi ha
-		 * de cada tipus.
+		 * El contador de colors servirà per controlar la quantitat de colors que conté la combinació secreta.
+		 * 
+		 * Quan s'inicialitzi el contador, recorrerà l'array de la combinació secreta i contarà quants colors hi ha i 
+		 * assignarà els nombres a cada índex que representa cada color.
+		 * 
 		 * Al començar la partida, quan el jugador introdueixi la combinació intentada, s'anirà restant del contador cada
 		 * color introduït per l'usuari (en el cas de que la combinació secreta el contingui). 
-		 * En cas de que algun contador contingui un valor 0 deixarà de contar el color, d'aquesta manera s'aconsegueix que
+		 * En cas que algun contador contingui un valor 0 deixarà de contar el color, d'aquesta manera s'aconsegueix que
 		 * el jugador pugui interpretar de manera exacta quants colors ha endevinat (indiferentment de la seva posició).
 		 * 
 		 * 
@@ -159,38 +167,38 @@ public class Partida {
 		 * 
 		 */
 
+		// INICIALITZAR CONTADOR DE COLORS DE LA COMBINACIÓ SECRETA.
 		// Incrementar el contador de cada color segons la quantitat de colors de la combinació secreta.
 		for(int i = 0; i < maxCombColors; i++) {
 			if(combinacioSecreta[i] == VERMELL) {
 				cont_combinacioSecreta[0]++;
-				
+
 			} else if(combinacioSecreta[i] == BLAU) {
 				cont_combinacioSecreta[1]++;
-				
+
 			} else if(combinacioSecreta[i] == VERD) {
 				cont_combinacioSecreta[2]++;
-				
+
 			} else if(combinacioSecreta[i] == MAGENTA) {
 				cont_combinacioSecreta[3]++;
-				
+
 			} else if(combinacioSecreta[i] == GROC) {
 				cont_combinacioSecreta[4]++;
-				
+
 			} else if(combinacioSecreta[i] == CIAN) {
 				cont_combinacioSecreta[5]++;
-				
+
 			} else if(combinacioSecreta[i] == ROSA) {
 				cont_combinacioSecreta[6]++;
-				
+
 			} else if(combinacioSecreta[i] == NEGRE) {
 				cont_combinacioSecreta[7]++;
-				
+
 			} else if(combinacioSecreta[i] == BLANC) {
 				cont_combinacioSecreta[8]++;
-				
+
 			}
 		}
-
 
 		// Comparar la tirada del jugador amb la combinació secreta.
 		Character[] combinacioIntentada = tirada.getCombinacioIntentada();
@@ -199,13 +207,13 @@ public class Partida {
 		for(int i = 0; i < maxCombColors; i++) {
 			// Comprovar si coincideix el mateix color a la mateixa posició (NEGRE).
 			if(combinacioSecreta[i].equals(combinacioIntentada[i])) {
-				reduirContadorCombinacioSecreta(combinacioSecreta[i], cont_combinacioSecreta, i, NEGRE);
+				reduirContadorCombinacioSecreta(combinacioSecreta[i], i, NEGRE);
 
 			} else {
 				// Comprovar si coincideix el mateix color a una posició diferent (BLANC).
 				for(int j = 0; j < maxCombColors; j++) {
 					if(i != j && combinacioIntentada[i].equals(combinacioSecreta[j])) {
-						reduirContadorCombinacioSecreta(combinacioSecreta[j], cont_combinacioSecreta, i, BLANC);
+						reduirContadorCombinacioSecreta(combinacioSecreta[j], i, BLANC);
 						break;
 					}
 				}
@@ -243,7 +251,7 @@ public class Partida {
 	}
 
 	// Mètode per reduir el contador de colors de la combinació secreta.
-	private void reduirContadorCombinacioSecreta(int indexCombSecreta, int[] cont_combinacioSecreta, int indexResultatTirada, char color) {
+	private void reduirContadorCombinacioSecreta(int indexCombSecreta, int indexResultatTirada, char color) {
 		switch(indexCombSecreta) {
 		case VERMELL:
 			if(cont_combinacioSecreta[0] > 0) {
