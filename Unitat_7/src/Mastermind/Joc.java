@@ -27,11 +27,13 @@ public class Joc {
 
 	// Mètode per mostrar el menú principal.
 	private static void menuPrincipal() {
+		int opcio = 0;
+		
 		do {
 			IU.separador();
 			IU.titol("Mastermind (v1.0)");
 			IU.opcionsMenu("Nova Partida", "Historial Partides", "Sortir");
-			int opcio = Entrada.enter("Opció");
+			opcio = Entrada.enter("Opció");
 
 			switch(opcio) {
 			case 1:
@@ -48,7 +50,7 @@ public class Joc {
 				break;
 			}
 
-		} while(true);
+		} while(opcio != 3);
 	}
 
 	// Mètode per seleccionar la dificultat del joc.
