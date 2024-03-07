@@ -4,7 +4,7 @@ public class Tirada {
 
 	// Atributs.
 	private Character[] combinacioIntentada;
-	private Character[] respostaOrdinador;
+	private Character[] resultatTirada;
 	private int puntuacioTirada;
 	private int idTirada;
 	protected static int numTirada = 1;
@@ -12,7 +12,7 @@ public class Tirada {
 	// Constructor.
 	public Tirada() {
 		this.combinacioIntentada = new Character[4];
-		this.respostaOrdinador = new Character[4];
+		this.resultatTirada = new Character[4];
 		this.puntuacioTirada = 0;
 		this.idTirada = numTirada++;
 	}
@@ -26,12 +26,12 @@ public class Tirada {
 		this.combinacioIntentada = combinacioIntentada;
 	}
 
-	public Character[] getRespostaOrdinador() {
-		return respostaOrdinador;
+	public Character[] getResultatTirada() {
+		return resultatTirada;
 	}
 
-	public void setRespostaOrdinador(Character[] respostaOrdinador) {
-		this.respostaOrdinador = respostaOrdinador;
+	public void setResultatTirada(Character[] resultatTirada) {
+		this.resultatTirada = resultatTirada;
 	}
 
 	public int getPuntuacioTirada() {

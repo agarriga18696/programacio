@@ -35,7 +35,7 @@ public class Partida {
 	private String nomJugador;
 	private Character[] combinacioSecreta;
 	protected List<Tirada> llistaTirades;
-	private int puntuacio; // pendent.
+	private int puntuacio; // fitxa negre: 3 pts | fitxa blanca: 1 pt
 	private Dificultats dificultat;
 	private int maxCombColors;
 	private String resultatPartida; // victoria | derrota
@@ -77,6 +77,10 @@ public class Partida {
 	public int getPuntuacio() {
 		return puntuacio;
 	}
+	
+	public void setPuntuacio(int puntuacio) {
+		this.puntuacio = puntuacio;
+	}
 
 	public Dificultats getDificultat() {
 		return dificultat;
@@ -109,7 +113,6 @@ public class Partida {
 	public void setIntentsRestants(int intentsRestants) {
 		this.intentsRestants = intentsRestants;
 	}
-
 
 
 	//////////////////////////
@@ -220,7 +223,7 @@ public class Partida {
 			}
 		}
 
-		// Desordenar el resultat en cas de dificultat avançada.
+		// Desordenar el resultat en cas de dificultat avançada o experta.
 		if(dificultat.equals(Dificultats.AVANCAT) || dificultat.equals(Dificultats.EXPERT)) {
 			// Crear una nova llista per emmagatzemar el resultat desordenat.
 			List<Character> resultatDesordenat = new ArrayList<>();

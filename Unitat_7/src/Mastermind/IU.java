@@ -103,11 +103,13 @@ public class IU {
 		missatge("👤 Jugador: " + partida.getNomJugador());
 		missatge("📊 Dificultat: " + partida.getDificultat());
 		missatge("🏆 Resultat: " + partida.getResultatPartida());
-		missatge("🔢 Intents: " + partida.getLlistaTirades().size() + "\n");
+		missatge("⌛ Intents: " + partida.getLlistaTirades().size());
+		missatge("🔢 Punts: " + partida.getPuntuacio() + "\n");
+		
 		for (Tirada tirada : partida.getLlistaTirades()) {
 			missatge("TIRADA " + tirada.getIdTirada());
 			missatge("Combinació:	" + Logica.imprimirColors(tirada.getCombinacioIntentada(), 0, partida));
-			missatge("Resultat:	" + Logica.imprimirColors(tirada.getRespostaOrdinador(), 1, partida) + "\n");
+			missatge("Resultat:	" + Logica.imprimirColors(tirada.getResultatTirada(), 1, partida) + "\n");
 		}
 	}
 	

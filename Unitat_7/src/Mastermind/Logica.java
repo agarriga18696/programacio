@@ -12,8 +12,29 @@ public class Logica {
 	//						//
 	//////////////////////////
 
+	// Mètode per crear un nou jugador (nom).
+	protected static String definirJugador() {
+		String nomJugador = null;
+		boolean nomJugadorValid = false;
+		do {
+			IU.separador();
+			IU.titol("JUGADOR");
+			nomJugador = Entrada.cadena("Nom").trim().toUpperCase();
+
+			if(nomJugador != null && !nomJugador.isEmpty()) {
+				nomJugadorValid = true;
+			} else {
+				IU.missatgeError("El nom del Jugador no pot estar en blanc");
+			}
+
+		} while(!nomJugadorValid);
+
+		return nomJugador;
+
+	}
+
 	// Mètode per comprovar el resultat de la tirada.
-	protected static boolean comprovarResultat(Character[] resultatTirada) {
+	protected static boolean comprovarResultat(Character[] resultatTirada, Partida partida) {
 		for(Character i : resultatTirada) {
 			if(i != null && !i.equals(Partida.NEGRE)) {
 				return false;
@@ -24,6 +45,20 @@ public class Logica {
 		}
 
 		return true;
+	}
+
+	// Mètode per assignar la puntuació segons el resultat de la tirada.
+	protected static void assignarPunts(Character[] resultatTirada, Partida partida) {
+		for(int i = 0; i < resultatTirada.length; i++) {
+			Character c = resultatTirada[i];
+			if(c != null) {
+				if(c.equals(Partida.NEGRE)) {
+					partida.setPuntuacio(partida.getPuntuacio() + 3);
+				} else if(c.equals(Partida.BLANC)) {
+					partida.setPuntuacio(partida.getPuntuacio() + 1);
+				}
+			}
+		}
 	}
 
 	// Mètode per demanar l'entrada de colors al jugador.
@@ -73,15 +108,41 @@ public class Logica {
 	protected static void resultatPartida(boolean partidaFinalitzada, boolean combinacioEndevinada, Partida partida) {
 		if(partidaFinalitzada && combinacioEndevinada) {
 			IU.missatge("🏆 Has guanyat! Has endivinat la combinació!");
+			IU.missatge("Has conseguit una puntuació total de " + partida.getPuntuacio() + "!");
 			partida.setResultatPartida("Victòria");
 
 		} else if(partidaFinalitzada && partida.getIntentsRestants() <= 0){
 			IU.missatge("💔 Has perdut... T'has quedat sense intents.");
 			IU.missatge("La combinació era: " + Logica.imprimirColors(partida.getCombinacioSecreta(), 0, partida));
+			IU.missatge("Has conseguit una puntuació total de " + partida.getPuntuacio() + "!");
 			partida.setResultatPartida("Derrota");
 		}
 
+		// Comprovar si ha batut el rècord de punts.
+		comprovarRecordPunts(partida);
+
 		IU.saltLinia();
+	}
+
+	// Mètode per comprovar si ha batut el rècord de punts en comparació a les altres partides.
+	private static void comprovarRecordPunts(Partida partida) {
+		int puntuacioMesAltaRegistrada = 0, puntuacioRecord = 0;
+		int[] puntuacionsTotalsPartides = new int[Joc.llistaPartides.size()];
+
+		// Trobar la puntuació més alta entre totes les partides jugades.
+		for(int i = 0; i < Joc.llistaPartides.size(); i++) {
+			puntuacionsTotalsPartides[i] = Joc.llistaPartides.get(i).getPuntuacio();
+		}
+		
+		Ordenacio.seleccioDirecta(puntuacionsTotalsPartides);
+		
+		puntuacioMesAltaRegistrada = puntuacionsTotalsPartides[0];
+		
+		if(partida.getPuntuacio() > puntuacioMesAltaRegistrada) {
+			puntuacioRecord = partida.getPuntuacio();
+			IU.missatge("Enhorabona! Has batut el rècord de punts!");
+		}
+
 	}
 
 	// Mètode per mostrar l'historial de partides.

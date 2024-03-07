@@ -16,8 +16,10 @@ import Mastermind.Partida.Dificultats;
 
 public class Joc {
 
+	// Variables globals.
 	protected static List<Partida> llistaPartides = new ArrayList<>();
 
+	// Mètode main.
 	public static void main(String[] args) {
 		menuPrincipal();
 
@@ -100,6 +102,7 @@ public class Joc {
 		// Reiniciar variables per pròximes partides.
 		Tirada.numTirada = 1; // contador de tirades.
 		partida.setIntentsRestants(Partida.MAX_INTENTS);
+		partida.setPuntuacio(0);
 
 		// Seleccionar la dificultat del joc.
 		seleccionarDificultat(partida);
@@ -108,22 +111,7 @@ public class Joc {
 		partida.crearCombinacio();
 
 		// Demanar el nom del jugador.
-		String nomJugador = null;
-		boolean nomJugadorValid = false;
-		do {
-			IU.separador();
-			IU.titol("JUGADOR");
-			nomJugador = Entrada.cadena("Nom").trim().toUpperCase();
-
-			if(nomJugador != null && !nomJugador.isEmpty()) {
-				nomJugadorValid = true;
-			} else {
-				IU.missatgeError("El nom del Jugador no pot estar en blanc");
-			}
-
-		} while(!nomJugadorValid);
-
-		partida.setNomJugador(nomJugador);
+		partida.setNomJugador(Logica.definirJugador());
 
 		IU.separador();
 		IU.titol("Nova Partida (Jugador: " + partida.getNomJugador() + " | " + "Dificultat: " + partida.getDificultat() + ")");
@@ -146,7 +134,8 @@ public class Joc {
 			IU.missatge("Colors disponibles:");
 			IU.llistaColors(partida);
 
-			IU.missatge("TIRADA " + tirada.getIdTirada() + " (intents restants: " + partida.getIntentsRestants() + ")");
+			IU.missatge("TIRADA " + tirada.getIdTirada() + " (intents restants: " + partida.getIntentsRestants() 
+			+ " | punts: " + partida.getPuntuacio() + ")");
 
 			// Anar demanant al Jugador que introdueixi els colors.
 			Character[] combinacioIntentada = Logica.demanarColors(partida);
@@ -155,18 +144,21 @@ public class Joc {
 
 			IU.missatge("Combinació:\t" + Logica.imprimirColors(combinacioIntentada, 0, partida));
 
+			// Comprovar la tirada i mostrar el resultat.
+			tirada.setResultatTirada(partida.comprovarTirada(tirada));
+			IU.missatge("Resultat:\t" + Logica.imprimirColors(tirada.getResultatTirada(), 1, partida));
+			IU.saltLinia();
+
+			// Comprovar si s'ha endevinat la combinació secreta.
+			combinacioEndevinada = Logica.comprovarResultat(tirada.getResultatTirada(), partida);
+			
+			// Assignar la puntuació segons el resultat de la tirada.
+			Logica.assignarPunts(tirada.getResultatTirada(), partida);
+			
 			// Afegir la tirada a la llista de tirades.
 			partida.getLlistaTirades().add(tirada);
 			// Reduir en 1 els intents restants.
 			partida.setIntentsRestants(partida.getIntentsRestants() - 1);
-
-			// Comprovar la tirada i mostrar el resultat.
-			tirada.setRespostaOrdinador(partida.comprovarTirada(tirada));
-			IU.missatge("Resultat:\t" + Logica.imprimirColors(tirada.getRespostaOrdinador(), 1, partida));
-			IU.saltLinia();
-
-			// Comprovar si s'ha endevinat la combinació secreta.
-			combinacioEndevinada = Logica.comprovarResultat(tirada.getRespostaOrdinador());
 
 			// Comprovar les condicions de victoria i derrota.
 			if(combinacioEndevinada) partidaFinalitzada = true;
