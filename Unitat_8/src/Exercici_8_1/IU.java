@@ -3,10 +3,12 @@ package Exercici_8_1;
 public class IU {
 
 	protected static void Separador() {
-		for(int i = 0; i < 40; i++) {
-			System.out.print("-");
+		StringBuilder s = new StringBuilder();
+		for(int i = 0; i < 90; i++) {
+			s.append("-");
 		}
-		System.out.println("\n");
+		
+		System.out.println(" " + s + "\n");
 	}
 	
 	protected static void SaltLinia() {
@@ -15,15 +17,24 @@ public class IU {
 	
 	protected static void Titol(String t, String s) {
 		Separador();
-		System.out.println(t.toUpperCase() + ": " + s + ".");
+		String mostrar_s = s != null ? ": " + s : "";
+		System.out.println(" " + t.toUpperCase() + mostrar_s + "\n");
 	}
 	
 	protected static void Missatge(String m) {
-		System.out.println("\n" + m);
+		System.out.println("\n " + m + ".");
+	}
+	
+	protected static void MissatgeExit(String m) {
+		System.out.println("\n ✔️ Èxit: " + m + ".");
+	}
+	
+	protected static void MissatgeFall(String m) {
+		System.out.println("\n ❌ Fall: " + m + ".");
 	}
 	
 	protected static void MissatgeEntrada(String m) {
-		System.out.print("\n" + m + ": ");
+		System.out.print("\n " + m + ": ");
 	}
 	
 }

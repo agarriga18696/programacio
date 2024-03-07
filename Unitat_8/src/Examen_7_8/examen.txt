@@ -1,0 +1,7 @@
+1. ver la cola de personas
+2. llegada de una nueva persona a la oficina
+3. atencion de la primera persona de la cola
+4. ver una lista de las personas atendiadas correctamente por orden de entrada
+5. ver la lista de personas que no se han posdido atender correctamennte por orden de entrada
+6. ver la lista de personas atendidas correctamente ordendas por dni
+7. ver la lista de personas que no se han podido atender correctamente ordenadas por dni

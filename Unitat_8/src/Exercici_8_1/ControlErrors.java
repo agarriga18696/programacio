@@ -7,92 +7,118 @@ import java.util.Scanner;
 public class ControlErrors {
 
 	private static Scanner in = new Scanner(System.in);
-	
+
 	public static void main(String[] args) {
-		
+
+		IU.Titol("Joc dels Errors", null);
 		Error_1();
 		Error_2();
 		Error_3();
+		FiDeJoc();
 
 	}
-	
+
 	// Error 1: InputMismatchException
 	private static void Error_1() {
-		boolean esNombre;
-		
+		boolean esNombre = true;
+
 		IU.Titol("Error 1", "InputMismatchException");
-		
+		IU.Missatge("En aquest exemple tenim una variable 'N' de tipus int (enter)");
+		IU.Missatge("Prova a introduir un valor no numèric per veure l'excepció");
+
 		do {
 			try {
-				IU.MissatgeEntrada("Introdueix un nombre");
-				int n = in.nextInt();
-				esNombre = true;
-				
+				IU.MissatgeEntrada("Entrada");
+				if(!in.hasNextInt()) {
+					int n = in.nextInt();
+					esNombre = true;
+
+				} else {
+					IU.MissatgeFall("Prova a introduir un valor no numèric");
+				}
+
 			} catch(InputMismatchException e) {
-				IU.Missatge("No has introduït un nombre.");
+				IU.MissatgeExit("Al introduir un valor no vàlid pel tipus de variable es llençaria un error");
 				esNombre = false;
 			}
-			
+
 			in.nextLine();
-			
-		} while(!esNombre);
-		
-		IU.Missatge("Has introduït un nombre.");
+
+		} while(esNombre);
+
 		IU.SaltLinia();
-		
+
 	}
-	
+
 	// Error 2: IndexOutOfBoundsException.
 	private static void Error_2() {
 		int[] array = {0, 1, 2, 3, 4, 5};
 		int i = 0;
-		
+
 		IU.Titol("Error 2", "IndexOutOfBoundsException");
+		IU.Missatge("Tenim un array d'enters de llargaria " + array.length + ": " + Arrays.toString(array));
+		IU.Missatge("Prova a seleccionar un índex que estigui fora de l'array");
 		
 		do {
 			try {
-				IU.Missatge("Array: " + Arrays.toString(array));
-				IU.MissatgeEntrada("Selecciona un índex de l'array");
+				IU.MissatgeEntrada("Entrada");
 				i = in.nextInt();
-				
+
 				IU.Missatge("Has seleccionat: " + array[i]);
-				
+
+				if(i >= 0 && i <= array.length - 1) {
+					IU.MissatgeFall("Prova a seleccionar un índex que es trobi fora dels límits");
+				}
+
 			} catch(IndexOutOfBoundsException e) {
-				IU.Missatge("T'has passat tres pobles.");
+				IU.MissatgeExit("El programa, al sortir-se dels límits de l'array llençaria un error");
 			}
-			
+
 			in.nextLine();
-			
-		} while(i >= array.length);
-		
-		IU.Missatge("L'índex és correcte.");
+
+		} while(i >= 0 && i <= array.length - 1);
+
 		IU.SaltLinia();
-		
+
 	}
-	
+
 	// Error 3: ArithmeticException.
 	private static void Error_3() {
 		int n = 0, r = 0;
-		
+
 		IU.Titol("Error 3", "ArithmeticException");
-		
+		IU.Missatge("Hem de dividir el nombre 10, però necessitem que el divisor sigui zero");
+		IU.Missatge("Creus que sortirà un error al intentar dividir per zero? Saps perquè?");
+
 		do {
 			try {
-				IU.MissatgeEntrada("Per quin nombre vols dividir 10?");
+				IU.MissatgeEntrada("Entrada");
 				n = in.nextInt();
 				r = 10 / n;
-								
+				
+				if(n != 0) {
+					IU.MissatgeFall("Intenta dividir per zero");
+				}
+
 			} catch(ArithmeticException e) {
-				IU.Missatge("No pots dividir per zero!");
+				IU.MissatgeExit("Al intentar dividir per zero la operació continua de manera infinita");
+				IU.Missatge("Això pot dur a terme alguns problemes de rendiment o que el programa quedi penjat");
+				IU.Missatge("Per això als programes informàtics, com les calculadores, no està permès dividir per zero");
 			}
-			
+
 			in.nextLine();
-			
-		} while(n == 0);
-		
-		IU.Missatge("Operació correcta! 10 / " + n + " = " + r);
+
+		} while(n != 0);
+
 		IU.SaltLinia();
-		
+
+	}
+	
+	private static void FiDeJoc() {
+		IU.Titol("Fi del joc", null);
+		IU.Missatge("Has arribat al final del joc! Enhorabona!");
+		IU.SaltLinia();
+		System.exit(0);
 	}
 
 }
