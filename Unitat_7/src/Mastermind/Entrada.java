@@ -56,4 +56,32 @@ public class Entrada {
 		}
 	}
 
+	// String
+	public static String lletra(String opcio) {
+		String lletra = null;
+
+		while(true) {
+			IU.missatgeSeguit("\n " + opcio.trim() + ": ");
+
+			if(in.hasNextLine()) {
+				lletra = in.nextLine();
+				if(lletra.length() == 1 && Character.isAlphabetic(lletra.charAt(0))) {
+					return lletra.trim();
+
+				} else {
+					if(lletra.length() != 1) {
+						IU.missatgeError("Introdueix únicament una lletra");
+						
+					} else if(!Character.isAlphabetic(lletra.charAt(0))) {
+						IU.missatgeError("No has introduït una lletra");
+					}
+				}
+
+			} else {
+				IU.missatgeError("El caracter introduït no és vàlid");
+				in.nextLine();
+			}
+		}
+	}
+
 }

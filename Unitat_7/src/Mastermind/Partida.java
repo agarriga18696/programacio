@@ -11,8 +11,8 @@ public class Partida {
 	protected static final int MAX_INTENTS = 16;
 	protected static final int MAX_COLORS = 9;
 	protected static final char VERMELL = 'R';
-	protected static final char BLAU = 'B';
 	protected static final char VERD = 'G';
+	protected static final char BLAU = 'B';
 	protected static final char MAGENTA = 'M';
 	protected static final char GROC = 'Y';
 	protected static final char CIAN = 'C';
@@ -36,8 +36,9 @@ public class Partida {
 	private Character[] combinacioSecreta;
 	protected List<Tirada> llistaTirades;
 	private int puntuacio; // fitxa negre: 3 pts | fitxa blanca: 1 pt
+	private boolean puntuacioRecord;
 	private Dificultats dificultat;
-	private int maxCombColors;
+	private int maxCombinacioColors;
 	private String resultatPartida; // victoria | derrota
 	private int intentsRestants;
 
@@ -47,8 +48,9 @@ public class Partida {
 		this.combinacioSecreta = null;
 		this.llistaTirades = new ArrayList<>();
 		this.puntuacio = 0;
+		this.puntuacioRecord = false;
 		this.dificultat = null;
-		this.maxCombColors = 4;
+		this.maxCombinacioColors = 4;
 		this.resultatPartida = null;
 		this.intentsRestants = MAX_INTENTS;
 	}
@@ -82,6 +84,14 @@ public class Partida {
 		this.puntuacio = puntuacio;
 	}
 
+	public boolean isPuntuacioRecord() {
+		return puntuacioRecord;
+	}
+
+	public void setPuntuacioRecord(boolean puntuacioRecord) {
+		this.puntuacioRecord = puntuacioRecord;
+	}
+
 	public Dificultats getDificultat() {
 		return dificultat;
 	}
@@ -90,12 +100,12 @@ public class Partida {
 		this.dificultat = dificultat;
 	}
 
-	public int getMaxCombColors() {
-		return maxCombColors;
+	public int getMaxCombinacioColors() {
+		return maxCombinacioColors;
 	}
 
-	public void setMaxCombColors(int maxCombColors) {
-		this.maxCombColors = maxCombColors;
+	public void setMaxCombinacioColors(int maxCombinacioColors) {
+		this.maxCombinacioColors = maxCombinacioColors;
 	}
 
 	public String getResultatPartida() {
@@ -123,19 +133,19 @@ public class Partida {
 
 	// Mètode per crear una combinació de colors aleatoriament.
 	protected void crearCombinacio() {
-		Character[] combinacioColors = new Character[maxCombColors];
+		Character[] combinacioColors = new Character[maxCombinacioColors];
 		Character[] colors;
 		Random random = new Random();
 
 		// En cas de que la dificultat sigui 'Expert' afegir nous colors adicionals.
 		if(dificultat.equals(Dificultats.EXPERT)) {
-			colors = new Character[]{VERMELL, BLAU, VERD, MAGENTA, GROC, CIAN, ROSA, NEGRE, BLANC};
+			colors = new Character[]{VERMELL, VERD, BLAU, MAGENTA, GROC, CIAN, ROSA, NEGRE, BLANC};
 
 		} else {
-			colors = new Character[]{VERMELL, BLAU, VERD, MAGENTA, GROC, CIAN};
+			colors = new Character[]{VERMELL, VERD, BLAU, MAGENTA, GROC, CIAN};
 		}
 
-		for(int i = 0; i < maxCombColors; i++) {
+		for(int i = 0; i < maxCombinacioColors; i++) {
 			combinacioColors[i] = colors[random.nextInt(colors.length - 1)];
 		}
 
@@ -159,8 +169,8 @@ public class Partida {
 		 * 
 		 * Valors de cada índex del contador de colors:
 		 * [0] : (R) Red
-		 * [1] : (B) Blue
-		 * [2] : (G) Green
+		 * [1] : (G) Green
+		 * [2] : (B) Blue
 		 * [3] : (M) Magenta
 		 * [4] : (Y) Yellow
 		 * [5] : (C) Cyan
@@ -172,15 +182,15 @@ public class Partida {
 
 		// INICIALITZAR CONTADOR DE COLORS DE LA COMBINACIÓ SECRETA.
 		// Incrementar el contador de cada color segons la quantitat de colors de la combinació secreta.
-		for(int i = 0; i < maxCombColors; i++) {
+		for(int i = 0; i < maxCombinacioColors; i++) {
 			if(combinacioSecreta[i] == VERMELL) {
 				cont_combinacioSecreta[0]++;
 
-			} else if(combinacioSecreta[i] == BLAU) {
-				cont_combinacioSecreta[1]++;
-
 			} else if(combinacioSecreta[i] == VERD) {
 				cont_combinacioSecreta[2]++;
+
+			} else if(combinacioSecreta[i] == BLAU) {
+				cont_combinacioSecreta[1]++;
 
 			} else if(combinacioSecreta[i] == MAGENTA) {
 				cont_combinacioSecreta[3]++;
@@ -205,16 +215,16 @@ public class Partida {
 
 		// Comparar la tirada del jugador amb la combinació secreta.
 		Character[] combinacioIntentada = tirada.getCombinacioIntentada();
-		resultatTirada = new Character[maxCombColors];
+		resultatTirada = new Character[maxCombinacioColors];
 
-		for(int i = 0; i < maxCombColors; i++) {
+		for(int i = 0; i < maxCombinacioColors; i++) {
 			// Comprovar si coincideix el mateix color a la mateixa posició (NEGRE).
 			if(combinacioSecreta[i].equals(combinacioIntentada[i])) {
 				reduirContadorCombinacioSecreta(combinacioSecreta[i], i, NEGRE);
 
 			} else {
 				// Comprovar si coincideix el mateix color a una posició diferent (BLANC).
-				for(int j = 0; j < maxCombColors; j++) {
+				for(int j = 0; j < maxCombinacioColors; j++) {
 					if(i != j && combinacioIntentada[i].equals(combinacioSecreta[j])) {
 						reduirContadorCombinacioSecreta(combinacioSecreta[j], i, BLANC);
 						break;
@@ -245,7 +255,7 @@ public class Partida {
 			resultatDesordenat.addAll(Collections.nCopies(resultatTirada.length - resultatDesordenat.size(), null));
 
 			// Copiar la llista desordenada a l'array del resultat.
-			for (int i = 0; i < maxCombColors; i++) {
+			for (int i = 0; i < maxCombinacioColors; i++) {
 				resultatTirada[i] = resultatDesordenat.get(i);
 			}
 		}
@@ -262,16 +272,16 @@ public class Partida {
 				cont_combinacioSecreta[0]--;
 			}
 			break;
-		case BLAU:
-			if(cont_combinacioSecreta[1] > 0) {
-				resultatTirada[indexResultatTirada] = color;
-				cont_combinacioSecreta[1]--;
-			}
-			break;
 		case VERD:
 			if(cont_combinacioSecreta[2] > 0) {
 				resultatTirada[indexResultatTirada] = color;
 				cont_combinacioSecreta[2]--;
+			}
+			break;
+		case BLAU:
+			if(cont_combinacioSecreta[1] > 0) {
+				resultatTirada[indexResultatTirada] = color;
+				cont_combinacioSecreta[1]--;
 			}
 			break;
 		case MAGENTA:

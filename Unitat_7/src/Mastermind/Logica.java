@@ -16,9 +16,9 @@ public class Logica {
 	protected static String definirJugador() {
 		String nomJugador = null;
 		boolean nomJugadorValid = false;
+
 		do {
-			IU.separador();
-			IU.titol("JUGADOR");
+			IU.titol("Jugador", "");
 			nomJugador = Entrada.cadena("Nom").trim().toUpperCase();
 
 			if(nomJugador != null && !nomJugador.isEmpty()) {
@@ -30,7 +30,6 @@ public class Logica {
 		} while(!nomJugadorValid);
 
 		return nomJugador;
-
 	}
 
 	// Mètode per comprovar el resultat de la tirada.
@@ -63,13 +62,13 @@ public class Logica {
 
 	// Mètode per demanar l'entrada de colors al jugador.
 	protected static Character[] demanarColors(Partida partida) {
-		Character[] combinacioIntentada = new Character[partida.getMaxCombColors()];
+		Character[] combinacioIntentada = new Character[partida.getMaxCombinacioColors()];
 
-		for(int i = 0; i < partida.getMaxCombColors(); i++) {
+		for(int i = 0; i < partida.getMaxCombinacioColors(); i++) {
 			boolean colorCorrecte = false;
 
 			while(!colorCorrecte) {
-				combinacioIntentada[i] = Entrada.cadena("Color " + (i + 1)).toUpperCase().charAt(0);
+				combinacioIntentada[i] = Entrada.lletra("Color " + (i + 1)).toUpperCase().charAt(0);
 
 				colorCorrecte = validarColorEntrada(combinacioIntentada[i], partida);
 
@@ -90,11 +89,11 @@ public class Logica {
 	protected static boolean validarColorEntrada(Character c, Partida partida) {
 		char color = Character.toUpperCase(c);
 
-		if(!partida.getDificultat().equals(Dificultats.EXPERT) && (color == Partida.VERMELL || color == Partida.BLAU || color == Partida.VERD ||
+		if(!partida.getDificultat().equals(Dificultats.EXPERT) && (color == Partida.VERMELL || color == Partida.VERD || color == Partida.BLAU ||
 				color == Partida.GROC || color == Partida.MAGENTA || color == Partida.CIAN)) {
 			return true;
 
-		} else if(partida.getDificultat().equals(Dificultats.EXPERT) && (color == Partida.VERMELL || color == Partida.BLAU || color == Partida.VERD ||
+		} else if(partida.getDificultat().equals(Dificultats.EXPERT) && (color == Partida.VERMELL || color == Partida.VERD || color == Partida.BLAU ||
 				color == Partida.GROC || color == Partida.MAGENTA || color == Partida.CIAN || color == Partida.ROSA || 
 				color == Partida.NEGRE || color == Partida.BLANC)) {
 			return true;
@@ -107,42 +106,57 @@ public class Logica {
 	// Mètode per mostrar el missatge de victoria o derrota.
 	protected static void resultatPartida(boolean partidaFinalitzada, boolean combinacioEndevinada, Partida partida) {
 		if(partidaFinalitzada && combinacioEndevinada) {
+			// Aplicar el multiplicador de punts.
+			// Total punts * intents restants
+			partida.setPuntuacio(partida.getPuntuacio() * partida.getIntentsRestants());
 			IU.missatge("🏆 Has guanyat! Has endivinat la combinació!");
-			IU.missatge("Has conseguit una puntuació total de " + partida.getPuntuacio() + "!");
+			IU.missatge("Recompte de punts: " + (partida.getPuntuacio() / partida.getIntentsRestants()) + " pts * " + partida.getIntentsRestants() 
+			+ " intents restants = " + partida.getPuntuacio() + " pts.");
+			IU.missatge("Has conseguit un total de " + partida.getPuntuacio() + " punts!");
 			partida.setResultatPartida("Victòria");
 
 		} else if(partidaFinalitzada && partida.getIntentsRestants() <= 0){
 			IU.missatge("💔 Has perdut... T'has quedat sense intents.");
 			IU.missatge("La combinació era: " + Logica.imprimirColors(partida.getCombinacioSecreta(), 0, partida));
-			IU.missatge("Has conseguit una puntuació total de " + partida.getPuntuacio() + "!");
+			// Quan perds també perds tots els punts guanyats durant la partida.
+			partida.setPuntuacio(0);
 			partida.setResultatPartida("Derrota");
 		}
 
 		// Comprovar si ha batut el rècord de punts.
 		comprovarRecordPunts(partida);
-
-		IU.saltLinia();
 	}
 
 	// Mètode per comprovar si ha batut el rècord de punts en comparació a les altres partides.
 	private static void comprovarRecordPunts(Partida partida) {
-		int puntuacioMesAltaRegistrada = 0, puntuacioRecord = 0;
 		int[] puntuacionsTotalsPartides = new int[Joc.llistaPartides.size()];
 
-		// Trobar la puntuació més alta entre totes les partides jugades.
-		for(int i = 0; i < Joc.llistaPartides.size(); i++) {
-			puntuacionsTotalsPartides[i] = Joc.llistaPartides.get(i).getPuntuacio();
-		}
-		
-		Ordenacio.seleccioDirecta(puntuacionsTotalsPartides);
-		
-		puntuacioMesAltaRegistrada = puntuacionsTotalsPartides[0];
-		
-		if(partida.getPuntuacio() > puntuacioMesAltaRegistrada) {
-			puntuacioRecord = partida.getPuntuacio();
-			IU.missatge("Enhorabona! Has batut el rècord de punts!");
-		}
+		// Fer la comprovació si hi ha com a mínim 2 partides registrades.
+		if(Joc.llistaPartides != null) {
+			// Afegir totes les puntuacions a l'array de puntuacions totals.
+			for(int i = 0; i < Joc.llistaPartides.size(); i++) {
+				puntuacionsTotalsPartides[i] = Joc.llistaPartides.get(i).getPuntuacio();
+			}
 
+			// Ordenar l'array de major a menor, així l'índex 0 sempre serà la puntuació més alta.
+			Ordenacio.seleccioDirecta(puntuacionsTotalsPartides);
+
+			// Comprovar si la puntuació de la partida actual és més alta que la puntuació més alta registrada.
+			if(partida.getPuntuacio() > Joc.puntuacioRecord) {
+				IU.missatge("🎉 Enhorabona! Has batut el rècord de punts!");
+
+				// Definir la variable de puntuacio record de totes les partides com a false.
+				for(Partida p : Joc.llistaPartides) {
+					p.setPuntuacioRecord(false);
+				}
+
+				// Establir com a true la puntuacio record de la partida actual.
+				partida.setPuntuacioRecord(true);
+				
+				// Emmagatzemar la puntuació rècord a la variable global.
+				Joc.puntuacioRecord = partida.getPuntuacio();
+			}
+		}
 	}
 
 	// Mètode per mostrar l'historial de partides.
@@ -152,8 +166,7 @@ public class Logica {
 		// Mostrar l'historial de tirades.
 		if(Joc.llistaPartides.size() > 0) { // Comprovar si existeixen partides.
 			for(Partida partida : Joc.llistaPartides) {
-				IU.separador();
-				IU.titol("Resum de la partida " + (i + 1) + ":");
+				IU.titol("Resum de la partida " + (i + 1) + ":", "");
 				IU.historialTirades(partida);
 				i++;
 			}
@@ -171,11 +184,11 @@ public class Logica {
 
 	// Mètode per imprimir els cercles de colors per pantalla.
 	protected static String imprimirColors(Character[] combinacio, int opcio, Partida partida) {
-		String[] colors = new String[partida.getMaxCombColors()];
+		String[] colors = new String[partida.getMaxCombinacioColors()];
 
 		// Colors de la combinació de la tirada.
 		if(opcio == 0) {
-			for(int i = 0; i < partida.getMaxCombColors(); i++) {
+			for(int i = 0; i < partida.getMaxCombinacioColors(); i++) {
 				if(combinacio[i] != null) {
 					// Switch 1
 					// Imprimir els cercles segons el color.
@@ -183,11 +196,11 @@ public class Logica {
 					case Partida.VERMELL:
 						colors[i] = IU.TEXT_VERMELL + IU.CERCLE + IU.TEXT_RESET;
 						break;
-					case Partida.BLAU:
-						colors[i] = IU.TEXT_BLAU + IU.CERCLE + IU.TEXT_RESET;
-						break;
 					case Partida.VERD:
 						colors[i] = IU.TEXT_VERD + IU.CERCLE + IU.TEXT_RESET;
+						break;
+					case Partida.BLAU:
+						colors[i] = IU.TEXT_BLAU + IU.CERCLE + IU.TEXT_RESET;
 						break;
 					case Partida.MAGENTA:
 						colors[i] = IU.TEXT_MAGENTA + IU.CERCLE + IU.TEXT_RESET;
@@ -246,6 +259,5 @@ public class Logica {
 
 		return Arrays.toString(colors);
 	}
-
 
 }

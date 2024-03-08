@@ -18,6 +18,7 @@ public class Joc {
 
 	// Variables globals.
 	protected static List<Partida> llistaPartides = new ArrayList<>();
+	protected static int puntuacioRecord = 0;
 
 	// Mètode main.
 	public static void main(String[] args) {
@@ -30,11 +31,10 @@ public class Joc {
 	// Mètode per mostrar el menú principal.
 	private static void menuPrincipal() {
 		int opcio = 0;
-		
+
 		do {
-			IU.separador();
-			IU.titol("Mastermind (v1.0)");
-			IU.opcionsMenu("Nova Partida", "Historial Partides", "Sortir");
+			IU.titol("Mastermind", "v1.0");
+			IU.opcionsMenu("Nova Partida", "Historial Partides", "Instruccions", "Sortir");
 			opcio = Entrada.enter("Opció");
 
 			switch(opcio) {
@@ -45,6 +45,9 @@ public class Joc {
 				Logica.historialPartides();
 				break;
 			case 3:
+				IU.instruccions();
+				break;
+			case 4:
 				sortir();
 				return;
 			default:
@@ -52,7 +55,7 @@ public class Joc {
 				break;
 			}
 
-		} while(opcio != 3);
+		} while(opcio != 4);
 	}
 
 	// Mètode per seleccionar la dificultat del joc.
@@ -61,17 +64,14 @@ public class Joc {
 		 * Dificultats del joc:
 		 * -> Principiant: el resultat de cada tirada mostrarà els acerts (cercle blanc o negre) i els falls (creu)
 		 * en el mateix ordre que la combinació introduïda pel jugador, és a dir, cada índex correspondrà a la mateixa posició.
-		 * D'aquesta manera el joc és més intuitiu i senzill.
 		 * -> Avançat: el resultat de la tirada no es mostrarà de manera ordenada, per tant, els índexs no coincidiràn.
-		 * -> Expert: el mateix que l'avançat, amb l'afegit que hi ha 3 colors adicionals i que la combinació és de 6 colors enlloc de 4.
+		 * -> Expert: el mateix que l'avançat, amb l'afegit que hi ha 3 colors adicionals, la combinació és de 6 colors 
+		 * en lloc de 4, i es tindrà un màxim de 10 intents en lloc de 16.
 		 * 
 		 */
-
 		boolean dificultatValida = false;
-
 		do {
-			IU.separador();
-			IU.titol("DIFICULTAT");
+			IU.titol("Dificultat", "");
 			IU.opcionsMenu("Principiant", "Avançat", "Expert");
 			int opcio = Entrada.enter("Opció");
 
@@ -84,7 +84,8 @@ public class Joc {
 				return;
 			case 3:
 				partida.setDificultat(Dificultats.EXPERT);
-				partida.setMaxCombColors(6); // les combinacions seràn de 6 colors.
+				partida.setMaxCombinacioColors(6);
+				partida.setIntentsRestants(10);
 				return;
 			default:
 				IU.missatgeError("Dificultat no vàlida");
@@ -92,7 +93,6 @@ public class Joc {
 			}
 
 		} while(!dificultatValida);
-
 	}
 
 	// Mètode per iniciar una nova partida.
@@ -113,8 +113,7 @@ public class Joc {
 		// Demanar el nom del jugador.
 		partida.setNomJugador(Logica.definirJugador());
 
-		IU.separador();
-		IU.titol("Nova Partida (Jugador: " + partida.getNomJugador() + " | " + "Dificultat: " + partida.getDificultat() + ")");
+		IU.titol("Nova Partida (Jugador: " + partida.getNomJugador() + " | " + "Dificultat: " + partida.getDificultat() + ")", "");
 
 		// Mostrar la combinació secreta (només per proves).
 		//IU.missatge("Combinació secreta: " + Arrays.toString(partida.getCombinacioSecreta()));
@@ -131,7 +130,6 @@ public class Joc {
 			Tirada tirada = new Tirada();
 
 			// Mostrar els colors disponibles.
-			IU.missatge("Colors disponibles:");
 			IU.llistaColors(partida);
 
 			IU.missatge("TIRADA " + tirada.getIdTirada() + " (intents restants: " + partida.getIntentsRestants() 
@@ -151,10 +149,10 @@ public class Joc {
 
 			// Comprovar si s'ha endevinat la combinació secreta.
 			combinacioEndevinada = Logica.comprovarResultat(tirada.getResultatTirada(), partida);
-			
+
 			// Assignar la puntuació segons el resultat de la tirada.
 			Logica.assignarPunts(tirada.getResultatTirada(), partida);
-			
+
 			// Afegir la tirada a la llista de tirades.
 			partida.getLlistaTirades().add(tirada);
 			// Reduir en 1 els intents restants.
@@ -165,12 +163,11 @@ public class Joc {
 			if(partida.getIntentsRestants() <= 0) partidaFinalitzada = true;
 		}
 
-		// Mostrar missatge de victoria o derrota.
-		Logica.resultatPartida(partidaFinalitzada, combinacioEndevinada, partida);
-
 		// Emmagatzemar la partida dins de la llista de partides.
 		llistaPartides.add(partida);
 
+		// Mostrar missatge de victoria o derrota.
+		Logica.resultatPartida(partidaFinalitzada, combinacioEndevinada, partida);
 	}
 
 	// Mètode per sortir del joc.
