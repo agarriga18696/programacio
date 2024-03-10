@@ -38,22 +38,22 @@ public class IU {
 	protected static void separador() {
 		StringBuilder s = new StringBuilder();
 		s.append("\n ");
-		
+
 		for(int i = 0; i < 60; i++) {
 			s.append("-");
 		}
-		
+
 		System.out.println(" " + s + "\n");
 	}
 
 
 	//////////////////////////
 	//						//
-	//		   MENU			//
+	//		   MENÚS		//
 	//						//
 	//////////////////////////
 
-	// Mètode per mostrar les opcions d'un menú.
+	// Mètode per mostrar les opcions d'un menú de manera flexible.
 	protected static void opcionsMenu(String... opcions) {
 		int i = 1;
 
@@ -63,13 +63,176 @@ public class IU {
 		}
 	}
 
+	// Mètode per mostrar el menú principal.
+	protected static void menuPrincipal() {
+		int opcio = 0;
+
+		do {
+			IU.titol("Mastermind", "v1.0");
+			IU.opcionsMenu("Nova Partida", "Historial Partides", "Instruccions", "Sortir");
+			opcio = Entrada.enter("Opció");
+
+			switch(opcio) {
+			case 1:
+				Joc.novaPartida();
+				break;
+			case 2:
+				Logica.historialPartides();
+				break;
+			case 3:
+				menuInstruccions();
+				break;
+			case 4:
+				Joc.sortir();
+				return;
+			default:
+				missatgeError("Opció no vàlida");
+				break;
+			}
+
+		} while(opcio != 4);
+	}
+
+	// Mètode per mostrar el menú de dificultat del joc.
+	protected static void menuDificultat(Partida partida) {
+		/* 
+		 * Dificultats del joc:
+		 * -> Principiant: el resultat de cada tirada mostrarà els acerts (cercle blanc o negre) i els falls (creu)
+		 * en el mateix ordre que la combinació introduïda pel jugador, és a dir, cada índex correspondrà a la mateixa posició.
+		 * -> Avançat: el resultat de la tirada no es mostrarà de manera ordenada, per tant, els índexs no coincidiràn.
+		 * -> Expert: el mateix que l'avançat, amb l'afegit que hi ha 3 colors adicionals, la combinació és de 6 colors 
+		 * en lloc de 4, i es tindrà un màxim de 10 intents en lloc de 16.
+		 * 
+		 */
+		while(true) {
+			titol("Dificultat", "");
+			opcionsMenu("Principiant", "Avançat", "Expert");
+			int opcio = Entrada.enter("Opció");
+
+			switch(opcio) {
+			case 1:
+				partida.setDificultat(Dificultats.PRINCIPIANT);
+				return;
+			case 2:
+				partida.setDificultat(Dificultats.AVANCAT);
+				return;
+			case 3:
+				partida.setDificultat(Dificultats.EXPERT);
+				partida.setMaxCombinacioColors(6);
+				partida.setIntentsRestants(10);
+				return;
+			default:
+				missatgeError("Dificultat no vàlida");
+				break;
+			}
+		}
+	}
+
+	// Mètode per mostrar el menú d'instruccions.
+	protected static void menuInstruccions() {
+		int opcio = 0;
+
+		do {
+			titol("Instruccions", "");
+			opcionsMenu("Objectiu", "Tirades", "Colors", "Resultat", "Puntuació", "Rècord de punts", "Guanyar o perdre", "Dificultat", "Tornar enrere");
+			opcio = Entrada.enter("Opció");
+
+			switch(opcio) {
+			case 1:
+				missatge("OBJECTIU: L'objectiu del joc és endevinar la combinació de"
+						+ "\n colors secreta (generada de manera aleatòria per la màquina)"
+						+ "\n dins d'un rang d'intents (per defecte son 16 intents).");
+				break;
+			case 2:
+				missatge("TIRADES: El joc es desenvolupa en una sèrie de tirades. En"
+						+ "\n cada tirada hauràs d'intentar endevinar la combinació secreta"
+						+ "\n de colors.");
+				break;
+			case 3:
+				missatge("COLORS: Principalment, les combinacions de colors constaran"
+						+ "\n de 4 colors, on es podran repetir. Els colors disponibles es"
+						+ "\n mostraran a l'inici de cada partida, amb la seva respectiva"
+						+ "\n lletra, i depenent de la dificultat triada, podran variar en"
+						+ "\n número.");
+				break;
+			case 4:
+				missatge("RESULTAT: Després de cada intent, la màquina proporcionarà"
+						+ "\n un resultat segons la precisió de l'intent del jugador.\n"
+						+ "\n Aquest resultat constarà dels següents símbols:"
+						+ "\n ▪ Un cercle blanc indicarà que hi ha un color correcte, però"
+						+ "\n   en una posició incorrecta."
+						+ "\n ▪ Un cercle negre indicarà que hi ha un color correcte en"
+						+ "\n   una posició correcta."
+						+ "\n ▪ Una creu indicarà que el color no està en la combinació"
+						+ "\n   secreta.");
+				break;
+			case 5:
+				missatge("PUNTUACIÓ: Després de cada tirada, el jugador podrà guanyar"
+						+ "\n punts en funció de la precisió del seu intent. Els punts"
+						+ "\n acumulats es mantindran al llarg de la partida.\n"
+						+ "\n La puntuació es determinarà de la següent manera:"
+						+ "\n ▪ Per cada cercle blanc, el jugador obtindrà 1 punt."
+						+ "\n ▪ Per cada cercle negre, el jugador aconseguirà 3 punts."
+						+ "\n ▪ Les creus no sumaran ni restaran punts.\n"
+						+ "\n Al final de la partida, es multiplicarà el total de punts"
+						+ "\n pel nombre restant d'intents.\n"
+						+ "\n Si el jugador aconsegueix endevinar la combinació secreta"
+						+ "\n dins del nombre d'intents especificat, conservarà els punts"
+						+ "\n acumulats. No obstant això, si esgota tots els intents sense"
+						+ "\n endevinar la combinació, perdrà tots els punts acumulats.");
+				
+				break;
+			case 6:
+				missatge("RÈCORD DE PUNTS: Els jugadors podran intentar batre el rècord"
+						+ "\n de punts. Per fer-ho hauran d'obtenir la quantitat més gran"
+						+ "\n possible de punts en una partida.");
+				break;
+			case 7:
+				missatge("GUANYAR O PERDRE: Si el jugador aconsegueix endevinar la"
+						+ "\n combinació secreta dins del nombre d'intents especificat,"
+						+ "\n guanyarà la partida. En canvi, si esgota tots els intents"
+						+ "\n sense endevinar la combinació, perdrà tant la partida com"
+						+ "\n tots els punts acumulats fins el moment.");
+				break;
+			case 8:
+				missatge("PRINCIPIANT: És la dificultat més senzilla. Després de cada"
+						+ "\n tirada, veuràs els encerts i els errors en el mateix ordre"
+						+ "\n que la combinació intentada. Això significa que cada índex"
+						+ "\n correspondrà a la mateixa posició en la qual has col·locat"
+						+ "\n els colors. Aquesta opció és ideal per jugar de manera més"
+						+ "\n intuïtiva.");
+
+				missatge("AVANÇAT: És el mode original del joc. Aquí, el resultat"
+						+ "\n de cada tirada no es mostrarà en el mateix ordre que"
+						+ "\n introdueixis els colors. Els índexs no coincidiran amb les"
+						+ "\n posicions de la teva combinació, la qual cosa afegeix un"
+						+ "\n desafiament addicional al joc.");
+
+				missatge("EXPERT: És la màxima dificultat. És similar al mode avançat"
+						+ "\n però amb algunes diferències a destacar. A més que el"
+						+ "\n resultat no es mostrarà en ordre, s'agregaran tres colors"
+						+ "\n addicionals, la combinació passarà a ser de 6 colors en"
+						+ "\n lloc de 4 i es redueixen els intents a 10 en lloc de 16."
+						+ "\n En aquest mode podràs demostrar la teva habilitat com a"
+						+ "\n vertader professional del Mastermind.");
+				break;
+			case 9:
+				return;
+			default:
+				missatgeError("Opció no vàlida");
+				break;
+			}
+
+		} while(opcio != 9);
+	}
+
 
 	//////////////////////////
 	//						//
-	//		 MISSATGES		//
+	//	 SORTIDES DE TEXT	//
 	//						//
 	//////////////////////////
-	
+
 	protected static void titol(String t, String s) {
 		separador();
 		String mostrar_s = s != null && !s.trim().isEmpty() ? ": " + s : "";
@@ -139,80 +302,6 @@ public class IU {
 		}
 
 		System.out.println();
-	}
-
-	// Mètode per mostrar les instruccions del joc.
-	protected static void instruccions() {
-		titol("Instruccions", "Partida");
-		missatge("OBJECTIU: L'objectiu principal del joc és endevinar la"
-				+ "\n combinació de colors secreta generada de manera aleatoria"
-				+ "\n per la màquina.");
-		
-		missatge("TIRADES: El joc es desenvolupa en una sèrie de tirades. En"
-				+ "\n cada tirada hauràs d'intentar adivinar la combinació secreta"
-				+ "\n de colors.");
-		
-		missatge("COLORS: Principalment, les combinacions de colors constaràn"
-				+ "\n de 4 colors, on es poden repetir. Els colors disponibles es"
-				+ "\n mostraràn a l'inici de cada partida, amb la seva respectiva"
-				+ "\n lletra, i depenent de la dificultat triada podràn canviar.");
-		
-		missatge("RESULTAT: Desrpés de cada intent, la màquina proporcionarà"
-				+ "\n un resultat segons la precisió de l'intent per part del."
-				+ "\n jugador. Aquest resultat constarà dels següents símbols:"
-				+ "\n Un cercle blanc indicarà que hi ha un color correcte, però"
-				+ "\n en una posició incorrecta."
-				+ "\n Un cercle negre indicarà que hi ha un color correcte en una"
-				+ "\n posició correcta."
-				+ "\n Una creu indicarà que el color no està en la combinació"
-				+ "\n secreta.");
-		
-		missatge("PUNTUACIÓ: Després de cada tirada, el jugador acumularà"
-				+ "\n punts en funció de la precisió del seu intent. La puntuació"
-				+ "\n es determinarà de la següent manera:"
-				+ "\n Per cada cercle blanc, el jugador obtindrà 1 punt."
-				+ "\n Per cada cercle negre, el jugador obtindrà 3 punts."
-				+ "\n Les creus no sumaran ni restaran punts."
-				+ "\n Els punts acumulats es mantindràn al llarg de la partida."
-				+ "\n Al final de la partida, es multiplicarà el total de punts"
-				+ "\n pel nombre restant d'intents. D'aquesta manera, si el"
-				+ "\n jugador encerta la combinació en pocs intents, podrà guanyar"
-				+ "\n més punts que si l'encerta en molts intents."
-				+ "\n Si el jugador aconsegueix endevinar la combinació secreta"
-				+ "\n dins del nombre d'intents especificat, conservarà els punts"
-				+ "\n acumulats. No obstant això, si esgota tots els intents sense"
-				+ "\n endevinar la combinació, perdrà tots els punts acumulats.");
-		
-		missatge("GUANYAR O PERDRE: Si el jugador aconsegueix endevinar la"
-				+ "\n combinació secreta dins del nombre d'intents especificat,"
-				+ "\n guanyarà la partida. En canvi, si esgota tots els intents"
-				+ "\n sense endevinar la combinació, perdrà.");
-		
-		missatge("RÈCORD DE PUNTS: Els jugadors podràn intentar batre el rècord"
-				+ "\n de punts, intentant obtenir la major quantitat possible de"
-				+ "\n punts en una partida.");
-		
-		titol("Instruccions", "Dificultat");
-		missatge("PRINCIPIANT: És la dificultat més senzilla. Després de cada"
-				+ "\n tirada, veuràs els acerts i els errors en el mateix ordre"
-				+ "\n que la combinació intentada. Això significa que cada índex"
-				+ "\n correspondrà a la mateixa posició en la que has colocat"
-				+ "\n els colors. Aquesta opció és ideal per jugar de manera més"
-				+ "\n intuitiva.");
-		
-		missatge("AVANÇAT: És el mode original del joc. Aquí, el resultat"
-				+ "\n de cada tirada no es mostrarà en el mateix ordre que"
-				+ "\n introdueixis els colors. Els índex no coincidiràn amb les"
-				+ "\n posicions de la teva combinació, la qual cosa afegeix un"
-				+ "\n desafiament addicional al joc.");
-		
-		missatge("EXPERT: És la màxima dificultat. És similar al mode avançat"
-				+ "\n però amb algunes diferències a destacar. A més de que el"
-				+ "\n resultat no es mostrarà en ordre, s'agreguen tres colors"
-				+ "\n addicionals, la combinació passarà a ser de 6 colors en"
-				+ "\n lloc de 4 i es redueixen els intents a 10 en lloc de 16."
-				+ "\n En aquest mode podràs demostrar la teva habilitat com a"
-				+ "\n vertader professional del Mastermind.");
 	}
 
 }

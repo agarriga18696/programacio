@@ -7,7 +7,7 @@ public class Entrada {
 	protected static Scanner in = new Scanner(System.in);
 
 	// Int
-	public static int enter(String opcio) {
+	protected static int enter(String opcio) {
 		String nombre = null;
 
 		while(true) {
@@ -34,7 +34,7 @@ public class Entrada {
 	}
 
 	// String
-	public static String cadena(String opcio) {
+	protected static String cadena(String opcio) {
 		String cadena = null;
 
 		while(true) {
@@ -57,7 +57,7 @@ public class Entrada {
 	}
 
 	// String
-	public static String lletra(String opcio) {
+	protected static String lletra(String opcio) {
 		String lletra = null;
 
 		while(true) {

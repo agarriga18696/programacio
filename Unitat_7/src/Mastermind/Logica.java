@@ -109,10 +109,10 @@ public class Logica {
 			// Aplicar el multiplicador de punts.
 			// Total punts * intents restants
 			partida.setPuntuacio(partida.getPuntuacio() * partida.getIntentsRestants());
-			IU.missatge("🏆 Has guanyat! Has endivinat la combinació!");
-			IU.missatge("Recompte de punts: " + (partida.getPuntuacio() / partida.getIntentsRestants()) + " pts * " + partida.getIntentsRestants() 
+			IU.missatge("🏆 Has guanyat! Has endevinat la combinació!");
+			IU.missatge("Recompte de punts: " + (partida.getPuntuacio() / partida.getIntentsRestants()) + " pts x " + partida.getIntentsRestants() 
 			+ " intents restants = " + partida.getPuntuacio() + " pts.");
-			IU.missatge("Has conseguit un total de " + partida.getPuntuacio() + " punts!");
+			IU.missatge("Has aconseguit un total de " + partida.getPuntuacio() + " punts!");
 			partida.setResultatPartida("Victòria");
 
 		} else if(partidaFinalitzada && partida.getIntentsRestants() <= 0){

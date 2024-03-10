@@ -22,81 +22,14 @@ public class Joc {
 
 	// Mètode main.
 	public static void main(String[] args) {
-		menuPrincipal();
+		IU.menuPrincipal();
 
 		// Tancar entrada.
 		Entrada.in.close();
 	}
 
-	// Mètode per mostrar el menú principal.
-	private static void menuPrincipal() {
-		int opcio = 0;
-
-		do {
-			IU.titol("Mastermind", "v1.0");
-			IU.opcionsMenu("Nova Partida", "Historial Partides", "Instruccions", "Sortir");
-			opcio = Entrada.enter("Opció");
-
-			switch(opcio) {
-			case 1:
-				novaPartida();
-				break;
-			case 2:
-				Logica.historialPartides();
-				break;
-			case 3:
-				IU.instruccions();
-				break;
-			case 4:
-				sortir();
-				return;
-			default:
-				IU.missatgeError("Opció no vàlida");
-				break;
-			}
-
-		} while(opcio != 4);
-	}
-
-	// Mètode per seleccionar la dificultat del joc.
-	private static void seleccionarDificultat(Partida partida) {
-		/* 
-		 * Dificultats del joc:
-		 * -> Principiant: el resultat de cada tirada mostrarà els acerts (cercle blanc o negre) i els falls (creu)
-		 * en el mateix ordre que la combinació introduïda pel jugador, és a dir, cada índex correspondrà a la mateixa posició.
-		 * -> Avançat: el resultat de la tirada no es mostrarà de manera ordenada, per tant, els índexs no coincidiràn.
-		 * -> Expert: el mateix que l'avançat, amb l'afegit que hi ha 3 colors adicionals, la combinació és de 6 colors 
-		 * en lloc de 4, i es tindrà un màxim de 10 intents en lloc de 16.
-		 * 
-		 */
-		boolean dificultatValida = false;
-		do {
-			IU.titol("Dificultat", "");
-			IU.opcionsMenu("Principiant", "Avançat", "Expert");
-			int opcio = Entrada.enter("Opció");
-
-			switch(opcio) {
-			case 1:
-				partida.setDificultat(Dificultats.PRINCIPIANT);
-				return;
-			case 2:
-				partida.setDificultat(Dificultats.AVANCAT);
-				return;
-			case 3:
-				partida.setDificultat(Dificultats.EXPERT);
-				partida.setMaxCombinacioColors(6);
-				partida.setIntentsRestants(10);
-				return;
-			default:
-				IU.missatgeError("Dificultat no vàlida");
-				break;
-			}
-
-		} while(!dificultatValida);
-	}
-
 	// Mètode per iniciar una nova partida.
-	private static void novaPartida() {
+	protected static void novaPartida() {
 		// Crear objecte partida.
 		Partida partida = new Partida();
 		// Reiniciar variables per pròximes partides.
@@ -105,7 +38,7 @@ public class Joc {
 		partida.setPuntuacio(0);
 
 		// Seleccionar la dificultat del joc.
-		seleccionarDificultat(partida);
+		IU.menuDificultat(partida);
 
 		// Crear la combinació de colors secreta.
 		partida.crearCombinacio();
@@ -171,12 +104,11 @@ public class Joc {
 	}
 
 	// Mètode per sortir del joc.
-	private static void sortir() {
+	protected static void sortir() {
 		IU.separador();
-		IU.missatge("Fins una altra! 👋");
+		IU.missatge("Fins a una altra! 👋");
 		IU.saltLinia();
 		System.exit(0);
 	}
-
 
 }
