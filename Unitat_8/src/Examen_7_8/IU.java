@@ -1,21 +1,66 @@
 package Examen_7_8;
 
-import java.util.InputMismatchException;
 
 public class IU {
 
+	//////////////////////////
+	//						//
+	//		   MENÚS		//
+	//						//
+	//////////////////////////
+
+	// Mètode per mostrar les opcions d'un menú de manera flexible.
+	protected static void opcionsMenu(String... opcions) {
+		int i = 1;
+
+		System.out.println();
+		for(String opcio : opcions) {
+			System.out.println(" (" + i + ") " + opcio.trim());
+			i++;
+		}
+	}
+
+	//////////////////////
+	//					//
+	//	   MISSATGES	//
+	//					//
+	//////////////////////
+
+	// Sortida de String sense sangrat.
+	protected static void sortida(String m) {
+		System.out.println("\n" + m);
+	}
+
+	// Missatge per defecte.
 	protected static void missatge(String m) {
 		System.out.println("\n " + m);
 	}
 
-	protected static void missatgeErrorCritic(String m) {
-		System.out.println("\n 🛑 Error Crític: " + m);
+	// Missatge d'èxit.
+	protected static void missatgeExit(String m) {
+		System.out.println("\n ✔️ Èxit: " + m + "!");
 	}
 
+	// Missatge d'adverència.
+	protected static void missatgeAdvertencia(String m) {
+		System.out.println("\n ⚠️ Advertència: " + m + ".");
+	}
+
+	// Missatge d'error.
+	protected static void missatgeError(String m) {
+		System.out.println("\n ❌ Error: " + m + "!");
+	}
+
+	// Missatge d'error crític, per avisar d'errors d'execució del codi.
+	protected static void missatgeErrorCritic(String m) {
+		System.out.println("\n ❗ Error Crític: " + m + ".");
+	}
+
+	// Títol acompanyat d'un subtítol (en cas que s'especifiqui).
 	protected static void titol(String t, String s) {
 		String mostrarSubtitol = s != null && !s.trim().isEmpty() ? ": " + s : "";
 
-		System.out.println("\n " + t.toUpperCase() + mostrarSubtitol);
+		System.out.println("\n\n " + t.toUpperCase() + mostrarSubtitol);
 	}
 
 	//////////////////////
@@ -24,38 +69,23 @@ public class IU {
 	//					//
 	//////////////////////
 
-	protected static String llista(Character tipus, String... def) {
-		// Tipus de llistes:
-		// -> Tipus O: llista numèrica ordenada.
-		// -> Tipus D: llista no numèrica desordenada.
-
+	// Llista ordenada o desordenada.
+	protected static String llista(boolean ordenada, String... elements) {
 		StringBuilder llista = new StringBuilder();
 
-		try {
-			if(tipus != null) {
-				switch(tipus) {
-				case 'O':
-					for(int i = 0; i < def.length; i++) {
-						llista.append(" " + (i+1) + ". " + def[i] + "\n");
-					}
-					break;
-				case 'D':
-					for(int i = 0; i < def.length; i++) {
-						llista.append(" ▪ " + def[i] + "\n");
-					}
-					break;
-				default:
-					missatgeErrorCritic("No es troba el tipus de llista " + tipus + ".");
-					break;
-				}
+		if (elements.length == 0) {
+			return "";
+		}
+
+		for (int i = 0; i < elements.length; i++) {
+			if (ordenada) {
+				llista.append(" " + (i + 1) + ". " + elements[i] + "\n");
+			} else {
+				llista.append(" ▪ " + elements[i] + "\n");
 			}
-			
-		} catch(InputMismatchException e) {
-			missatgeErrorCritic("El valor no és vàlid pel tipus de variable Character.");
 		}
 
 		return llista.toString();
-
 	}
 
 }
