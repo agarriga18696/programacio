@@ -101,8 +101,9 @@ public class ControlErrors {
 				}
 
 			} catch(ArithmeticException e) {
-				IU.MissatgeExit("Al intentar dividir per zero la operació continua de manera infinita");
-				IU.Missatge("Això pot dur a terme alguns problemes de rendiment o que el programa quedi penjat");
+				IU.MissatgeExit("Al intentar dividir per zero es produeix un error conegut com 'divisió per zero'");
+				IU.Missatge("La divisió per zero no té cap sentit matemàticament, ja que no hi ha cap nombre que,"
+						+ "\n multiplicat per zero, doni com a resultat un nombre diferent a zero");
 				IU.Missatge("Per això als programes informàtics, com les calculadores, no està permès dividir per zero");
 			}
 
