@@ -33,14 +33,15 @@ public class Logica {
 			}
 
 			// Com que has guanyat es mantindrà la puntuació i la llista de paraules encertades.
-			Logica.reiniciarPartida(jugador, "victoria");
+			reiniciarPartida(jugador, "victoria");
 
 			return true;
 		}
 
 		// Comprovar si s'ha quedat sense vides (derrota).
 		if (jugador.getVides() <= 0) {
-			Missatge.Personalitzat("💔", "Derrota", "T'has quedat sense vides");
+			Missatge.Personalitzat("💔", "Derrota", "T'has quedat sense vides"
+					+ "\n\n La paraula era: " + JocPenjat.paraulaActualNormalitzada);
 
 			// Com que has perdut es perdrà la puntuació i la llista de paraules encertades.
 			Logica.reiniciarPartida(jugador, "derrota");

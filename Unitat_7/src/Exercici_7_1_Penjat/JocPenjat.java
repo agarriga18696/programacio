@@ -61,7 +61,6 @@ public class JocPenjat {
 			// Mentre no hagi finalitzat la partida anirà demanant una lletra al jugador.
 			if(!partidaFinalitzada) {
 				Logica.demanarLletra(jugador);
-				
 			}
 		}
 	}
