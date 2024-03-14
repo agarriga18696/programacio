@@ -79,7 +79,7 @@ public class Partida {
 	public int getPuntuacio() {
 		return puntuacio;
 	}
-	
+
 	public void setPuntuacio(int puntuacio) {
 		this.puntuacio = puntuacio;
 	}
@@ -182,55 +182,65 @@ public class Partida {
 
 		// INICIALITZAR CONTADOR DE COLORS DE LA COMBINACIÓ SECRETA.
 		// Incrementar el contador de cada color segons la quantitat de colors de la combinació secreta.
-		for(int i = 0; i < maxCombinacioColors; i++) {
-			if(combinacioSecreta[i] == VERMELL) {
-				cont_combinacioSecreta[0]++;
+		try {
+			for(int i = 0; i < maxCombinacioColors; i++) {
+				if(combinacioSecreta[i] == VERMELL) {
+					cont_combinacioSecreta[0]++;
 
-			} else if(combinacioSecreta[i] == VERD) {
-				cont_combinacioSecreta[2]++;
+				} else if(combinacioSecreta[i] == VERD) {
+					cont_combinacioSecreta[2]++;
 
-			} else if(combinacioSecreta[i] == BLAU) {
-				cont_combinacioSecreta[1]++;
+				} else if(combinacioSecreta[i] == BLAU) {
+					cont_combinacioSecreta[1]++;
 
-			} else if(combinacioSecreta[i] == MAGENTA) {
-				cont_combinacioSecreta[3]++;
+				} else if(combinacioSecreta[i] == MAGENTA) {
+					cont_combinacioSecreta[3]++;
 
-			} else if(combinacioSecreta[i] == GROC) {
-				cont_combinacioSecreta[4]++;
+				} else if(combinacioSecreta[i] == GROC) {
+					cont_combinacioSecreta[4]++;
 
-			} else if(combinacioSecreta[i] == CIAN) {
-				cont_combinacioSecreta[5]++;
+				} else if(combinacioSecreta[i] == CIAN) {
+					cont_combinacioSecreta[5]++;
 
-			} else if(combinacioSecreta[i] == ROSA) {
-				cont_combinacioSecreta[6]++;
+				} else if(combinacioSecreta[i] == ROSA) {
+					cont_combinacioSecreta[6]++;
 
-			} else if(combinacioSecreta[i] == NEGRE) {
-				cont_combinacioSecreta[7]++;
+				} else if(combinacioSecreta[i] == NEGRE) {
+					cont_combinacioSecreta[7]++;
 
-			} else if(combinacioSecreta[i] == BLANC) {
-				cont_combinacioSecreta[8]++;
+				} else if(combinacioSecreta[i] == BLANC) {
+					cont_combinacioSecreta[8]++;
 
+				}
 			}
+
+		} catch(IndexOutOfBoundsException e) {
+			IU.missatgeErrorCritic("S'ha intentat iterar sobre un índex que sobrepassa els límits de la mida de l'array");
 		}
+
 
 		// Comparar la tirada del jugador amb la combinació secreta.
 		Character[] combinacioIntentada = tirada.getCombinacioIntentada();
 		resultatTirada = new Character[maxCombinacioColors];
 
-		for(int i = 0; i < maxCombinacioColors; i++) {
-			// Comprovar si coincideix el mateix color a la mateixa posició (NEGRE).
-			if(combinacioSecreta[i].equals(combinacioIntentada[i])) {
-				reduirContadorCombinacioSecreta(combinacioSecreta[i], i, NEGRE);
+		try {
+			for(int i = 0; i < maxCombinacioColors; i++) {
+				// Comprovar si coincideix el mateix color a la mateixa posició (NEGRE).
+				if(combinacioSecreta[i].equals(combinacioIntentada[i])) {
+					reduirContadorCombinacioSecreta(combinacioSecreta[i], i, NEGRE);
 
-			} else {
-				// Comprovar si coincideix el mateix color a una posició diferent (BLANC).
-				for(int j = 0; j < maxCombinacioColors; j++) {
-					if(i != j && combinacioIntentada[i].equals(combinacioSecreta[j])) {
-						reduirContadorCombinacioSecreta(combinacioSecreta[j], i, BLANC);
-						break;
+				} else {
+					// Comprovar si coincideix el mateix color a una posició diferent (BLANC).
+					for(int j = 0; j < maxCombinacioColors; j++) {
+						if(i != j && combinacioIntentada[i].equals(combinacioSecreta[j])) {
+							reduirContadorCombinacioSecreta(combinacioSecreta[j], i, BLANC);
+							break;
+						}
 					}
 				}
 			}
+		} catch(IndexOutOfBoundsException e) {
+			IU.missatgeErrorCritic("S'ha intentat iterar sobre un índex que sobrepassa els límits de la mida de l'array");
 		}
 
 		// Desordenar el resultat en cas de dificultat avançada o experta.

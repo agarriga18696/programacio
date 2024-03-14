@@ -8,7 +8,7 @@ import Mastermind_v2.Partida.Dificultats;
 
 /**
  * 
- * MASTERMIND v1.0
+ * MASTERMIND v2.0
  * 
  * @author Andreu Garriga
  * 

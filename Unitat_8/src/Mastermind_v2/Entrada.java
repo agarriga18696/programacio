@@ -8,13 +8,11 @@ public class Entrada {
 
 	// Int
 	protected static int enter(String opcio) {
-		String nombre = null;
-
 		while(true) {
 			IU.missatgeSeguit("\n " + opcio.trim() + ": ");
 
-			if(in.hasNextLine()) {
-				nombre = in.nextLine();
+			try {
+				String nombre = in.nextLine();
 				if(nombre.length() > 0 && Character.isDigit(nombre.charAt(0))) {
 					return Integer.parseInt(nombre.trim());
 
@@ -26,7 +24,7 @@ public class Entrada {
 					}
 				}
 
-			} else {
+			} catch(Exception e) {
 				IU.missatgeError("El valor introduït no és vàlid");
 				in.nextLine();
 			}
@@ -35,21 +33,19 @@ public class Entrada {
 
 	// String
 	protected static String cadena(String opcio) {
-		String cadena = null;
-
 		while(true) {
 			IU.missatgeSeguit("\n " + opcio.trim() + ": ");
 
-			if(in.hasNextLine()) {
-				cadena = in.nextLine();
+			try {
+				String cadena = in.nextLine();
 				if(cadena.length() > 0) {
-					return cadena.trim();
+					return cadena.trim().toUpperCase();
 
 				} else {
 					IU.missatgeError("L'entrada no pot estar buida");
 				}
 
-			} else {
+			} catch(Exception e) {
 				IU.missatgeError("El caracter introduït no és vàlid");
 				in.nextLine();
 			}
@@ -58,15 +54,13 @@ public class Entrada {
 
 	// String
 	protected static String lletra(String opcio) {
-		String lletra = null;
-
 		while(true) {
 			IU.missatgeSeguit("\n " + opcio.trim() + ": ");
 
-			if(in.hasNextLine()) {
-				lletra = in.nextLine();
+			try {
+				String lletra = in.nextLine();
 				if(lletra.length() == 1 && Character.isAlphabetic(lletra.charAt(0))) {
-					return lletra.trim();
+					return lletra.trim().toUpperCase();
 
 				} else {
 					if(lletra.length() != 1) {
@@ -77,7 +71,7 @@ public class Entrada {
 					}
 				}
 
-			} else {
+			} catch(Exception e) {
 				IU.missatgeError("El caracter introduït no és vàlid");
 				in.nextLine();
 			}
