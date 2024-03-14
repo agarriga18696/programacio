@@ -4,8 +4,8 @@ public class Professor extends Persona {
 
 	// Atributs del professor.
 	private String assignatura;
-	
-	public Professor(String nom, String dni, byte edat, String assignatura) {
+
+	public Professor(String nom, String dni, int edat, String assignatura) {
 		super(nom, dni, edat);
 		this.assignatura = assignatura;
 	}
@@ -23,8 +23,23 @@ public class Professor extends Persona {
 	public String getAssignatura() {
 		return assignatura;
 	}
+
 	public void setAssignatura(String assignatura) {
 		this.assignatura = assignatura;
+	}
+
+	// Mètode toString.
+	@Override
+	public String toString() {
+		StringBuffer p = new StringBuffer();
+
+		p.append(IU.llistaOrdenada(false, 
+				"Nom: " + this.getNom(), 
+				"DNI: " + this.getDni(), 
+				"Edat: " + this.getEdat(), 
+				"Assignatura: " + this.getAssignatura()));
+
+		return p.toString();
 	}
 
 }

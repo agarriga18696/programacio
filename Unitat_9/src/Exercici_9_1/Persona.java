@@ -5,10 +5,10 @@ public class Persona {
 	// Atributs.
 	private String nom;
 	private String dni;
-	private byte edat;
+	private int edat;
 
 	// Definir els atributs de la persona.
-	public Persona(String nom, String dni, byte edat) {
+	public Persona(String nom, String dni, int edat) {
 		this.nom = nom;
 		this.dni = dni;
 		this.edat = edat;
@@ -23,8 +23,20 @@ public class Persona {
 		return dni;
 	}
 
-	public byte getEdat() {
+	public int getEdat() {
 		return edat;
+	}
+
+	// Mètode toString.
+	public String toString() {
+		StringBuffer p = new StringBuffer();
+
+		p.append(IU.llistaOrdenada(false, 
+				"Nom: " + nom, 
+				"DNI: " + dni, 
+				"Edat: " + edat));
+
+		return p.toString();
 	}
 
 }

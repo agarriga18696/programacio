@@ -2,6 +2,11 @@ package Exercici_9_1;
 
 public class Missatge {
 
+	// Sortida de text sense espaiat.
+	protected static void sortida(String m) {
+		System.out.println("\n" + m);
+	}
+
 	// Missatge simple.
 	protected static void simple(String m) {
 		System.out.println("\n " + m);
