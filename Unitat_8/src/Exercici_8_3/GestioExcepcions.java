@@ -9,24 +9,21 @@ public class GestioExcepcions {
 
 	public static void main(String[] args) {
 		iniciar_joc();
-		
+		Entrada.premerTecla("començar la partida");
 		excepcio_1();
+		Entrada.premerTecla("poder passar a la següent excepció");
 		excepcio_2();
-
+		Entrada.premerTecla("acabar la partida");
 		fiJoc();
 	}
 
 	private static void iniciar_joc() {
-		IU.titol("JOC DE LES EXCEPCIONS", "Part II");
-		
+		IU.titol("Joc de les Excepcions", "Part II");
 	}
 
 	// IOException.
 	private static void excepcio_1() {
-		Entrada.premerTecla("començar la partida");
-		
 		IU.titol("Excepció 1", "IOException");
-
 		Missatge.simple("Aquesta excepció es llança al trobar un error al llegir o escriure.\n"
 				+ " En aquest exemple intentarem llegir un arxiu que no existeix.");
 
@@ -51,10 +48,7 @@ public class GestioExcepcions {
 
 	// NullPointerException.
 	private static void excepcio_2() {
-		Entrada.premerTecla("poder passar a la següent excepció");
-		
 		IU.titol("Excepció 2", "NullPointerException");
-
 		Missatge.simple("Aquesta excepció es llança al intentar utilitzar una referència d'un objecte\n"
 				+ " que té un valor 'null'.\n\n"
 				+ " En aquest exemple tenim un objecte de tipus 'String' amb un valor null, i l'intentarem\n"
@@ -85,12 +79,10 @@ public class GestioExcepcions {
 
 	// Mètode per sortir del joc.
 	private static void fiJoc() {
-		Entrada.premerTecla("acabar la partida");
-		
 		// Tancar el búfer d'entrada.
 		Entrada.tancar();
 		
-		IU.titol("Fi del joc", comanda);
+		IU.titol("Fi del joc", null);
 		Missatge.exit("Ja has arribat al final del joc! Enhorabona! Gràcies per jugar");
 		IU.saltLinia();
 		System.exit(0);
