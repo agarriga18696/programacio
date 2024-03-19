@@ -65,7 +65,7 @@ public class GestorPuntuacions {
 			int punts = Entrada.enter("Punts");
 
 			// Validar que el nom contingui únicament caracters alfabètics.
-			if(nom.matches("[A-aZ-Z]+")) {
+			if(nom.matches("[a-zA-Z]+")) {
 				puntuacions.add(new Puntuacio(nom, cognoms, punts));
 				contPuntuacions++;
 				puntuacioValida = true;

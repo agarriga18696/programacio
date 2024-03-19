@@ -4,7 +4,7 @@ import java.util.Arrays;
 
 public class GestorPuntuacions2 {
 
-	private static int MAX_PUNTUACIONS = 10;
+	private static final int MAX_PUNTUACIONS = 10;
 	private static Puntuacio[] puntuacions = new Puntuacio[MAX_PUNTUACIONS];
 	private static int contPuntuacions = 0;
 

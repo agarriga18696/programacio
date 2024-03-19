@@ -14,9 +14,9 @@ public class Entrada {
 			System.out.print("\n " + opcio.trim() + ": ");
 
 			try {
-				nombre = in.nextLine();
+				nombre = in.nextLine().trim();
 				if(nombre.length() > 0 && Character.isDigit(nombre.charAt(0))) {
-					return Integer.parseInt(nombre.trim());
+					return Integer.parseInt(nombre);
 
 				} else {
 					if(nombre.length() == 0) {
