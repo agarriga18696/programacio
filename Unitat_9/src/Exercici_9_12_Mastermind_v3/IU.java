@@ -1,6 +1,6 @@
-package Mastermind_v3;
+package Exercici_9_12_Mastermind_v3;
 
-import Mastermind_v3.Partida.Dificultats;
+import Exercici_9_12_Mastermind_v3.Partida.Dificultats;
 
 public class IU {
 

@@ -1,4 +1,4 @@
-package Mastermind_v3;
+package Exercici_9_12_Mastermind_v3;
 
 import java.util.Scanner;
 
