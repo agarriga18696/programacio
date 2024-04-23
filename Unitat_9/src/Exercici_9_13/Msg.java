@@ -6,7 +6,7 @@ public class Msg {
 	protected static void titol(String t, String msg) {
 		System.out.println("\n " + t.toUpperCase() + ": " + (msg == null || msg.isEmpty() ? "" : msg));
 		
-		int mida_titol = (t.length() + (msg != null && !msg.isEmpty() ? msg.length() : 0)) + 2;
+		int mida_titol = (t.length() + (msg != null && !msg.isEmpty() ? msg.length() : -1)) + 2;
 		for(int i = 0; i <= mida_titol; i++) {
 			System.out.print((i == 0 ? " " : "-") + (i == mida_titol ? "\n" : ""));
 		}

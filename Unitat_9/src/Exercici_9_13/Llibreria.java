@@ -26,7 +26,7 @@ public class Llibreria {
 		int opcio = 0;
 
 		while(opcio != 4) {
-			Msg.titol("Llibreria", "de tot i més");
+			Msg.titol("Llibreria", "de tot i més.");
 			Msg.simple("1. 🔎 Mostrar Inventari");
 			Msg.simple("2. 👤 Registrar Client");
 			Msg.simple("3. 🛒 Comprar Llibre");
@@ -66,7 +66,7 @@ public class Llibreria {
 
 		// Afegir els llibres a l'inventari amb les quantitats aleatories.
 		for (String llibre : llibres) {
-			inventari.put(llibre, new Random().nextInt(5) + 1); // entre 1 i 5.
+			inventari.put(llibre, new Random().nextInt(10) + 1); // entre 1 i 10.
 		}
 	}
 
@@ -75,7 +75,7 @@ public class Llibreria {
 		Msg.simple("INVENTARI:");
 
 		for (Map.Entry<String, Integer> entry : inventari.entrySet()) {
-			Msg.simple(entry.getKey() + ": " + entry.getValue() + " exemplars");
+			Msg.simple(entry.getKey() + ": " + entry.getValue() + " exemplars.");
 		}
 
 		IU.saltLinia();
@@ -92,9 +92,8 @@ public class Llibreria {
 	private static void comprarLlibre() {
 		Msg.simple("COMPRAR LLIBRE:");
 
-		String client = Entrada.cadena("Client");
 		// Verificar si el client està registrat.
-		if(!clients.contains(client)) {
+		if(!clients.contains(Entrada.cadena("Client"))) {
 			IU.saltLinia();
 			Msg.advertencia("El client no està registrat. Per favor, registra'l primer.");
 			return;
