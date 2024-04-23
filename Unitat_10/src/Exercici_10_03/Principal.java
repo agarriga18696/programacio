@@ -23,7 +23,7 @@ public class Principal {
 			input = new FileInputStream(f_origen);
 			output = new FileOutputStream(f_copia);
 
-			byte[] dades = new byte[(int) f_origen.length()];
+			byte[] dades = new byte[1024];
 			int llegits = 0;
 
 			while(-1 != (llegits = input.read(dades))) {
