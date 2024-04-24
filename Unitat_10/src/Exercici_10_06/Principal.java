@@ -11,6 +11,7 @@ public class Principal {
 	private static final String RUTA_GZIP = "src/Exercici_10_06/fitxer.txt.gz";
 
 	public static void main(String[] args) throws Exception {
+		Msg.titol("Compressió de fitxers", null);
 		comprimir();
 	}
 
