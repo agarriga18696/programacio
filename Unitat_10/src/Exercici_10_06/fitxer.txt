@@ -1,1 +1,2 @@
-Hola! Som un fitxer que estava comprimit.
+Exercici 10.6: Comprimir un fitxer qualsevol i comprovar que el resultat es pot descomprimir de
+la manera usual de descomprimir un fitxer .gz (amb 7zip o WinRar per exemple).

@@ -36,7 +36,6 @@ public class Principal {
 			e.printStackTrace();
 
 		} finally {
-			IU.saltLinia();
 			Msg.exit("Arxiu comprimit correctament!");
 		}
 	}

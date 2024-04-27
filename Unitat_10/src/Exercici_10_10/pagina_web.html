@@ -1,0 +1,227 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+    <head>
+	<meta name="keywords" content="Institut Joan Ramis, Museu Virtual, Història Natural, Instruments Científics, Cartografia, Patrimoni Educatiu, Minerals, Vertebrats Taxidermitzats, Mol·luscs, Fòssils, Models Anatòmics, Maó, Menorca">
+        <meta name="description" content="Museu virtual del fons del patrimoni educatiu de l&#039;IES Joan Ramis i Ramis de Maó: col·leccions d&#039;instuments científics, història natural i altre material didàctic">
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+	<meta http-equiv="Content-Script-Type" content="text/javascript">
+	<meta http-equiv="Content-Style-Type" content="text/css">
+        <meta http-equiv="content-language" content="ca">
+        <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+        <link rel="stylesheet" type="text/css" href="css/general.css?v=2024042719">
+        <script type="text/javascript" src="js/general.js?v=2024042719"></script>
+        <link rel="stylesheet" type="text/css" href="css/menu_v.css?v=2024042719">
+        <!--[if gte IE 5.5]>
+        <script type="text/javascript" src="js/menu_v.js?v=2024042719"></script>
+        <![endif]-->
+        <title>Institut Joan Ramis: Museu Virtual</title>
+    </head>
+    <body>
+        <div id="todo">
+            <div id="encabezado">
+                <div class="idiomas">
+                    <form name="idiomas" action="/index.php" method="get" class="idiomas">
+                        <input type="hidden" name="lang" value="ca">
+                        <span>Català</span>
+                        &nbsp;&#124;&nbsp;
+                        <a class="enlaces_p" title="Español" href="#" onclick="javascript: document.idiomas.elements['lang'].value='es'; document.idiomas.submit(); return false">Español</a>
+                        &nbsp;&#124;&nbsp;
+                        <a class="enlaces_p" title="English" href="#" onclick="javascript: document.idiomas.elements['lang'].value='en'; document.idiomas.submit(); return false">English</a>
+                    </form>
+                </div>
+                <div id="titulo_web">Institut Joan Ramis: Museu Virtual</div>
+            </div>
+            <hr class="linea_top">
+            <table id="medio">
+                <tr>
+                    <td class="izquierda" rowspan="2">
+                        <div id="menu">
+                            <ul id="navmenu-v">
+                                <li><a href="index.php" title="Inici">Inici</a></li>
+                                <li><a href="benvinguda.php" title="Benvinguda">Benvinguda</a></li>
+                                <li><a href="noticies.php" title="Notícies">Notícies</a></li>
+                                <li><a href="#" title="Història" onclick="javascript: return false;">Història</a>
+                                    <ul>
+                                        <li><a href="historia_centre.php" title="Història del centre">Història del centre</a></li>
+                                        <li><a href="#" title="Galeries" onclick="javascript: return false;">Galeries</a>
+                                        <ul>
+                                            <li><a href="historia_institut.php" title="L&#039;institut">L&#039;institut</a></li>
+                                            <li><a href="historia_professors_i_alumnes.php" title="Professors i alumnes">Professors i alumnes</a></li>
+                                            <li><a href="historia_150_aniversari.php" title="150 aniversari de l&#039;institut">150 aniversari</a></li>
+                                        </ul>
+                                        <li><a href="origen_patrimoni.php" title="Origen del patrimoni del Ramis">Origen del patrimoni</a></li>
+                                    </ul>
+                                </li>
+                               <li><a href="pnl.php" title="Proposició No de Llei">PNL</a></li>
+                               <li><a href="coordinacio.php" title="Coordinació de l&#039;Arxiu i Patrimoni històrics">Coordinació</a></li>
+                               <li><a href="#" title="Col·leccions" onclick="javascript: return false;">Col·leccions</a>
+                                    <ul>
+                                        <li><a href="presentacio_coleccions.php" title="Presentació de les col·leccions">Presentació</a></li>
+                                        <li><a href="#" title="Història natural" onclick="javascript: return false;">Història natural</a>
+                                            <ul>
+                                                <li><a href="minerals.php" title="Minerals">Minerals</a></li>
+                                                <li><a href="vertebrats.php" title="Vertebrats taxidermitzats">Vertebrats</a></li>
+                                                <li><a href="molluscs.php" title="Mol·luscs">Mol·luscs</a></li>
+                                                <li><a href="fossils.php" title="Fòssils">Fòssils</a></li>
+                                                <li><a href="#" title="Mostra de models" onclick="javascript: return false;">Mostra de models</a>
+                                                    <ul>
+                                                        <li><a href="#" title="Models d&#039;història natural" onclick="javascript: return false;">Història natural</a>
+                                                            <ul>
+                                                                <li><a href="models_anatomics.php" title="Models anatòmics">Models anatòmics</a></li>
+                                                                <li><a href="models_sistemas_nerviosos.php" title="Models anatòmics de sistemas nerviosos">Sistemas nerviosos</a></li>
+                                                                <li><a href="models_flors.php" title="Models anatòmics de flors">Models de flors</a></li>
+                                                                <li><a href="models_inflorescencia.php" title="Models d’inflorescència">Models d’inflorescència</a></li>
+                                                            </ul>
+                                                        </li>
+                                                        <li><a href="models_agricultura.php" title="Models d&#039;agricultura">Agricultura</a></li>
+                                                    </ul>
+                                                </li>
+                                                <li><a href="#" title="Làmines" onclick="javascript: return false;">Làmines</a>
+                                                    <ul>
+                                                        <li><a href="lamines_presentacio.php" title="La col·lecció de làmines de l&#039;antic gabinet d&#039;Història Natural de l&#039;IES Joan Ramis i Ramis">Presentació</a></li>
+                                                        <li><a href="lamines.php" title="Làmines">Col·lecció</a></li>
+                                                    </ul>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <li><a href="instruments_cientifics.php" title="Instruments científics">Instruments científics</a></li>
+                                        <li><a href="#" title="Cartografia" onclick="javascript: return false;">Cartografia</a>
+                                            <ul>
+                                                <li><a href="cartografia_presentacio.php" title="La cartografia històrica a l&#039;IES Joan Ramis i Ramis">Presentació</a></li>
+                                                <li><a href="cartografia.php" title="Cartografia">Col·lecció</a></li>
+                                            </ul>
+                                        </li>
+                                        <li><a href="imatges.php" title="Imatges">Imatges</a></li>
+                                    </ul>
+                                 </li>
+				<li><a href="presentacio_ixjornades.php" title="IX Jornades d&#039;instituts històrics">IX Jornades</a></li>
+				<li><a href="arxiu.php" title="Arxiu històric de l&#039;IES Joan Ramis i Ramis">Arxiu històric</a></li>
+                                <li><a href="biblioteca.php" title="Biblioteca històrica de l&#039;Institut Joan Ramis i Ramis">Biblioteca històrica</a></li>
+                                <li><a href="aaab.php" title="Associació d&#039;Amics de l&#039;Arxiu i Biblioteca de l&#039;IES Joan Ramis i Ramis (AAAB)">AAAB</a></li>
+                                <li><a href="publicacions.php" title="Publicacions relacionades amb l&#039;Institut">Publicacions</a></li>
+                                <li><a href="qui_som.php" title="Qui som?">Qui som?</a></li>
+                                <li><a href="donacions.php" title="Donacions">Donacions</a></li>
+                                <li><a href="enllacos.php" title="Enllaços">Enllaços</a></li>
+                                <li><a href="contacte.php" title="Contacte">Contacte</a></li>
+                            </ul>
+                        </div>
+                        <div class="logos">
+                            <a href="http://www.iesjoanramis.org" title="IES Joan Ramis i Ramis de Maó" target="_blank"><img src="imagenes/logo_IesRamis.png" alt="IES Joan Ramis i Ramis de Maó"></a>
+                            <a href="http://interior.caib.es" title="Conselleria d&#039;Innovació, Interior i Justícia - Govern de les Illes Balears" target="_blank"><img src="imagenes/logo_GovernInnovacio2.gif" alt="Conselleria d&#039;Innovació, Interior i Justícia - Govern de les Illes Balears"></a>
+                        </div>
+                    </td>
+                    <td class="derecha">
+                        <div class="titulo_pagina">
+                            <h1>Institut Joan Ramis: Museu Virtual</h1>
+                        </div>
+<p class="titulo_parrafo_nc">
+    Col·leccions destacades</p>
+<div class="colecciones_destacadas_contenedor">
+    <div class="colecciones_destacadas">
+        <a href="minerals.php" title="Història natural: Minerals"><img class="colecciones_destacadas" src="imagenes/inici/minerals.jpg" alt="Història natural: Minerals" title="Història natural: Minerals"></a>
+    </div>
+    <div class="colecciones_destacadas">
+        <a href="lamines.php" title="Història natural: Làmines"><img class="colecciones_destacadas" src="imagenes/inici/lamines.jpg" alt="Història natural: Làmines" title="Història natural: Làmines"></a>
+    </div>
+    <div class="colecciones_destacadas">
+        <a href="vertebrats.php" title="Història natural: Vertebrats taxidermitzats"><img class="colecciones_destacadas" src="imagenes/inici/vertebrats.jpg" alt="Història natural: Vertebrats taxidermitzats" title="Història natural: Vertebrats taxidermitzats"></a>
+    </div>
+    <div class="colecciones_destacadas">
+        <a href="models_anatomics.php" title="Història natural: Models anatòmics"><img class="colecciones_destacadas" src="imagenes/inici/models.jpg" alt="Història natural: Models anatòmics" title="Història natural: Models anatòmics"></a>
+    </div>
+</div>
+<div class="colecciones_destacadas_contenedor">
+    <div class="colecciones_destacadas">
+        <a href="instruments_cientifics.php" title="Instruments científics"><img class="colecciones_destacadas" src="imagenes/inici/instruments.jpg" alt="Instruments científics" title="Instruments científics"></a>
+    </div>
+    <div class="colecciones_destacadas">
+        <a href="fossils.php" title="Història natural: Fòssils"><img class="colecciones_destacadas" src="imagenes/inici/fossils.jpg" alt="Història natural: Fòssils" title="Història natural: Fòssils"></a>
+    </div>
+    <div class="colecciones_destacadas">
+        <a href="cartografia.php" title="Cartografia"><img class="colecciones_destacadas" src="imagenes/inici/cartografia.jpg" alt="Cartografia" title="Cartografia"></a>
+    </div>
+    <div class="colecciones_destacadas">
+        <a href="molluscs.php" title="Història natural: Mol·luscs"><img class="colecciones_destacadas" src="imagenes/inici/molluscs.jpg" alt="Història natural: Mol·luscs" title="Història natural: Mol·luscs"></a>
+    </div>
+</div>
+<p class="titulo_parrafo_nc">
+    Últimes notícies</p>
+<table class="lista_contenedora">
+    <tr class="lista_contenedora_impar2">
+        <td class="lista_contenedora">
+            <table class="lista">
+                <tr class="lista">
+                    <td class="lista_foto" rowspan="3">
+                        <a class="lista" href="noticia.php?id=42" title="Novetats 2017"><img class="lista" src="imagenes/noticies/150x100/IJR_IMG_01_01_DSC0641.jpg" alt="Novetats 2017" title="Novetats 2017"></a>
+                    </td>
+                    <td class="lista_texto2">15-12-2017</td>
+                </tr>
+                <tr class="lista">
+                    <td class="lista_titulo2">
+                        <a class="lista" href="noticia.php?id=42" title="Novetats 2017">Novetats 2017</a>
+                    </td>
+                </tr>
+                <tr class="lista">
+                    <td class="lista_texto2">
+                        Acabam de publicar al nostre museu virtual les fitxes de dos instruments científics i les d’una sèrie de fotografies antigues d’Itàlia. Els instruments en qüestió són un <a href="instruments_cientifics_fitxa.php?id=165">opisòmetre del s. XIX</a>                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+    <tr class="lista_contenedora_par2">
+        <td class="lista_contenedora">
+            <table class="lista">
+                <tr class="lista">
+                    <td class="lista_foto" rowspan="3">
+                        <a class="lista" href="noticia.php?id=41" title="X Jornades Instituts històrics"><img class="lista" src="imagenes/noticies/150x100/x_jornades_Terol.jpg" alt="X Jornades Instituts històrics" title="X Jornades Instituts històrics"></a>
+                    </td>
+                    <td class="lista_texto2">10-06-2016</td>
+                </tr>
+                <tr class="lista">
+                    <td class="lista_titulo2">
+                        <a class="lista" href="noticia.php?id=41" title="X Jornades Instituts històrics">X Jornades Instituts històrics</a>
+                    </td>
+                </tr>
+                <tr class="lista">
+                    <td class="lista_texto2">
+                        Com cada any, del 30 de juny al 3 de juliol de 2016, tindran lloc les X Jornades d’instituts històrics. L’institut organitzador és, en aquest cas, l’IES Vega del Túria de Terol.<br>
+L’IES Joan Ramis i Ramis hi participa amb una comunicació, ...                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+    <tr class="lista_contenedora_impar2">
+        <td class="lista_contenedora">
+            <table class="lista">
+                <tr class="lista">
+                    <td class="lista_foto" rowspan="3">
+                        <a class="lista" href="noticia.php?id=40" title="Reconeixement a L&#039;institut Alfonso X El Sabio, de Múrcia"><img class="lista" src="imagenes/logo_IesRamis_g.png" alt="Reconeixement a L&#039;institut Alfonso X El Sabio, de Múrcia" title="Reconeixement a L&#039;institut Alfonso X El Sabio, de Múrcia"></a>
+                    </td>
+                    <td class="lista_texto2">01-02-2016</td>
+                </tr>
+                <tr class="lista">
+                    <td class="lista_titulo2">
+                        <a class="lista" href="noticia.php?id=40" title="Reconeixement a L&#039;institut Alfonso X El Sabio, de Múrcia">Reconeixement a L'institut Alfonso X El Sabio, de Múrcia</a>
+                    </td>
+                </tr>
+                <tr class="lista">
+                    <td class="lista_texto2">
+                        En el B.O.E. de dia 28 de gener de 2016 surt publicada la concessió de la placa d'honor de l'Ordre Civil d'Alfonso X El Sabio a l' institut Alfonso X de Múrcia.<br>
+Com diu el B.O.E. : “De acuerdo con lo dispuesto en el Real Decreto 954/1988, de 2 ...                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+<br>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="derecha_abajo">
+                        <hr class="linea_bottom">
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,5 @@
+La classe més útil entre els modificadors de fluxos orientats a caràcter és BufferedReader, que
+permet la lectura de línies completes de text mitjançant el mètode readLine(), que retorna
+directament un String. Ella sola s’encarrega de llegir automàticament tots els caràcters
+necessaris fins a trobar un salt de línia. Aquesta classe també es considera un Reader, perquè
+és una subclasse seva.
