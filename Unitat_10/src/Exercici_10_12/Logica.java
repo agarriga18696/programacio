@@ -40,7 +40,7 @@ public class Logica {
 	// Mètode per comprovar el resultat de la tirada.
 	protected static boolean comprovarResultat(Character[] resultatTirada, Partida partida) {
 		for(Character i : resultatTirada) {
-			if(i != null && !i.equals(Partida.NEGRE)) {
+			if(i != null && !i.equals(IU.NEGRE)) {
 				return false;
 
 			} else if(i == null) {
@@ -59,9 +59,9 @@ public class Logica {
 			for(int i = 0; i < resultatTirada.length; i++) {
 				Character c = resultatTirada[i];
 				if(c != null) {
-					if(c.equals(Partida.NEGRE)) {
+					if(c.equals(IU.NEGRE)) {
 						encertNegre++;
-					} else if(c.equals(Partida.BLANC)) {
+					} else if(c.equals(IU.BLANC)) {
 						encertBlanc++;
 					}
 				}
@@ -112,13 +112,13 @@ public class Logica {
 	protected static boolean validarColorEntrada(Character c, Partida partida) {
 		char color = Character.toUpperCase(c);
 
-		if(!partida.getDificultat().equals(Dificultats.EXPERT) && (color == Partida.VERMELL || color == Partida.VERD || color == Partida.BLAU ||
-				color == Partida.GROC || color == Partida.MAGENTA || color == Partida.CIAN)) {
+		if(!partida.getDificultat().equals(Dificultats.EXPERT) && (color == IU.VERMELL || color == IU.VERD || color == IU.BLAU ||
+				color == IU.GROC || color == IU.MAGENTA || color == IU.CIAN)) {
 			return true;
 
-		} else if(partida.getDificultat().equals(Dificultats.EXPERT) && (color == Partida.VERMELL || color == Partida.VERD || color == Partida.BLAU ||
-				color == Partida.GROC || color == Partida.MAGENTA || color == Partida.CIAN || color == Partida.ROSA || 
-				color == Partida.NEGRE || color == Partida.BLANC)) {
+		} else if(partida.getDificultat().equals(Dificultats.EXPERT) && (color == IU.VERMELL || color == IU.VERD || color == IU.BLAU ||
+				color == IU.GROC || color == IU.MAGENTA || color == IU.CIAN || color == IU.ROSA || 
+				color == IU.NEGRE || color == IU.BLANC)) {
 			return true;
 
 		} else {
@@ -193,6 +193,7 @@ public class Logica {
 				IU.historialTirades(partida);
 				i++;
 			}
+			
 		} else {
 			IU.missatgeAdvertencia("No s'ha trobat cap partida registrada");
 		}
@@ -217,31 +218,31 @@ public class Logica {
 						// Switch 1
 						// Imprimir els cercles segons el color.
 						switch(combinacio[i]) {
-						case Partida.VERMELL:
+						case IU.VERMELL:
 							colors[i] = IU.TEXT_VERMELL + IU.CERCLE + IU.TEXT_RESET;
 							break;
-						case Partida.VERD:
+						case IU.VERD:
 							colors[i] = IU.TEXT_VERD + IU.CERCLE + IU.TEXT_RESET;
 							break;
-						case Partida.BLAU:
+						case IU.BLAU:
 							colors[i] = IU.TEXT_BLAU + IU.CERCLE + IU.TEXT_RESET;
 							break;
-						case Partida.MAGENTA:
+						case IU.MAGENTA:
 							colors[i] = IU.TEXT_MAGENTA + IU.CERCLE + IU.TEXT_RESET;
 							break;
-						case Partida.GROC:
+						case IU.GROC:
 							colors[i] = IU.TEXT_GROC + IU.CERCLE + IU.TEXT_RESET;
 							break;
-						case Partida.CIAN:
+						case IU.CIAN:
 							colors[i] = IU.TEXT_CIAN + IU.CERCLE + IU.TEXT_RESET;
 							break;
-						case Partida.ROSA:
+						case IU.ROSA:
 							colors[i] = IU.TEXT_ROSA + IU.CERCLE + IU.TEXT_RESET;
 							break;
-						case Partida.NEGRE:
+						case IU.NEGRE:
 							colors[i] = IU.TEXT_NEGRE + IU.CERCLE + IU.TEXT_RESET;
 							break;
-						case Partida.BLANC:
+						case IU.BLANC:
 							colors[i] = IU.TEXT_BLANC + IU.CERCLE + IU.TEXT_RESET;
 							break;
 						default:
@@ -267,10 +268,10 @@ public class Logica {
 						// Switch 2
 						// Imprimir els cercles segons el color.
 						switch(combinacio[i]) {
-						case Partida.NEGRE:
+						case IU.NEGRE:
 							colors[i] = IU.TEXT_NEGRE + IU.CERCLE + IU.TEXT_RESET;
 							break;
-						case Partida.BLANC:
+						case IU.BLANC:
 							colors[i] = IU.TEXT_BLANC + IU.CERCLE + IU.TEXT_RESET;
 							break;
 						default:
@@ -303,7 +304,7 @@ public class Logica {
 			fileIn.close();
 			Joc.llistaPartides.add(partida);
 
-			IU.missatgeExit("La partida s'ha carregat correctament");
+			IU.missatge("🔄 Partida carregada: La partida s'ha carregat correctament");
 
 		} catch(IOException | ClassNotFoundException e) {
 			// En cas que no es pugui carregar la partida des de l'arxiu, fer com si no hi hagués cap partida guardada.
@@ -322,7 +323,7 @@ public class Logica {
 			fileOut.close();
 
 			IU.saltLinia();
-			IU.missatgeExit("La partida s'ha guardat correctament");
+			IU.missatge("💾 Guardat autom.: La partida s'ha guardat correctament");
 
 		} catch(IOException e) {
 			e.printStackTrace();

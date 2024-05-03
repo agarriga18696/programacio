@@ -1,5 +1,6 @@
 package Exercici_10_12;
 
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -101,6 +102,9 @@ public class Joc {
 			if(combinacioEndevinada) partidaFinalitzada = true;
 			if(partida.getIntentsRestants() <= 0) partidaFinalitzada = true;
 		}
+		
+		// Emmagatzemar l'hora de fi de la partida.
+		partida.setHora_fi(LocalTime.now());
 
 		// Emmagatzemar la partida dins de la llista de partides.
 		llistaPartides.add(partida);

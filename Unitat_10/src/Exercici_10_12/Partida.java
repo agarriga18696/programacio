@@ -1,27 +1,19 @@
 package Exercici_10_12;
 
 import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
 public class Partida implements Serializable {
-	
+
 	private static final long serialVersionUID = 1L;
-	
+
 	// Constants.
 	protected static final int MAX_INTENTS = 16;
-	protected static final int MAX_COLORS = 9;
-	protected static final char VERMELL = 'R';
-	protected static final char VERD = 'G';
-	protected static final char BLAU = 'B';
-	protected static final char MAGENTA = 'M';
-	protected static final char GROC = 'Y';
-	protected static final char CIAN = 'C';
-	protected static final char ROSA = 'P';
-	protected static final char NEGRE = 'K';
-	protected static final char BLANC = 'W';
 
 	// Variables globals.
 	private static Character[] resultatTirada;
@@ -38,12 +30,15 @@ public class Partida implements Serializable {
 	private String nomJugador;
 	private Character[] combinacioSecreta;
 	protected List<Tirada> llistaTirades;
-	private int puntuacio; // fitxa negre: 2 pts | fitxa blanca: 1 pt
+	private int puntuacio;
 	private boolean puntuacioRecord;
 	private Dificultats dificultat;
 	private int maxCombinacioColors;
-	private String resultatPartida; // victoria | derrota
+	private String resultatPartida;
 	private int intentsRestants;
+	private LocalDate data;
+	private LocalTime hora_inici;
+	private LocalTime hora_fi;
 
 	// Constructor.
 	public Partida() {
@@ -56,6 +51,11 @@ public class Partida implements Serializable {
 		this.maxCombinacioColors = 4;
 		this.resultatPartida = null;
 		this.intentsRestants = MAX_INTENTS;
+
+		// Guardar la data i la hora en que s'ha jugat la partida.
+		this.data = LocalDate.now();
+		this.hora_inici = LocalTime.now();
+		this.hora_fi = null; // No guardar la hora fins que no acaba la partida.
 	}
 
 	// Getters i setters.
@@ -127,6 +127,23 @@ public class Partida implements Serializable {
 		this.intentsRestants = intentsRestants;
 	}
 
+	public LocalDate getData() {
+		return data;
+	}
+
+	public LocalTime getHora_fi() {
+		return hora_fi;
+	}
+
+	public void setHora_fi(LocalTime hora_fi) {
+		this.hora_fi = hora_fi;
+	}
+
+	public LocalTime getHora_inici() {
+		return hora_inici;
+	}
+
+
 
 	//////////////////////////
 	//						//
@@ -142,10 +159,10 @@ public class Partida implements Serializable {
 
 		// En cas de que la dificultat sigui 'Expert' afegir nous colors adicionals.
 		if(dificultat.equals(Dificultats.EXPERT)) {
-			colors = new Character[]{VERMELL, VERD, BLAU, MAGENTA, GROC, CIAN, ROSA, NEGRE, BLANC};
+			colors = new Character[]{IU.VERMELL, IU.VERD, IU.BLAU, IU.MAGENTA, IU.GROC, IU.CIAN, IU.ROSA, IU.NEGRE, IU.BLANC};
 
 		} else {
-			colors = new Character[]{VERMELL, VERD, BLAU, MAGENTA, GROC, CIAN};
+			colors = new Character[]{IU.VERMELL, IU.VERD, IU.BLAU, IU.MAGENTA, IU.GROC, IU.CIAN};
 		}
 
 		for(int i = 0; i < maxCombinacioColors; i++) {
@@ -157,7 +174,7 @@ public class Partida implements Serializable {
 
 	// Mètode per comprovar tirada.
 	protected Character[] comprovarTirada(Tirada tirada) {
-		cont_combinacioSecreta = new int[MAX_COLORS];
+		cont_combinacioSecreta = new int[IU.MAX_COLORS];
 		/* 
 		 * El contador de colors servirà per controlar la quantitat de colors que conté la combinació secreta.
 		 * 
@@ -187,31 +204,31 @@ public class Partida implements Serializable {
 		// Incrementar el contador de cada color segons la quantitat de colors de la combinació secreta.
 		try {
 			for(int i = 0; i < maxCombinacioColors; i++) {
-				if(combinacioSecreta[i] == VERMELL) {
+				if(combinacioSecreta[i] == IU.VERMELL) {
 					cont_combinacioSecreta[0]++;
 
-				} else if(combinacioSecreta[i] == VERD) {
+				} else if(combinacioSecreta[i] == IU.VERD) {
 					cont_combinacioSecreta[2]++;
 
-				} else if(combinacioSecreta[i] == BLAU) {
+				} else if(combinacioSecreta[i] == IU.BLAU) {
 					cont_combinacioSecreta[1]++;
 
-				} else if(combinacioSecreta[i] == MAGENTA) {
+				} else if(combinacioSecreta[i] == IU.MAGENTA) {
 					cont_combinacioSecreta[3]++;
 
-				} else if(combinacioSecreta[i] == GROC) {
+				} else if(combinacioSecreta[i] == IU.GROC) {
 					cont_combinacioSecreta[4]++;
 
-				} else if(combinacioSecreta[i] == CIAN) {
+				} else if(combinacioSecreta[i] == IU.CIAN) {
 					cont_combinacioSecreta[5]++;
 
-				} else if(combinacioSecreta[i] == ROSA) {
+				} else if(combinacioSecreta[i] == IU.ROSA) {
 					cont_combinacioSecreta[6]++;
 
-				} else if(combinacioSecreta[i] == NEGRE) {
+				} else if(combinacioSecreta[i] == IU.NEGRE) {
 					cont_combinacioSecreta[7]++;
 
-				} else if(combinacioSecreta[i] == BLANC) {
+				} else if(combinacioSecreta[i] == IU.BLANC) {
 					cont_combinacioSecreta[8]++;
 
 				}
@@ -230,13 +247,13 @@ public class Partida implements Serializable {
 			for(int i = 0; i < maxCombinacioColors; i++) {
 				// Comprovar si coincideix el mateix color a la mateixa posició (NEGRE).
 				if(combinacioSecreta[i].equals(combinacioIntentada[i])) {
-					reduirContadorCombinacioSecreta(combinacioSecreta[i], i, NEGRE);
+					reduirContadorCombinacioSecreta(combinacioSecreta[i], i, IU.NEGRE);
 
 				} else {
 					// Comprovar si coincideix el mateix color a una posició diferent (BLANC).
 					for(int j = 0; j < maxCombinacioColors; j++) {
 						if(i != j && combinacioIntentada[i].equals(combinacioSecreta[j])) {
-							reduirContadorCombinacioSecreta(combinacioSecreta[j], i, BLANC);
+							reduirContadorCombinacioSecreta(combinacioSecreta[j], i, IU.BLANC);
 							break;
 						}
 					}
@@ -279,55 +296,55 @@ public class Partida implements Serializable {
 	// Mètode per reduir el contador de colors de la combinació secreta.
 	private void reduirContadorCombinacioSecreta(int indexCombSecreta, int indexResultatTirada, char color) {
 		switch(indexCombSecreta) {
-		case VERMELL:
+		case IU.VERMELL:
 			if(cont_combinacioSecreta[0] > 0) {
 				resultatTirada[indexResultatTirada] = color;
 				cont_combinacioSecreta[0]--;
 			}
 			break;
-		case VERD:
+		case IU.VERD:
 			if(cont_combinacioSecreta[2] > 0) {
 				resultatTirada[indexResultatTirada] = color;
 				cont_combinacioSecreta[2]--;
 			}
 			break;
-		case BLAU:
+		case IU.BLAU:
 			if(cont_combinacioSecreta[1] > 0) {
 				resultatTirada[indexResultatTirada] = color;
 				cont_combinacioSecreta[1]--;
 			}
 			break;
-		case MAGENTA:
+		case IU.MAGENTA:
 			if(cont_combinacioSecreta[3] > 0) {
 				resultatTirada[indexResultatTirada] = color;
 				cont_combinacioSecreta[3]--;
 			}
 			break;
-		case GROC:
+		case IU.GROC:
 			if(cont_combinacioSecreta[4] > 0) {
 				resultatTirada[indexResultatTirada] = color;
 				cont_combinacioSecreta[4]--;
 			}
 			break;
-		case CIAN:
+		case IU.CIAN:
 			if(cont_combinacioSecreta[5] > 0) {
 				resultatTirada[indexResultatTirada] = color;
 				cont_combinacioSecreta[5]--;
 			}
 			break;
-		case ROSA:
+		case IU.ROSA:
 			if(cont_combinacioSecreta[6] > 0) {
 				resultatTirada[indexResultatTirada] = color;
 				cont_combinacioSecreta[6]--;
 			}
 			break;
-		case NEGRE:
+		case IU.NEGRE:
 			if(cont_combinacioSecreta[7] > 0) {
 				resultatTirada[indexResultatTirada] = color;
 				cont_combinacioSecreta[7]--;
 			}
 			break;
-		case BLANC:
+		case IU.BLANC:
 			if(cont_combinacioSecreta[8] > 0) {
 				resultatTirada[indexResultatTirada] = color;
 				cont_combinacioSecreta[8]--;

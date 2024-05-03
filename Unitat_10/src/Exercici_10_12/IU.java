@@ -1,9 +1,32 @@
 package Exercici_10_12;
 
+import java.time.format.DateTimeFormatter;
+
 import Exercici_10_12.Partida.Dificultats;
 
 public class IU {
+	
+	private static DateTimeFormatter data_format = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+	private static DateTimeFormatter hora_format = DateTimeFormatter.ofPattern("HH:mm:ss");
 
+	//////////////////////////
+	//						//
+	//	  COLORS DEL JOC	//
+	//						//
+	//////////////////////////
+	
+	protected static final int MAX_COLORS = 9;
+	protected static final char VERMELL = 'R';
+	protected static final char VERD = 'G';
+	protected static final char BLAU = 'B';
+	protected static final char MAGENTA = 'M';
+	protected static final char GROC = 'Y';
+	protected static final char CIAN = 'C';
+	protected static final char ROSA = 'P';
+	protected static final char NEGRE = 'K';
+	protected static final char BLANC = 'W';
+
+	
 	//////////////////////////
 	//						//
 	//	  ESTIL DE TEXT		//
@@ -179,7 +202,7 @@ public class IU {
 						+ "\n dins del nombre d'intents especificat, conservarà els punts"
 						+ "\n acumulats. No obstant això, si esgota tots els intents sense"
 						+ "\n endevinar la combinació, perdrà tots els punts acumulats.");
-				
+
 				break;
 			case 6:
 				missatge("RÈCORD DE PUNTS: Els jugadors podran intentar batre el rècord"
@@ -271,6 +294,9 @@ public class IU {
 
 	// Mètode per mostrar la llista de tirades de tota la partida.
 	protected static void historialTirades(Partida partida) {
+		missatge("📆 Data: " + data_format.format(partida.getData()));
+		missatge("🕑 Hora inici: " + hora_format.format(partida.getHora_inici()));
+		missatge("🕑 Hora fi: " + hora_format.format(partida.getHora_fi()));
 		missatge("👤 Jugador: " + partida.getNomJugador());
 		missatge("📊 Dificultat: " + partida.getDificultat());
 		missatge("🏆 Resultat: " + partida.getResultatPartida());
@@ -288,17 +314,17 @@ public class IU {
 	// Mètode per mostrar la llista de colors disponibles (depenent de la dificultat).
 	protected static void llistaColors(Partida partida) {
 		System.out.println();
-		missatgeSeguit(Partida.VERMELL + ": " + TEXT_VERMELL + CERCLE + TEXT_RESET + " ");
-		missatgeSeguit(Partida.VERD + ": " + TEXT_VERD + CERCLE + TEXT_RESET + " ");
-		missatgeSeguit(Partida.BLAU + ": " + TEXT_BLAU + CERCLE + TEXT_RESET + " ");
-		missatgeSeguit(Partida.GROC + ": " + TEXT_GROC + CERCLE + TEXT_RESET + " ");
-		missatgeSeguit(Partida.MAGENTA + ": " + TEXT_MAGENTA + CERCLE + TEXT_RESET + " ");
-		missatgeSeguit(Partida.CIAN + ": " + TEXT_CIAN + CERCLE + TEXT_RESET + " ");
+		missatgeSeguit(VERMELL + ": " + TEXT_VERMELL + CERCLE + TEXT_RESET + " ");
+		missatgeSeguit(VERD + ": " + TEXT_VERD + CERCLE + TEXT_RESET + " ");
+		missatgeSeguit(BLAU + ": " + TEXT_BLAU + CERCLE + TEXT_RESET + " ");
+		missatgeSeguit(GROC + ": " + TEXT_GROC + CERCLE + TEXT_RESET + " ");
+		missatgeSeguit(MAGENTA + ": " + TEXT_MAGENTA + CERCLE + TEXT_RESET + " ");
+		missatgeSeguit(CIAN + ": " + TEXT_CIAN + CERCLE + TEXT_RESET + " ");
 
 		if(partida.getDificultat().equals(Dificultats.EXPERT)) {
-			missatgeSeguit(Partida.ROSA + ": " + TEXT_ROSA + CERCLE + TEXT_RESET + " ");
-			missatgeSeguit(Partida.NEGRE + ": " + TEXT_NEGRE + CERCLE + TEXT_RESET + " ");
-			missatgeSeguit(Partida.BLANC + ": " + TEXT_BLANC + CERCLE + TEXT_RESET + " ");
+			missatgeSeguit(ROSA + ": " + TEXT_ROSA + CERCLE + TEXT_RESET + " ");
+			missatgeSeguit(NEGRE + ": " + TEXT_NEGRE + CERCLE + TEXT_RESET + " ");
+			missatgeSeguit(BLANC + ": " + TEXT_BLANC + CERCLE + TEXT_RESET + " ");
 		}
 
 		System.out.println();
