@@ -189,8 +189,8 @@ public class Partida implements Serializable {
 		 * 
 		 * Valors de cada índex del contador de colors:
 		 * [0] : (R) Red
-		 * [1] : (G) Green
-		 * [2] : (B) Blue
+		 * [1] : (B) Blue
+		 * [2] : (G) Green
 		 * [3] : (M) Magenta
 		 * [4] : (Y) Yellow
 		 * [5] : (C) Cyan
@@ -207,11 +207,11 @@ public class Partida implements Serializable {
 				if(combinacioSecreta[i] == IU.VERMELL) {
 					cont_combinacioSecreta[0]++;
 
-				} else if(combinacioSecreta[i] == IU.VERD) {
-					cont_combinacioSecreta[2]++;
-
 				} else if(combinacioSecreta[i] == IU.BLAU) {
 					cont_combinacioSecreta[1]++;
+
+				} else if(combinacioSecreta[i] == IU.VERD) {
+					cont_combinacioSecreta[2]++;
 
 				} else if(combinacioSecreta[i] == IU.MAGENTA) {
 					cont_combinacioSecreta[3]++;
@@ -302,16 +302,16 @@ public class Partida implements Serializable {
 				cont_combinacioSecreta[0]--;
 			}
 			break;
-		case IU.VERD:
-			if(cont_combinacioSecreta[2] > 0) {
-				resultatTirada[indexResultatTirada] = color;
-				cont_combinacioSecreta[2]--;
-			}
-			break;
 		case IU.BLAU:
 			if(cont_combinacioSecreta[1] > 0) {
 				resultatTirada[indexResultatTirada] = color;
 				cont_combinacioSecreta[1]--;
+			}
+			break;
+		case IU.VERD:
+			if(cont_combinacioSecreta[2] > 0) {
+				resultatTirada[indexResultatTirada] = color;
+				cont_combinacioSecreta[2]--;
 			}
 			break;
 		case IU.MAGENTA:

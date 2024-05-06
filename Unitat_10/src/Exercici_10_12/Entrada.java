@@ -12,7 +12,7 @@ public class Entrada {
 			IU.missatgeSeguit("\n " + opcio.trim() + ": ");
 
 			try {
-				String nombre = in.nextLine();
+				String nombre = in.nextLine().trim();
 				if(nombre.length() > 0 && Character.isDigit(nombre.charAt(0))) {
 					return Integer.parseInt(nombre.trim());
 

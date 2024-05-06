@@ -10,6 +10,11 @@ import java.util.Arrays;
 import Exercici_10_12.Partida.Dificultats;
 
 public class Logica {
+	
+	// Variables globals
+	private static final String FITXER_GUARDAT = "src/Exercici_10_12/partida.ser";
+	//private static String fitxerDarreraPartidaGuardada = "";
+	
 
 	//////////////////////////
 	//						//
@@ -103,7 +108,6 @@ public class Logica {
 		} catch(IndexOutOfBoundsException e) {
 			IU.missatgeErrorCritic("S'ha intentat iterar sobre un índex que sobrepassa els límits de la mida de l'array");
 		}
-
 
 		return combinacioIntentada;
 	}
@@ -297,18 +301,19 @@ public class Logica {
 	// Mètode per carregar una partida guardada.
 	protected static void carregarPartida() {
 		try {
-			FileInputStream fileIn = new FileInputStream("src/Exercici_10_12/partida.ser");
+			// Carregar la darrera partida guardada.
+			FileInputStream fileIn = new FileInputStream(FITXER_GUARDAT);
 			ObjectInputStream objectIn = new ObjectInputStream(fileIn);
 			Partida partida = (Partida) objectIn.readObject();
 			objectIn.close();
 			fileIn.close();
 			Joc.llistaPartides.add(partida);
 
-			IU.missatge("🔄 Partida carregada: La partida s'ha carregat correctament");
+			IU.missatgePartidaCarregada();
 
 		} catch(IOException | ClassNotFoundException e) {
 			// En cas que no es pugui carregar la partida des de l'arxiu, fer com si no hi hagués cap partida guardada.
-			IU.missatgeAdvertencia("No s'ha trobat cap partida guardada. S'iniciarà una nova partida");
+			IU.missatgeAdvertencia("No s'ha trobat cap partida guardada. S'iniciarà una de nova");
 		}
 	}
 
@@ -316,14 +321,17 @@ public class Logica {
 	protected static void guardarPartida(Partida partida) {
 		try {
 			// Serialitzar la partida i escriure-la al fitxer.
-			FileOutputStream fileOut = new FileOutputStream("src/Exercici_10_12/partida.ser");
+			//String nomFitxer = FITXER_GUARDAT + partida.getNomJugador().toLowerCase().trim() + "_" + partida.getData() + ".ser";
+			//fitxerDarreraPartidaGuardada = nomFitxer;
+			
+			FileOutputStream fileOut = new FileOutputStream(FITXER_GUARDAT);
 			ObjectOutputStream objectOut = new ObjectOutputStream(fileOut);
 			objectOut.writeObject(partida);
 			objectOut.close();
 			fileOut.close();
 
 			IU.saltLinia();
-			IU.missatge("💾 Guardat autom.: La partida s'ha guardat correctament");
+			IU.missatgePartidaGuardada();
 
 		} catch(IOException e) {
 			e.printStackTrace();

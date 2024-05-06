@@ -6,7 +6,7 @@ import java.util.List;
 
 /*
  * 
- * MASTERMIND v4.0
+ * MASTERMIND v4.1
  * 
  * Novetats de la versió:
  * - Utilització de fitxers per guardar les partides.
@@ -102,6 +102,13 @@ public class Joc {
 			if(combinacioEndevinada) partidaFinalitzada = true;
 			if(partida.getIntentsRestants() <= 0) partidaFinalitzada = true;
 		}
+		
+		
+		//////////////////////////////////
+		//								//
+		//   LA PARTIDA HA FINALITZAT	//
+		//								//
+		//////////////////////////////////
 		
 		// Emmagatzemar l'hora de fi de la partida.
 		partida.setHora_fi(LocalTime.now());

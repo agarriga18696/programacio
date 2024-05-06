@@ -261,28 +261,36 @@ public class IU {
 		System.out.println(" " + t.toUpperCase() + mostrar_s + "\n");
 	}
 
-	public static void missatge(String missatge) {
+	protected static void missatge(String missatge) {
 		System.out.println("\n " + missatge);
 	}
 
-	public static void missatgeSeguit(String missatge) {
+	protected static void missatgeSeguit(String missatge) {
 		System.out.print(" " + missatge);
 	}
 
-	public static void missatgeError(String missatge) {
+	protected static void missatgeError(String missatge) {
 		System.out.println("\n ❌ Error: " + missatge + ".\n");
 	}
 
-	public static void missatgeErrorCritic(String missatge) {
+	protected static void missatgeErrorCritic(String missatge) {
 		System.err.println("\n ❌ Error crític: " + missatge + ".\n");
 	}
 
-	public static void missatgeAdvertencia(String missatge) {
+	protected static void missatgeAdvertencia(String missatge) {
 		System.out.println("\n ⚠️ Advertència: " + missatge + ".\n");
 	}
 
-	public static void missatgeExit(String missatge) {
+	protected static void missatgeExit(String missatge) {
 		System.out.println("\n ✔️ Èxit: " + missatge + ".\n");
+	}
+	
+	protected static void missatgePartidaGuardada() {
+		System.out.println("\n 💾 Guardat autom.: La partida s'ha guardat correctament.");
+	}
+	
+	protected static void missatgePartidaCarregada() {
+		System.out.println("\n 🔄 Partida carregada: La partida s'ha carregat correctament.");
 	}
 
 
