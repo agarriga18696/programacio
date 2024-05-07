@@ -321,7 +321,7 @@ public class Logica {
 	protected static void guardarPartida(Partida partida) {
 		try {
 			// Serialitzar la partida i escriure-la al fitxer.
-			//String nomFitxer = FITXER_GUARDAT + partida.getNomJugador().toLowerCase().trim() + "_" + partida.getData() + ".ser";
+			//String nomFitxer = assignarNomFitxerGuardat();
 			//fitxerDarreraPartidaGuardada = nomFitxer;
 			
 			FileOutputStream fileOut = new FileOutputStream(FITXER_GUARDAT);
@@ -336,6 +336,22 @@ public class Logica {
 		} catch(IOException e) {
 			e.printStackTrace();
 		}
+	}
+
+	// Mètode per assignar el nom del fitxer de guardat segons l'usuari que estigui jugant.
+	private static String assignarNomFitxerGuardat() {
+		// TODO logica per assignar el nom en funció de l'usuari actual.
+		// Per sebre-ho:
+		// -> Comprovar el nom de l'usuari que ha jugat per darrera vegada.
+		// El nom del fitxer de guardat constarà de les següents dades:
+		// -> 1a part: 'partida_'
+		// -> 2a part: nom del jugador en minúscula.
+		// -> 3a part: data d'inici de la partida jugada.
+		// -> 4a part: afegir l'extensió '.ser'
+		// -> Exemple: partida_andreu_06-05-2024.ser
+		String nomFitxer = FITXER_GUARDAT + partida.getNomJugador().toLowerCase().trim() + "_" + partida.getData() + ".ser";
+		
+		return nomFitxer;
 	}
 
 }
