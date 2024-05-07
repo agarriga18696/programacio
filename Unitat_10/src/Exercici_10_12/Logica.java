@@ -321,7 +321,7 @@ public class Logica {
 	protected static void guardarPartida(Partida partida) {
 		try {
 			// Serialitzar la partida i escriure-la al fitxer.
-			//String nomFitxer = assignarNomFitxerGuardat();
+			//String nomFitxer = assignarNomFitxerGuardat(partida);
 			//fitxerDarreraPartidaGuardada = nomFitxer;
 			
 			FileOutputStream fileOut = new FileOutputStream(FITXER_GUARDAT);
@@ -339,7 +339,7 @@ public class Logica {
 	}
 
 	// Mètode per assignar el nom del fitxer de guardat segons l'usuari que estigui jugant.
-	private static String assignarNomFitxerGuardat() {
+	private static String assignarNomFitxerGuardat(Partida partida) {
 		// TODO logica per assignar el nom en funció de l'usuari actual.
 		// Per sebre-ho:
 		// -> Comprovar el nom de l'usuari que ha jugat per darrera vegada.
