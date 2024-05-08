@@ -1,9 +1,32 @@
 package Proves;
 
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+
 public class Proves {
 
+	/////// //   // /////// /////  ///////  //   //     ////// ///////   /////  /////// //  //////
+	//      ///  //   //   //   // //   //  ///  //    //      //   //  //   // //      // //
+	/////   //// //   //   //   // //////   //// //    // //// //////   /////// /////   // //
+	//      // ////   //   //   // //   //  // ////    //   // //   //  //   // //      // //
+	/////// //  ///   //    /////  //    // //  ///     ////// //    // //   // //      //  //////
+
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+		
+		JFrame frame = new JFrame();
+		JPanel panel = (JPanel) frame.getContentPane();
+		JButton boto1 = new JButton("Acceptar");
+		JButton boto2 = new JButton("Cancel·lar");
+		
+		// Afegir botó dins el panell.
+		panel.add(boto1);
+		panel.add(boto2);
+		
+		// Assignar mida de la finestra.
+		frame.setSize(500,300);
+		
+		frame.setVisible(true); // fer visible.
 
 	}
 
