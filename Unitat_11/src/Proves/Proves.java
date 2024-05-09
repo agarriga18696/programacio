@@ -1,5 +1,7 @@
 package Proves;
 
+import java.awt.FlowLayout;
+
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -16,6 +18,7 @@ public class Proves {
 		
 		JFrame frame = new JFrame();
 		JPanel panel = (JPanel) frame.getContentPane();
+		panel.setLayout(new FlowLayout());
 		JButton boto1 = new JButton("Acceptar");
 		JButton boto2 = new JButton("Cancel·lar");
 		

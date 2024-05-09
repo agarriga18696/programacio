@@ -1,35 +1,48 @@
 package Exercici_11_1;
 
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.GridLayout;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 public class Calculadora {
+	
+	private static final String FONT = "Calibri";
 
 	public static void main(String[] args) {
-		JFrame calculadora = new JFrame("Calculadora");
-		JPanel panel = (JPanel) calculadora.getContentPane();
+		// FRAME
+		JFrame frame = new JFrame("Calculadora");
+		
+		// PANELL PRINCIPAL
+		JPanel panel = (JPanel) frame.getContentPane();
+		panel.setLayout(new GridLayout(2,1));
 
-		// DISPLAY
-		JLabel display = new JLabel();
-		display.setHorizontalAlignment(SwingConstants.RIGHT);
-		panel.add(display);
+		// DISPLAY (on es mostra el resultat)
+		JTextField display = new JTextField("0");
+		display.setBackground(Color.WHITE);
+		display.setHorizontalAlignment(SwingConstants.CENTER);
+		display.setEditable(false);
+		display.setFont(new Font(FONT, Font.BOLD, 30));
 
 		// BOTONS
 		JPanel panelBotons = new JPanel();
-		List<JButton> llistaBotons = crearBotons("0, 1, 2, 3, 4, 5, 6, 7, 8, 9, C, =, +, -, *, /");
+		panelBotons.setLayout(new GridLayout(4,4,4,4));
+		List<JButton> llistaBotons = crearBotons("7", "8", "9", "+", "4", "5", "6", "-", "3", "2", "1", "x", "0", "C", "=", "/");
 		panelBotons = afegirBotons(panelBotons, llistaBotons);
-
-		// Afegir el panell auxiliar al panell principal.
+		
+		// Afegir el contingut al panel.
+		panel.add(display);
 		panel.add(panelBotons);
 
 		// Configurar el frame (resolució, visible...).
-		configurarFrame(calculadora);
+		configurarFrame(frame);
 
 	}
 
@@ -39,6 +52,7 @@ public class Calculadora {
 
 		for(int i = 0; i < continguts.length; i++) {
 			JButton boto = new JButton(continguts[i]);
+			boto.setFont(new Font(FONT, Font.BOLD, 18));
 			botons.add(boto);
 		}
 
@@ -56,8 +70,9 @@ public class Calculadora {
 
 	// Mètode per configurar el frame.
 	private static void configurarFrame(JFrame frame) {
-		frame.setSize(400, 600);
+		frame.setSize(330, 530);
 		frame.setVisible(true);
+		frame.setResizable(false);
 	}
 
 }
