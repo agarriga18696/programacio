@@ -16,32 +16,33 @@ public class BorderLayoutDemo {
 		JFrame frame = new JFrame("BorderLayoutDemo");
 		
 		// PANELL PRINCIPAL
-		JPanel panel_principal = (JPanel) frame.getContentPane();
-		panel_principal.setLayout(new BorderLayout());
+		JPanel panel = (JPanel) frame.getContentPane();
+		panel.setLayout(new BorderLayout());
 
-		// PANELL SUPERIOR
-		JPanel panel_superior = new JPanel();
-		JButton boto1 = new JButton("Button 1 (PAGE_START)");
-		panel_superior.add(boto1);
+		// CONTINGUT SUPERIOR
+		JButton boto_superior = new JButton("Button 1 (PAGE_START)");
 
-		// PANELL CENTRAL
+		// CONTINGUT CENTRAL
 		// -> 3 columnes (gridlayout)
-		JPanel panel_central = new JPanel();
-		JButton boto3 = new JButton("Button 3 (LINE_START)");
-		JButton boto5 = new JButton("5 (LINE_END)");
+		JButton boto_esquerra = new JButton("Button 3 (LINE_START)");
+		JButton boto_dreta = new JButton("5 (LINE_END)");
 
-		// PANELL CENTRAL VERTICAL
-		JPanel panel_central_vertical = new JPanel();
-		List<JButton> llistaBotons = crearBotons(5);
-		panel_central_vertical = afegirBotons(panel_central_vertical, llistaBotons);
-
-		panel_central.add(boto3, BorderLayout.WEST);
-		panel_central.add(panel_central_vertical, BorderLayout.CENTER);
-		panel_central.add(boto5, BorderLayout.EAST);
+		// BOTONS CENTRALS EN VERTICAL
+		int numBotons = 5;
+		JPanel botons_vertical = new JPanel(new GridLayout(numBotons, 0));
+		List<JButton> llistaBotons = crearBotons(numBotons);
+		botons_vertical = afegirBotons(botons_vertical, llistaBotons);
+		
+		
+		// CONTINGUT INFERIOR
+		JButton boto_inferior = new JButton("Long-Named Button 4 (PAGE_END)");
 		
 		// Afegir contingut al panell principal.
-		panel_principal.add(panel_superior, BorderLayout.NORTH);
-		panel_principal.add(panel_central, BorderLayout.CENTER);
+		panel.add(boto_superior, BorderLayout.PAGE_START);
+		panel.add(boto_esquerra, BorderLayout.LINE_START);
+		panel.add(botons_vertical, BorderLayout.CENTER);
+		panel.add(boto_dreta, BorderLayout.LINE_END);
+		panel.add(boto_inferior, BorderLayout.PAGE_END);
 		
 		// Configurar frame.
 		frame.pack();
