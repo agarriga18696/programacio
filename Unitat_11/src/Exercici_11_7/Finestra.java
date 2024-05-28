@@ -24,7 +24,7 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 
 public class Finestra extends JFrame {
-	
+
 	private static final long serialVersionUID = 1L;
 	private int padding = 10;
 	private int resolucio_X = 600;
@@ -166,7 +166,7 @@ public class Finestra extends JFrame {
 
 		// Afegir la pestanya "Alumne" al JTabbedPane
 		pestanyes.addTab("Alumne", panel_alumne);
-		
+
 
 		// Crear la pestanya "Professor" (similar a la pestanya "Alumne")
 		JPanel panel_professor = new JPanel(new BorderLayout(10, 10));
@@ -344,7 +344,7 @@ public class Finestra extends JFrame {
 						IU.colorBoto = IU.COLOR_BOTO_FOSC;
 						IU.colorEnfasis = IU.COLOR_ENFASIS_FOSC;
 						IU.colorText = IU.COLOR_TEXT_FOSC;
-						
+
 					} else { // Tema Clar
 						IU.colorFons = IU.COLOR_FONS_CLAR;
 						IU.colorBoto = IU.COLOR_BOTO_CLAR;

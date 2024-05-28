@@ -28,10 +28,10 @@ public class Vista extends JFrame {
 	private Controlador controlador;
 	private JPanel contentPane;
 	private JLabel label_formula;
-	private JLabel label_celsius;
-	private JLabel label_fahrenheit;
-	private JTextField textfield_celsius;
-	private JTextField textfield_fahrenheit;
+	private JLabel label_input;
+	private JLabel label_output;
+	private JTextField textfield_input;
+	private JTextField textfield_output;
 	private JButton button_calcular;
 
 	// Estils
@@ -40,8 +40,8 @@ public class Vista extends JFrame {
 	private final Color COLOR_ENFASI = new Color(8, 96, 242);
 	private final int PADDING = 10;
 	private final String FONT = "Helvetica";
-	private final Font FONT_NEGRETA = new Font("Helvetica", Font.BOLD, 16);
-	private final Font FONT_CURSIVA = new Font("Helvetica", Font.ITALIC, 16);
+	private final Font FONT_NEGRETA = new Font(FONT, Font.BOLD, 16);
+	private final Font FONT_CURSIVA = new Font(FONT, Font.ITALIC, 16);
 
 	// Fórmules
 	private final String FORMULA_C_F = "(°C × 9/5) + 32 = °F";
@@ -89,26 +89,26 @@ public class Vista extends JFrame {
 		panel_central.add(panel_intern, BorderLayout.CENTER);
 		panel_intern.setLayout(new BoxLayout(panel_intern, BoxLayout.Y_AXIS));
 
-		// TEXT FIELD CELSIUS
-		JPanel panel_celsius = new JPanel(new BorderLayout());
-		panel_celsius.setBackground(COLOR_PRIMARI);
-		textfield_celsius = new JTextField();
-		textfield_celsius.setHorizontalAlignment(SwingConstants.CENTER);
-		textfield_celsius.setBackground(COLOR_PRIMARI);
-		textfield_celsius.setForeground(COLOR_ENFASI);
-		textfield_celsius.setBorder(new CompoundBorder(new TitledBorder(new LineBorder(COLOR_SECUNDARI), TEXT_C, TitledBorder.CENTER, TitledBorder.TOP, null, COLOR_ENFASI), new EmptyBorder(PADDING, PADDING, PADDING * 2, PADDING)));
-		textfield_celsius.setFont(FONT_NEGRETA);
-		textfield_celsius.setPreferredSize(new Dimension(100, textfield_celsius.getPreferredSize().height));
+		// TEXT FIELD INPUT
+		JPanel panel_input = new JPanel(new BorderLayout());
+		panel_input.setBackground(COLOR_PRIMARI);
+		textfield_input = new JTextField();
+		textfield_input.setHorizontalAlignment(SwingConstants.CENTER);
+		textfield_input.setBackground(COLOR_PRIMARI);
+		textfield_input.setForeground(COLOR_ENFASI);
+		textfield_input.setBorder(new CompoundBorder(new TitledBorder(new LineBorder(COLOR_SECUNDARI), TEXT_C, TitledBorder.CENTER, TitledBorder.TOP, null, COLOR_ENFASI), new EmptyBorder(PADDING, PADDING, PADDING * 2, PADDING)));
+		textfield_input.setFont(FONT_NEGRETA);
+		textfield_input.setPreferredSize(new Dimension(100, textfield_input.getPreferredSize().height));
 
-		panel_celsius.add(textfield_celsius, BorderLayout.CENTER);
+		panel_input.add(textfield_input, BorderLayout.CENTER);
 
-		// LABEL CELSIUS
-		label_celsius = new JLabel(SIMBOL_C);
-		label_celsius.setForeground(COLOR_SECUNDARI);
-		label_celsius.setFont(FONT_NEGRETA);
-		textfield_celsius.setLayout(new BorderLayout());
-		textfield_celsius.add(label_celsius, BorderLayout.EAST);
-		panel_intern.add(panel_celsius);
+		// LABEL INPUT
+		label_input = new JLabel(SIMBOL_C);
+		label_input.setForeground(COLOR_SECUNDARI);
+		label_input.setFont(FONT_NEGRETA);
+		textfield_input.setLayout(new BorderLayout());
+		textfield_input.add(label_input, BorderLayout.EAST);
+		panel_intern.add(panel_input);
 
 		// PANEL BOTO CENTRAL
 		JPanel panel_button_central = new JPanel();
@@ -131,28 +131,28 @@ public class Vista extends JFrame {
 			}
 		});
 
-		// TEXT FIELD FARENHEIT
-		JPanel panel_fahrenheit = new JPanel(new BorderLayout());
-		panel_fahrenheit.setBackground(COLOR_SECUNDARI);
-		textfield_fahrenheit = new JTextField();
-		textfield_fahrenheit.setHorizontalAlignment(SwingConstants.CENTER);
-		textfield_fahrenheit.setBackground(COLOR_PRIMARI);
-		textfield_fahrenheit.setForeground(COLOR_ENFASI);
-		textfield_fahrenheit.setFont(FONT_NEGRETA);    
-		textfield_fahrenheit.setBorder(new CompoundBorder(new TitledBorder(new LineBorder(COLOR_SECUNDARI), TEXT_F, TitledBorder.CENTER, TitledBorder.TOP, null, COLOR_ENFASI), new EmptyBorder(PADDING, PADDING, PADDING * 2, PADDING)));
-		textfield_fahrenheit.setPreferredSize(new Dimension(100, textfield_celsius.getPreferredSize().height));
-		textfield_fahrenheit.setEditable(false);
+		// TEXT FIELD OUTPUT
+		JPanel panel_output = new JPanel(new BorderLayout());
+		panel_output.setBackground(COLOR_SECUNDARI);
+		textfield_output = new JTextField();
+		textfield_output.setHorizontalAlignment(SwingConstants.CENTER);
+		textfield_output.setBackground(COLOR_PRIMARI);
+		textfield_output.setForeground(COLOR_ENFASI);
+		textfield_output.setFont(FONT_NEGRETA);    
+		textfield_output.setBorder(new CompoundBorder(new TitledBorder(new LineBorder(COLOR_SECUNDARI), TEXT_F, TitledBorder.CENTER, TitledBorder.TOP, null, COLOR_ENFASI), new EmptyBorder(PADDING, PADDING, PADDING * 2, PADDING)));
+		textfield_output.setPreferredSize(new Dimension(100, textfield_input.getPreferredSize().height));
+		textfield_output.setEditable(false);
 
-		panel_fahrenheit.add(textfield_fahrenheit, BorderLayout.CENTER);
+		panel_output.add(textfield_output, BorderLayout.CENTER);
 
-		// LABEL FARENHEIT
-		label_fahrenheit = new JLabel(SIMBOL_F);
-		label_fahrenheit.setForeground(COLOR_SECUNDARI);
-		label_fahrenheit.setFont(FONT_NEGRETA);
-		textfield_fahrenheit.setLayout(new BorderLayout());
-		textfield_fahrenheit.add(label_fahrenheit, BorderLayout.EAST);
+		// LABEL OUTPUT
+		label_output = new JLabel(SIMBOL_F);
+		label_output.setForeground(COLOR_SECUNDARI);
+		label_output.setFont(FONT_NEGRETA);
+		textfield_output.setLayout(new BorderLayout());
+		textfield_output.add(label_output, BorderLayout.EAST);
 
-		panel_intern.add(panel_fahrenheit);
+		panel_intern.add(panel_output);
 
 		// PANEL INFERIOR
 		JPanel panel_inferior = new JPanel();
@@ -184,47 +184,43 @@ public class Vista extends JFrame {
 	}
 
 	public double getCelsius() throws NumberFormatException {
-		return Double.parseDouble(textfield_celsius.getText().replace(",", "."));
-	}
-
-	public void setFahrenheit(double fahrenheit) {
-		textfield_fahrenheit.setText(String.format("%.2f", fahrenheit).replace(".", ","));
+		return Double.parseDouble(textfield_input.getText().replace(",", "."));
 	}
 
 	public double getFahrenheit() throws NumberFormatException {
-		return Double.parseDouble(textfield_fahrenheit.getText().replace(",", "."));
+		return Double.parseDouble(textfield_output.getText().replace(",", "."));
 	}
 
 	public void setConversionResult(double result) {
-		textfield_fahrenheit.setText(String.format("%.2f", result).replace(".", ","));
+		textfield_output.setText(String.format("%.2f", result).replace(".", ","));
 	}
 
 	public void showError(String message) {
-		textfield_fahrenheit.setText(message);
+		textfield_output.setText(message);
 	}
 
 	public void addConvertListener(ActionListener listenForConvertButton) {
 		button_calcular.addActionListener(listenForConvertButton);
 	}
 
-	public void actualizarTextoBoton(boolean isCelsiusToFahrenheit) {
-		// Resetejar els textos dels TextField.
-		textfield_celsius.setText("0");
-		textfield_fahrenheit.setText("0");
-		
+	public void actualitzarTextBoto(boolean isCelsiusToFahrenheit) {
 		if(isCelsiusToFahrenheit) {
 			label_formula.setText("Fórmula ⇒ " + FORMULA_C_F);
-			label_celsius.setText(SIMBOL_C);
-			label_fahrenheit.setText(SIMBOL_F);
-			textfield_celsius.setBorder(new CompoundBorder(new TitledBorder(new LineBorder(COLOR_SECUNDARI), TEXT_C, TitledBorder.CENTER, TitledBorder.TOP, null, COLOR_ENFASI), new EmptyBorder(PADDING, PADDING, PADDING * 2, PADDING)));
-			textfield_fahrenheit.setBorder(new CompoundBorder(new TitledBorder(new LineBorder(COLOR_SECUNDARI), TEXT_F, TitledBorder.CENTER, TitledBorder.TOP, null, COLOR_ENFASI), new EmptyBorder(PADDING, PADDING, PADDING * 2, PADDING)));
+			label_input.setText(SIMBOL_C);
+			label_output.setText(SIMBOL_F);
+			textfield_input.setBorder(new CompoundBorder(new TitledBorder(new LineBorder(COLOR_SECUNDARI), TEXT_C, TitledBorder.CENTER, TitledBorder.TOP, null, COLOR_ENFASI), new EmptyBorder(PADDING, PADDING, PADDING * 2, PADDING)));
+			textfield_output.setBorder(new CompoundBorder(new TitledBorder(new LineBorder(COLOR_SECUNDARI), TEXT_F, TitledBorder.CENTER, TitledBorder.TOP, null, COLOR_ENFASI), new EmptyBorder(PADDING, PADDING, PADDING * 2, PADDING)));
+			textfield_input.setText("0");
+			textfield_output.setText("32,00");
 
 		} else {
 			label_formula.setText("Fórmula ⇒ " + FORMULA_F_C);
-			label_celsius.setText(SIMBOL_F);
-			label_fahrenheit.setText(SIMBOL_C);
-			textfield_celsius.setBorder(new CompoundBorder(new TitledBorder(new LineBorder(COLOR_SECUNDARI), TEXT_F, TitledBorder.CENTER, TitledBorder.TOP, null, COLOR_ENFASI), new EmptyBorder(PADDING, PADDING, PADDING * 2, PADDING)));
-			textfield_fahrenheit.setBorder(new CompoundBorder(new TitledBorder(new LineBorder(COLOR_SECUNDARI), TEXT_C, TitledBorder.CENTER, TitledBorder.TOP, null, COLOR_ENFASI), new EmptyBorder(PADDING, PADDING, PADDING * 2, PADDING)));
+			label_input.setText(SIMBOL_F);
+			label_output.setText(SIMBOL_C);
+			textfield_input.setBorder(new CompoundBorder(new TitledBorder(new LineBorder(COLOR_SECUNDARI), TEXT_F, TitledBorder.CENTER, TitledBorder.TOP, null, COLOR_ENFASI), new EmptyBorder(PADDING, PADDING, PADDING * 2, PADDING)));
+			textfield_output.setBorder(new CompoundBorder(new TitledBorder(new LineBorder(COLOR_SECUNDARI), TEXT_C, TitledBorder.CENTER, TitledBorder.TOP, null, COLOR_ENFASI), new EmptyBorder(PADDING, PADDING, PADDING * 2, PADDING)));
+			textfield_input.setText("0");
+			textfield_output.setText("-17,78");
 		}
 
 	}
