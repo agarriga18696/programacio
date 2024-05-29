@@ -13,10 +13,12 @@ import javax.swing.JLabel;
 import java.awt.FlowLayout;
 import java.awt.BorderLayout;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 
 import exercici_11_9.controlador.Controlador;
+import exercici_11_9.model.Persona;
 
 import javax.swing.border.LineBorder;
 import java.awt.Color;
@@ -26,7 +28,9 @@ import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.util.Collections;
+import java.util.List;
 
 import javax.swing.JRadioButton;
 import javax.swing.AbstractButton;
@@ -39,12 +43,12 @@ public class Finestra extends JFrame {
 	private JTextField textField_alumne_nom;
 	private JTextField textField_alumne_dni;
 	private JTextField textField_alumne_edat;
-	private final ButtonGroup buttonGroup = new ButtonGroup();
+	private final ButtonGroup buttonGroup_alumne = new ButtonGroup();
 	private JTextField textField_professor_nom;
 	private JTextField textField_professor_dni;
 	private JTextField textField_professor_edat;
 	private JTextField textField_professor_assignatura;
-	private Controlador controlador;
+	private Controlador controlador = new Controlador();
 
 	public Finestra() {
 		JMenuBar menuBar = new JMenuBar();
@@ -60,7 +64,7 @@ public class Finestra extends JFrame {
 		mn_nou.add(mntmAlumne);
 		mntmAlumne.addActionListener(new ActionListener() {
 			@Override
-			public void actionPerformed(ActionEvent arg0) {
+			public void actionPerformed(ActionEvent e) {
 				CardLayout c = (CardLayout)(contentPane.getLayout());
 				c.show(contentPane, "panelAlumne");
 			}
@@ -70,7 +74,7 @@ public class Finestra extends JFrame {
 		mn_nou.add(mntmProfessor);
 		mntmProfessor.addActionListener(new ActionListener() {
 			@Override
-			public void actionPerformed(ActionEvent arg0) {
+			public void actionPerformed(ActionEvent e) {
 				CardLayout c = (CardLayout)(contentPane.getLayout());
 				c.show(contentPane, "panelProfessor");
 			}
@@ -80,23 +84,76 @@ public class Finestra extends JFrame {
 
 		JMenuItem mntm_obrirFitxer = new JMenuItem("Obrir Fitxer");
 		mn_arxiu.add(mntm_obrirFitxer);
+		mntm_obrirFitxer.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				JFileChooser fileChooser = new JFileChooser();
+				int returnValue = fileChooser.showOpenDialog(null);
+
+				if(returnValue == JFileChooser.APPROVE_OPTION) {
+					try {
+						controlador.carregarDades(fileChooser.getSelectedFile().getPath());
+						Msg.exit("Dades carregades correctament.");
+
+					} catch (ClassNotFoundException | IOException ex) {
+						Msg.error("Error al carregar dades: " + ex.getMessage());
+					}
+				}
+			}
+		});
 
 		JMenuItem mntm_guardarFitxer = new JMenuItem("Guardar Fitxer");
 		mn_arxiu.add(mntm_guardarFitxer);
+		mntm_guardarFitxer.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				JFileChooser fileChooser = new JFileChooser();
+				int returnValue = fileChooser.showSaveDialog(null);
+
+				if (returnValue == JFileChooser.APPROVE_OPTION) {
+					try {
+						controlador.guardarDades(fileChooser.getSelectedFile().getPath());
+						Msg.exit("Dades guardades correctament.");
+
+					} catch (IOException ex) {
+						Msg.error("Error al guardar dades: " + ex.getMessage());
+					}
+				}
+			}
+		});
 
 		mn_arxiu.addSeparator();
 
 		JMenuItem mntm_tancar = new JMenuItem("Tancar");
 		mn_arxiu.add(mntm_tancar);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		mntm_tancar.addActionListener(new ActionListener() {
 			@Override
-			public void actionPerformed(ActionEvent arg0) {
+			public void actionPerformed(ActionEvent e) {
 				CardLayout c = (CardLayout)(contentPane.getLayout());
 				c.show(contentPane, "panelPrincipal");
 			}
 		});
+
+		JMenu mn_dades = new JMenu("Dades");
+		menuBar.add(mn_dades);
+
+		JMenuItem mntm_mostrarLlistat = new JMenuItem("Mostrar Llistat");
+		mn_dades.add(mntm_mostrarLlistat);
+		mntm_mostrarLlistat.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				try {
+					mostrarLlistat("Llistat de Persones", controlador.getPersones());
+
+				} catch(NullPointerException ex) {
+					Msg.advertencia("No s'ha registrat cap persona.");
+				}
+
+			}
+		});
+
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
 		setContentPane(contentPane);
 		contentPane.setLayout(new CardLayout(0, 0));
@@ -186,7 +243,7 @@ public class Finestra extends JFrame {
 		panel_alumne_nivell.add(lblNewLabel, gbc_lblNewLabel);
 
 		JRadioButton rdbtn_eso = new JRadioButton("ESO");
-		buttonGroup.add(rdbtn_eso);
+		buttonGroup_alumne.add(rdbtn_eso);
 		GridBagConstraints gbc_rdbtn_eso = new GridBagConstraints();
 		gbc_rdbtn_eso.anchor = GridBagConstraints.NORTHWEST;
 		gbc_rdbtn_eso.insets = new Insets(0, 0, 5, 5);
@@ -195,7 +252,7 @@ public class Finestra extends JFrame {
 		panel_alumne_nivell.add(rdbtn_eso, gbc_rdbtn_eso);
 
 		JRadioButton rdbtn_batxiller = new JRadioButton("Batxiller");
-		buttonGroup.add(rdbtn_batxiller);
+		buttonGroup_alumne.add(rdbtn_batxiller);
 		GridBagConstraints gbc_rdbtn_batxiller = new GridBagConstraints();
 		gbc_rdbtn_batxiller.insets = new Insets(0, 0, 5, 5);
 		gbc_rdbtn_batxiller.anchor = GridBagConstraints.NORTHWEST;
@@ -204,7 +261,7 @@ public class Finestra extends JFrame {
 		panel_alumne_nivell.add(rdbtn_batxiller, gbc_rdbtn_batxiller);
 
 		JRadioButton rdbtn_graumitja = new JRadioButton("Grau Mitjà");
-		buttonGroup.add(rdbtn_graumitja);
+		buttonGroup_alumne.add(rdbtn_graumitja);
 		GridBagConstraints gbc_rdbtn_graumitja = new GridBagConstraints();
 		gbc_rdbtn_graumitja.anchor = GridBagConstraints.NORTHWEST;
 		gbc_rdbtn_graumitja.insets = new Insets(0, 0, 5, 5);
@@ -213,7 +270,7 @@ public class Finestra extends JFrame {
 		panel_alumne_nivell.add(rdbtn_graumitja, gbc_rdbtn_graumitja);
 
 		JRadioButton rdbtn_grausuperior = new JRadioButton("Grau Superior");
-		buttonGroup.add(rdbtn_grausuperior);
+		buttonGroup_alumne.add(rdbtn_grausuperior);
 		GridBagConstraints gbc_rdbtn_grausuperior = new GridBagConstraints();
 		gbc_rdbtn_grausuperior.anchor = GridBagConstraints.NORTHWEST;
 		gbc_rdbtn_grausuperior.insets = new Insets(0, 0, 0, 5);
@@ -229,6 +286,7 @@ public class Finestra extends JFrame {
 		JButton btn_alumne_crear = new JButton("Crear");
 		panel_alumne_inferior.add(btn_alumne_crear);
 		btn_alumne_crear.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				crearAlumne();
 			}
@@ -306,6 +364,7 @@ public class Finestra extends JFrame {
 		panel_professor_inferior.add(btn_professor_crear);
 		panel_professor_inferior.add(btn_professor_crear);
 		btn_professor_crear.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				crearProfessor();
 			}
@@ -327,8 +386,8 @@ public class Finestra extends JFrame {
 		String nom = textField_alumne_nom.getText();
 		String dni = textField_alumne_dni.getText();
 		String edatText = textField_alumne_edat.getText();
-		String nivell = getSelectedButtonText(buttonGroup);
-		
+		String nivell = getSelectedButtonText(buttonGroup_alumne);
+
 		StringBuilder campsBuits = new StringBuilder();
 
 		if (nom.isEmpty()) {
@@ -354,6 +413,7 @@ public class Finestra extends JFrame {
 			if (controlador != null) {
 				controlador.crearAlumne(nom, dni, edat, nivell);
 				Msg.exit("Alumne creat correctament.");
+				restaurarCampsAlumne();
 			}
 		} catch (NumberFormatException e) {
 			Msg.error("Format d'edat incorrecte.");
@@ -363,16 +423,67 @@ public class Finestra extends JFrame {
 	private void crearProfessor() {
 		String nom = textField_professor_nom.getText();
 		String dni = textField_professor_dni.getText();
-		int edat = Integer.parseInt(textField_professor_edat.getText());
+		String edatText = textField_professor_edat.getText();
 		String assignatura = textField_professor_assignatura.getText();
 
-		if (controlador != null) {
-			controlador.crearProfessor(nom, dni, edat, assignatura);
+		StringBuilder campsBuits = new StringBuilder();
+
+		if (nom.isEmpty()) {
+			campsBuits.append("\n- Nom");
+		}
+		if (dni.isEmpty()) {
+			campsBuits.append("\n- DNI");
+		}
+		if (edatText.isEmpty()) {
+			campsBuits.append("\n- Edat");
+		}
+		if (assignatura.isEmpty()) {
+			campsBuits.append("\n- Assignatura");
+		}
+
+		if (campsBuits.length() > 0) {
+			Msg.error("Falten els següents camps: " + campsBuits.toString());
+			return;
+		}
+
+		try {
+			int edat = Integer.parseInt(edatText);
+			if (controlador != null) {
+				controlador.crearProfessor(nom, dni, edat, assignatura);
+				Msg.exit("Professor creat correctament.");
+				restaurarCampsProfessor();
+			}
+		} catch (NumberFormatException e) {
+			Msg.error("Format d'edat incorrecte.");
 		}
 	}
 
-	private String getSelectedButtonText(ButtonGroup buttonGroup) {
-		for (AbstractButton button : Collections.list(buttonGroup.getElements())) {
+	private void restaurarCampsAlumne() {
+		textField_alumne_nom.setText("");
+		textField_alumne_dni.setText("");
+		textField_alumne_edat.setText("");
+		buttonGroup_alumne.clearSelection();
+	}
+
+	private void restaurarCampsProfessor() {
+		textField_professor_nom.setText("");
+		textField_professor_dni.setText("");
+		textField_professor_edat.setText("");
+		textField_professor_assignatura.setText("");
+	}
+
+	private void mostrarLlistat(String titol, List<Persona> persones) {
+		StringBuilder sb = new StringBuilder();
+
+		for (Persona persona : persones) {
+			sb.append(persona.toString()).append("\n");
+		}
+
+		Msg.simple(titol, sb.toString());
+	}
+
+	private String getSelectedButtonText(ButtonGroup buttonGroup_alumne) {
+		for (AbstractButton button : Collections.list(buttonGroup_alumne.getElements())) {
 			if (button.isSelected()) {
 				return button.getText();
 			}
