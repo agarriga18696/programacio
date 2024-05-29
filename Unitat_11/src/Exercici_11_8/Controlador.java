@@ -13,44 +13,35 @@ public class Controlador {
 		this.model = model;
 		this.vista = vista;
 		this.vista.addConvertListener(new ConvertListener());
-		this.vista.actualitzarTextBoto(isCelsiusToFahrenheit);
+		this.vista.actualitzarGUI(isCelsiusToFahrenheit);
 	}
 
 	class ConvertListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			try {
-				// Obtenir el valor del TextField segons el tipus de conversió.
-				double input = 0.0;
+				// Obtenir el valor a convertir del TextField Input.
+				double input = vista.getInput();
 				
-				if (isCelsiusToFahrenheit) {
-					input = vista.getCelsius();
-					
-				} else {
-					input = vista.getFahrenheit();
-				}
-
-				// Realitzar la conversió segons el tipus.
+				// Aplicar fórmula segons el tipus de conversió.
 				double output = 0.0;
-				
 				if (isCelsiusToFahrenheit) {
 					output = model.conversioCelsiusAFahrenheit(input);
-					
 				} else {
 					output = model.conversioFahrenheitACelsius(input);
 				}
 
-				// Actualitzar el TextField de sortida.
-				vista.setConversionResult(output);
+				// Mostrar el resultat al TextField Output.
+				vista.setResultat(output);
 
 			} catch (NumberFormatException ex) {
-				vista.showError("Introdueix un número vàlid.");
+				vista.mostrarError("Introdueix un número vàlid.");
 			}
 		}
 	}
 
 	public void canviarConversio() {
 		isCelsiusToFahrenheit = !isCelsiusToFahrenheit;
-		vista.actualitzarTextBoto(isCelsiusToFahrenheit);
+		vista.actualitzarGUI(isCelsiusToFahrenheit);
 	}
 
 }

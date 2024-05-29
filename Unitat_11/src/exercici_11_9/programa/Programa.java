@@ -1,6 +1,9 @@
-package Exercici_11_8;
+package exercici_11_9.programa;
 
 import java.awt.EventQueue;
+
+import exercici_11_9.vista.Finestra;
+import exercici_11_9.controlador.Controlador;
 
 public class Programa {
 
@@ -8,10 +11,8 @@ public class Programa {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Vista frame = new Vista();
-					Model model = new Model();
-					Controlador controlador = new Controlador(model, frame);
-					frame.setControlador(controlador);
+					Finestra frame = new Finestra();
+					Controlador controlador = new Controlador(frame);
 					frame.setVisible(true);
 
 				} catch (Exception e) {

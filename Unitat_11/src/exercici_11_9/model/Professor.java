@@ -1,14 +1,12 @@
-package Prova_Examen;
+package exercici_11_9.model;
 
 public class Professor extends Persona {
 
-	/**
-	 * 
-	 */
+	// Atributs.
 	private static final long serialVersionUID = 1L;
-	// Atributs del professor.
 	private String assignatura;
 	
+	// Constructor.
 	public Professor(String nom, String dni, int edat, String assignatura) {
 		super(nom, dni, edat);
 		this.assignatura = assignatura;
@@ -18,6 +16,7 @@ public class Professor extends Persona {
 	public String getAssignatura() {
 		return assignatura;
 	}
+	
 	public void setAssignatura(String assignatura) {
 		this.assignatura = assignatura;
 	}

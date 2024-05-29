@@ -38,6 +38,7 @@ public class Vista extends JFrame {
 	private final Color COLOR_PRIMARI = new Color(254, 254, 254);
 	private final Color COLOR_SECUNDARI = new Color(64, 64, 64);
 	private final Color COLOR_ENFASI = new Color(8, 96, 242);
+	private final Color COLOR_ERROR = new Color(239, 9, 9);
 	private final int PADDING = 10;
 	private final String FONT = "Helvetica";
 	private final Font FONT_NEGRETA = new Font(FONT, Font.BOLD, 16);
@@ -92,11 +93,11 @@ public class Vista extends JFrame {
 		// TEXT FIELD INPUT
 		JPanel panel_input = new JPanel(new BorderLayout());
 		panel_input.setBackground(COLOR_PRIMARI);
-		textfield_input = new JTextField();
+		textfield_input = new JTextField("0");
 		textfield_input.setHorizontalAlignment(SwingConstants.CENTER);
 		textfield_input.setBackground(COLOR_PRIMARI);
 		textfield_input.setForeground(COLOR_ENFASI);
-		textfield_input.setBorder(new CompoundBorder(new TitledBorder(new LineBorder(COLOR_SECUNDARI), TEXT_C, TitledBorder.CENTER, TitledBorder.TOP, null, COLOR_ENFASI), new EmptyBorder(PADDING, PADDING, PADDING * 2, PADDING)));
+		textfield_input.setBorder(new CompoundBorder(new TitledBorder(new LineBorder(COLOR_SECUNDARI), TEXT_C, TitledBorder.CENTER, TitledBorder.TOP, FONT_CURSIVA, COLOR_ENFASI), new EmptyBorder(PADDING, PADDING, PADDING * 2, PADDING)));
 		textfield_input.setFont(FONT_NEGRETA);
 		textfield_input.setPreferredSize(new Dimension(100, textfield_input.getPreferredSize().height));
 
@@ -134,12 +135,12 @@ public class Vista extends JFrame {
 		// TEXT FIELD OUTPUT
 		JPanel panel_output = new JPanel(new BorderLayout());
 		panel_output.setBackground(COLOR_SECUNDARI);
-		textfield_output = new JTextField();
+		textfield_output = new JTextField("32,00");
 		textfield_output.setHorizontalAlignment(SwingConstants.CENTER);
 		textfield_output.setBackground(COLOR_PRIMARI);
 		textfield_output.setForeground(COLOR_ENFASI);
 		textfield_output.setFont(FONT_NEGRETA);    
-		textfield_output.setBorder(new CompoundBorder(new TitledBorder(new LineBorder(COLOR_SECUNDARI), TEXT_F, TitledBorder.CENTER, TitledBorder.TOP, null, COLOR_ENFASI), new EmptyBorder(PADDING, PADDING, PADDING * 2, PADDING)));
+		textfield_output.setBorder(new CompoundBorder(new TitledBorder(new LineBorder(COLOR_SECUNDARI), TEXT_F, TitledBorder.CENTER, TitledBorder.TOP, FONT_CURSIVA, COLOR_ENFASI), new EmptyBorder(PADDING, PADDING, PADDING * 2, PADDING)));
 		textfield_output.setPreferredSize(new Dimension(100, textfield_input.getPreferredSize().height));
 		textfield_output.setEditable(false);
 
@@ -183,46 +184,39 @@ public class Vista extends JFrame {
 		this.controlador = controlador;
 	}
 
-	public double getCelsius() throws NumberFormatException {
+	public double getInput() throws NumberFormatException {
 		return Double.parseDouble(textfield_input.getText().replace(",", "."));
 	}
 
-	public double getFahrenheit() throws NumberFormatException {
-		return Double.parseDouble(textfield_output.getText().replace(",", "."));
-	}
-
-	public void setConversionResult(double result) {
+	public void setResultat(double result) {
+		textfield_output.setForeground(COLOR_ENFASI); // Reiniciar el color de text del Output per defecte.
 		textfield_output.setText(String.format("%.2f", result).replace(".", ","));
 	}
 
-	public void showError(String message) {
-		textfield_output.setText(message);
+	public void mostrarError(String msg) {
+		textfield_output.setForeground(COLOR_ERROR); // Canviar el color de text del Output a vermell.
+		textfield_output.setText(msg);
 	}
 
 	public void addConvertListener(ActionListener listenForConvertButton) {
 		button_calcular.addActionListener(listenForConvertButton);
 	}
 
-	public void actualitzarTextBoto(boolean isCelsiusToFahrenheit) {
+	public void actualitzarGUI(boolean isCelsiusToFahrenheit) {
 		if(isCelsiusToFahrenheit) {
 			label_formula.setText("Fórmula ⇒ " + FORMULA_C_F);
 			label_input.setText(SIMBOL_C);
 			label_output.setText(SIMBOL_F);
-			textfield_input.setBorder(new CompoundBorder(new TitledBorder(new LineBorder(COLOR_SECUNDARI), TEXT_C, TitledBorder.CENTER, TitledBorder.TOP, null, COLOR_ENFASI), new EmptyBorder(PADDING, PADDING, PADDING * 2, PADDING)));
-			textfield_output.setBorder(new CompoundBorder(new TitledBorder(new LineBorder(COLOR_SECUNDARI), TEXT_F, TitledBorder.CENTER, TitledBorder.TOP, null, COLOR_ENFASI), new EmptyBorder(PADDING, PADDING, PADDING * 2, PADDING)));
-			textfield_input.setText("0");
-			textfield_output.setText("32,00");
-
+			textfield_input.setBorder(new CompoundBorder(new TitledBorder(new LineBorder(COLOR_SECUNDARI), TEXT_C, TitledBorder.CENTER, TitledBorder.TOP, FONT_CURSIVA, COLOR_ENFASI), new EmptyBorder(PADDING, PADDING, PADDING * 2, PADDING)));
+			textfield_output.setBorder(new CompoundBorder(new TitledBorder(new LineBorder(COLOR_SECUNDARI), TEXT_F, TitledBorder.CENTER, TitledBorder.TOP, FONT_CURSIVA, COLOR_ENFASI), new EmptyBorder(PADDING, PADDING, PADDING * 2, PADDING)));
+			
 		} else {
 			label_formula.setText("Fórmula ⇒ " + FORMULA_F_C);
 			label_input.setText(SIMBOL_F);
 			label_output.setText(SIMBOL_C);
-			textfield_input.setBorder(new CompoundBorder(new TitledBorder(new LineBorder(COLOR_SECUNDARI), TEXT_F, TitledBorder.CENTER, TitledBorder.TOP, null, COLOR_ENFASI), new EmptyBorder(PADDING, PADDING, PADDING * 2, PADDING)));
-			textfield_output.setBorder(new CompoundBorder(new TitledBorder(new LineBorder(COLOR_SECUNDARI), TEXT_C, TitledBorder.CENTER, TitledBorder.TOP, null, COLOR_ENFASI), new EmptyBorder(PADDING, PADDING, PADDING * 2, PADDING)));
-			textfield_input.setText("0");
-			textfield_output.setText("-17,78");
+			textfield_input.setBorder(new CompoundBorder(new TitledBorder(new LineBorder(COLOR_SECUNDARI), TEXT_F, TitledBorder.CENTER, TitledBorder.TOP, FONT_CURSIVA, COLOR_ENFASI), new EmptyBorder(PADDING, PADDING, PADDING * 2, PADDING)));
+			textfield_output.setBorder(new CompoundBorder(new TitledBorder(new LineBorder(COLOR_SECUNDARI), TEXT_C, TitledBorder.CENTER, TitledBorder.TOP, FONT_CURSIVA, COLOR_ENFASI), new EmptyBorder(PADDING, PADDING, PADDING * 2, PADDING)));
 		}
-
 	}
 
 }
