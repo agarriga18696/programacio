@@ -16,6 +16,7 @@ import java.awt.GridLayout;
 import javax.swing.JSpinner;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.ImageIcon;
 
 public class Finestra extends JFrame {
 
@@ -42,13 +43,13 @@ public class Finestra extends JFrame {
 		contentPane.add(panel_inferior, BorderLayout.SOUTH);
 		panel_inferior.setLayout(new FlowLayout(FlowLayout.CENTER, 40, 10));
 		
-		JButton btnNewButton = new JButton("Comprovar");
+		JButton btnNewButton = new JButton("Comprobar");
 		panel_inferior.add(btnNewButton);
 		
-		JButton btnNewButton_1 = new JButton("Netejar");
+		JButton btnNewButton_1 = new JButton("Limpiar");
 		panel_inferior.add(btnNewButton_1);
 		
-		JButton btnNewButton_2 = new JButton("Guardar i tancar");
+		JButton btnNewButton_2 = new JButton("Guardar y cerrar");
 		panel_inferior.add(btnNewButton_2);
 		
 		JPanel panel_central = new JPanel();
@@ -71,7 +72,7 @@ public class Finestra extends JFrame {
 		panel_central.add(panel_central_superior, gbc_panel_central_superior);
 		panel_central_superior.setLayout(new FlowLayout(FlowLayout.LEADING, 5, 5));
 		
-		JLabel lblNewLabel = new JLabel("Consellers necessaris per tenir majoria absoluta");
+		JLabel lblNewLabel = new JLabel("Consejeros necesarios para tener la mayoría absoluta");
 		panel_central_superior.add(lblNewLabel);
 		
 		JSpinner spinner = new JSpinner();
@@ -86,7 +87,7 @@ public class Finestra extends JFrame {
 		panel_central.add(panel_central_central, gbc_panel_central_central);
 		panel_central_central.setLayout(new GridLayout(3, 6, 40, 100));
 		
-		JLabel lblNewLabel_7 = new JLabel("New label");
+		JLabel lblNewLabel_7 = new JLabel("PP");
 		panel_central_central.add(lblNewLabel_7);
 		
 		JCheckBox chckbxNewCheckBox = new JCheckBox("PP");
@@ -95,7 +96,7 @@ public class Finestra extends JFrame {
 		JSpinner spinner_1 = new JSpinner();
 		panel_central_central.add(spinner_1);
 		
-		JLabel lblNewLabel_4 = new JLabel("New label");
+		JLabel lblNewLabel_4 = new JLabel("VOX");
 		panel_central_central.add(lblNewLabel_4);
 		
 		JCheckBox chckbxNewCheckBox_3 = new JCheckBox("VOX");
@@ -104,7 +105,7 @@ public class Finestra extends JFrame {
 		JSpinner spinner_2 = new JSpinner();
 		panel_central_central.add(spinner_2);
 		
-		JLabel lblNewLabel_2 = new JLabel("New label");
+		JLabel lblNewLabel_2 = new JLabel("PSOE");
 		panel_central_central.add(lblNewLabel_2);
 		
 		JCheckBox chckbxNewCheckBox_1 = new JCheckBox("PSOE");
@@ -113,16 +114,16 @@ public class Finestra extends JFrame {
 		JSpinner spinner_3 = new JSpinner();
 		panel_central_central.add(spinner_3);
 		
-		JLabel lblNewLabel_3 = new JLabel("New label");
+		JLabel lblNewLabel_3 = new JLabel("Podemos");
 		panel_central_central.add(lblNewLabel_3);
 		
-		JCheckBox chckbxNewCheckBox_5 = new JCheckBox("Podemos");
+		JCheckBox chckbxNewCheckBox_5 = new JCheckBox("UP");
 		panel_central_central.add(chckbxNewCheckBox_5);
 		
 		JSpinner spinner_4 = new JSpinner();
 		panel_central_central.add(spinner_4);
 		
-		JLabel lblNewLabel_5 = new JLabel("New label");
+		JLabel lblNewLabel_5 = new JLabel("Més Menorca");
 		panel_central_central.add(lblNewLabel_5);
 		
 		JCheckBox chckbxNewCheckBox_4 = new JCheckBox("MxME");
@@ -131,10 +132,10 @@ public class Finestra extends JFrame {
 		JSpinner spinner_6 = new JSpinner();
 		panel_central_central.add(spinner_6);
 		
-		JLabel lblNewLabel_1 = new JLabel("New label");
+		JLabel lblNewLabel_1 = new JLabel("Ciudadanos");
 		panel_central_central.add(lblNewLabel_1);
 		
-		JCheckBox chckbxNewCheckBox_2 = new JCheckBox("Ciudadanos");
+		JCheckBox chckbxNewCheckBox_2 = new JCheckBox("Cs");
 		panel_central_central.add(chckbxNewCheckBox_2);
 		
 		JSpinner spinner_5 = new JSpinner();
@@ -151,7 +152,7 @@ public class Finestra extends JFrame {
 		JLabel lblNewLabel_6 = new JLabel("");
 		panel_central_inferior.add(lblNewLabel_6);
 		
-		setTitle("Càlcul de majories");
+		setTitle("Examen 2023");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setMinimumSize(new Dimension(798, 505));
 		setLocationRelativeTo(null);
