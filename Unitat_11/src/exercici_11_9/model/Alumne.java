@@ -17,11 +17,9 @@ public class Alumne extends Persona {
 		return nivell;
 	}
 
+	@Override
 	public String toString() {
-		StringBuilder sb = new StringBuilder();
-		sb.append("Nom: ").append(this.getNom()).append(" | DNI: ").append(this.getDni()).append(" | Edat: ").append(this.getEdat()).append(" | Nivell: ").append(this.getNivell());
-
-		return sb.toString();
+		return super.toString() + " - " + nivell;
 	}
 
 }

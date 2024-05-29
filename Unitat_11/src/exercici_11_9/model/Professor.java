@@ -18,10 +18,7 @@ public class Professor extends Persona {
 	}
 
 	public String toString() {
-		StringBuilder sb = new StringBuilder();
-		sb.append("Nom: ").append(this.getNom()).append(" | DNI: ").append(this.getDni()).append(" | Edat: ").append(this.getEdat()).append(" | Nivell: ").append(this.getAssignatura());
-
-		return sb.toString();
+		return super.toString() + " - " + assignatura;
 	}
 
 }

@@ -16,9 +16,12 @@ import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import exercici_11_9.controlador.Controlador;
+import exercici_11_9.model.Alumne;
 import exercici_11_9.model.Persona;
+import exercici_11_9.model.Professor;
 
 import javax.swing.border.LineBorder;
 import java.awt.Color;
@@ -28,13 +31,20 @@ import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 
 import javax.swing.JRadioButton;
+import javax.swing.JScrollPane;
 import javax.swing.AbstractButton;
 import javax.swing.ButtonGroup;
+import javax.swing.DefaultListModel;
+
+import java.awt.Panel;
+import java.awt.GridLayout;
+import javax.swing.JList;
 
 public class Finestra extends JFrame {
 
@@ -49,6 +59,10 @@ public class Finestra extends JFrame {
 	private JTextField textField_professor_edat;
 	private JTextField textField_professor_assignatura;
 	private Controlador controlador = new Controlador();
+	private JList<Alumne> list_alumnes;
+	private JList<Professor> list_professors;
+
+	private static final FileNameExtensionFilter EXTENSIO_FITXER = new FileNameExtensionFilter("Arxius de dades (*.dat)", "dat");
 
 	public Finestra() {
 		JMenuBar menuBar = new JMenuBar();
@@ -88,15 +102,23 @@ public class Finestra extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				JFileChooser fileChooser = new JFileChooser();
+				fileChooser.setCurrentDirectory(new File("."));
+				fileChooser.setFileFilter(EXTENSIO_FITXER);
+				fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+
 				int returnValue = fileChooser.showOpenDialog(null);
 
 				if(returnValue == JFileChooser.APPROVE_OPTION) {
 					try {
 						controlador.carregarDades(fileChooser.getSelectedFile().getPath());
 						Msg.exit("Dades carregades correctament.");
+						actualitzarLlistatPersones(controlador.getPersones());
 
-					} catch (ClassNotFoundException | IOException ex) {
+					} catch (ClassNotFoundException ex) {
 						Msg.error("Error al carregar dades: " + ex.getMessage());
+
+					} catch(IOException ex) {
+						Msg.error("Arxiu no compatible. Únicament s'accepten fitxers de tipus DAT.");
 					}
 				}
 			}
@@ -108,11 +130,33 @@ public class Finestra extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				JFileChooser fileChooser = new JFileChooser();
+				fileChooser.setCurrentDirectory(new File("."));
+				fileChooser.setFileFilter(EXTENSIO_FITXER);
+				fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+
 				int returnValue = fileChooser.showSaveDialog(null);
 
-				if (returnValue == JFileChooser.APPROVE_OPTION) {
+				if(returnValue == JFileChooser.APPROVE_OPTION) {
+					File selectedFile = fileChooser.getSelectedFile();
+					String filePath = selectedFile.getPath();
+
+					// Verificar si l'extensió és correcta.
+					if(!filePath.toLowerCase().endsWith(".dat")) {
+						// Si no té l'extensió correcta, modificar el nom del fitxer amb l'extensió vàlida.
+						// Eliminar l'extensió incorrecta en cas de que l'usuari l'hagi introduit.
+						int indexExtensio = filePath.lastIndexOf(".");
+						if(indexExtensio != -1) {
+							filePath = filePath.substring(0, indexExtensio);
+						}
+
+						filePath += ".dat";
+					}
+
+					// Guardar el fitxer amb el nom modificat.
+					File fileToSave = new File(filePath);
+
 					try {
-						controlador.guardarDades(fileChooser.getSelectedFile().getPath());
+						controlador.guardarDades(fileToSave.getPath());
 						Msg.exit("Dades guardades correctament.");
 
 					} catch (IOException ex) {
@@ -137,18 +181,13 @@ public class Finestra extends JFrame {
 		JMenu mn_dades = new JMenu("Dades");
 		menuBar.add(mn_dades);
 
-		JMenuItem mntm_mostrarLlistat = new JMenuItem("Mostrar Llistat");
+		JMenuItem mntm_mostrarLlistat = new JMenuItem("Veure Llistat");
 		mn_dades.add(mntm_mostrarLlistat);
 		mntm_mostrarLlistat.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				try {
-					mostrarLlistat("Llistat de Persones", controlador.getPersones());
-
-				} catch(NullPointerException ex) {
-					Msg.advertencia("No s'ha registrat cap persona.");
-				}
-
+				CardLayout c = (CardLayout)(contentPane.getLayout());
+				c.show(contentPane, "panelLlistat");
 			}
 		});
 
@@ -171,6 +210,28 @@ public class Finestra extends JFrame {
 				);
 		panel_principal.setLayout(gl_panel_principal);
 
+		JPanel panel_llistat = new JPanel();
+		contentPane.add(panel_llistat, "panelLlistat");
+		panel_llistat.setLayout(new BorderLayout(0, 0));
+
+		Panel panel_llistat_superior = new Panel();
+		panel_llistat.add(panel_llistat_superior, BorderLayout.NORTH);
+
+		JLabel lblLlistat = new JLabel("LLISTAT DE PERSONES");
+		panel_llistat_superior.add(lblLlistat);
+
+		Panel panel_llistat_central = new Panel();
+		panel_llistat.add(panel_llistat_central, BorderLayout.CENTER);
+		panel_llistat_central.setLayout(new GridLayout(0, 2, 20, 0));
+
+		list_alumnes = new JList<>();
+		list_alumnes.setBorder(new TitledBorder(new LineBorder(new Color(184, 207, 229)), "Alumnes", TitledBorder.CENTER, TitledBorder.TOP, null, new Color(51, 51, 51)));
+		panel_llistat_central.add(new JScrollPane(list_alumnes));
+
+		list_professors = new JList<>();
+		list_professors.setBorder(new TitledBorder(null, "Professors", TitledBorder.CENTER, TitledBorder.TOP, null, null));
+		panel_llistat_central.add(new JScrollPane(list_professors));
+
 		JPanel panel_alumne = new JPanel();
 		contentPane.add(panel_alumne, "panelAlumne");
 		panel_alumne.setLayout(new BorderLayout(0, 0));
@@ -192,7 +253,7 @@ public class Finestra extends JFrame {
 
 		textField_alumne_nom = new JTextField();
 		textField_alumne_nom.setColumns(20);
-		textField_alumne_nom.setBorder(new TitledBorder(new LineBorder(new Color(184, 207, 229)), "Nom", TitledBorder.LEADING, TitledBorder.ABOVE_TOP, null, new Color(51, 51, 51)));
+		textField_alumne_nom.setBorder(new TitledBorder(new LineBorder(new Color(184, 207, 229)), "Nom", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(51, 51, 51)));
 		GridBagConstraints gbc_textField_alumne_nom = new GridBagConstraints();
 		gbc_textField_alumne_nom.insets = new Insets(0, 0, 5, 0);
 		gbc_textField_alumne_nom.anchor = GridBagConstraints.NORTH;
@@ -203,7 +264,7 @@ public class Finestra extends JFrame {
 
 		textField_alumne_dni = new JTextField();
 		textField_alumne_dni.setColumns(20);
-		textField_alumne_dni.setBorder(new TitledBorder(new LineBorder(new Color(184, 207, 229)), "DNI", TitledBorder.LEADING, TitledBorder.ABOVE_TOP, null, new Color(51, 51, 51)));
+		textField_alumne_dni.setBorder(new TitledBorder(new LineBorder(new Color(184, 207, 229)), "DNI", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(51, 51, 51)));
 		GridBagConstraints gbc_textField_alumne_dni = new GridBagConstraints();
 		gbc_textField_alumne_dni.insets = new Insets(0, 0, 5, 0);
 		gbc_textField_alumne_dni.fill = GridBagConstraints.HORIZONTAL;
@@ -213,7 +274,7 @@ public class Finestra extends JFrame {
 
 		textField_alumne_edat = new JTextField();
 		textField_alumne_edat.setColumns(20);
-		textField_alumne_edat.setBorder(new TitledBorder(new LineBorder(new Color(184, 207, 229)), "Edat", TitledBorder.LEADING, TitledBorder.ABOVE_TOP, null, new Color(51, 51, 51)));
+		textField_alumne_edat.setBorder(new TitledBorder(new LineBorder(new Color(184, 207, 229)), "Edat", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(51, 51, 51)));
 		GridBagConstraints gbc_textField_alumne_edat = new GridBagConstraints();
 		gbc_textField_alumne_edat.insets = new Insets(0, 0, 5, 0);
 		gbc_textField_alumne_edat.fill = GridBagConstraints.HORIZONTAL;
@@ -313,7 +374,7 @@ public class Finestra extends JFrame {
 
 		textField_professor_nom = new JTextField();
 		textField_professor_nom.setColumns(20);
-		textField_professor_nom.setBorder(new TitledBorder(new LineBorder(new Color(184, 207, 229)), "Nom", TitledBorder.LEADING, TitledBorder.ABOVE_TOP, null, new Color(51, 51, 51)));
+		textField_professor_nom.setBorder(new TitledBorder(new LineBorder(new Color(184, 207, 229)), "Nom", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(51, 51, 51)));
 		GridBagConstraints gbc_textField_professor_nom = new GridBagConstraints();
 		gbc_textField_professor_nom.insets = new Insets(0, 0, 5, 0);
 		gbc_textField_professor_nom.anchor = GridBagConstraints.NORTHWEST;
@@ -324,7 +385,7 @@ public class Finestra extends JFrame {
 
 		textField_professor_dni = new JTextField();
 		textField_professor_dni.setColumns(20);
-		textField_professor_dni.setBorder(new TitledBorder(new LineBorder(new Color(184, 207, 229)), "DNI", TitledBorder.LEADING, TitledBorder.ABOVE_TOP, null, new Color(51, 51, 51)));
+		textField_professor_dni.setBorder(new TitledBorder(new LineBorder(new Color(184, 207, 229)), "DNI", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(51, 51, 51)));
 		GridBagConstraints gbc_textField_professor_dni = new GridBagConstraints();
 		gbc_textField_professor_dni.anchor = GridBagConstraints.NORTHWEST;
 		gbc_textField_professor_dni.insets = new Insets(0, 0, 5, 0);
@@ -335,7 +396,7 @@ public class Finestra extends JFrame {
 
 		textField_professor_edat = new JTextField();
 		textField_professor_edat.setColumns(20);
-		textField_professor_edat.setBorder(new TitledBorder(new LineBorder(new Color(184, 207, 229)), "Edat", TitledBorder.LEADING, TitledBorder.ABOVE_TOP, null, new Color(51, 51, 51)));
+		textField_professor_edat.setBorder(new TitledBorder(new LineBorder(new Color(184, 207, 229)), "Edat", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(51, 51, 51)));
 		GridBagConstraints gbc_textField_professor_edat = new GridBagConstraints();
 		gbc_textField_professor_edat.anchor = GridBagConstraints.NORTHWEST;
 		gbc_textField_professor_edat.insets = new Insets(0, 0, 5, 0);
@@ -346,7 +407,7 @@ public class Finestra extends JFrame {
 
 		textField_professor_assignatura = new JTextField();
 		textField_professor_assignatura.setColumns(20);
-		textField_professor_assignatura.setBorder(new TitledBorder(new LineBorder(new Color(184, 207, 229)), "Assignatura", TitledBorder.LEADING, TitledBorder.ABOVE_TOP, null, new Color(51, 51, 51)));
+		textField_professor_assignatura.setBorder(new TitledBorder(new LineBorder(new Color(184, 207, 229)), "Assignatura", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(51, 51, 51)));
 		GridBagConstraints gbc_textField_professor_assignatura = new GridBagConstraints();
 		gbc_textField_professor_assignatura.anchor = GridBagConstraints.NORTHWEST;
 		gbc_textField_professor_assignatura.insets = new Insets(0, 0, 5, 0);
@@ -383,9 +444,9 @@ public class Finestra extends JFrame {
 	}
 
 	private void crearAlumne() {
-		String nom = textField_alumne_nom.getText();
-		String dni = textField_alumne_dni.getText();
-		String edatText = textField_alumne_edat.getText();
+		String nom = textField_alumne_nom.getText().trim();
+		String dni = textField_alumne_dni.getText().trim();
+		String edatText = textField_alumne_edat.getText().trim();
 		String nivell = getSelectedButtonText(buttonGroup_alumne);
 
 		StringBuilder campsBuits = new StringBuilder();
@@ -411,8 +472,9 @@ public class Finestra extends JFrame {
 		try {
 			int edat = Integer.parseInt(edatText);
 			if (controlador != null) {
-				controlador.crearAlumne(nom, dni, edat, nivell);
+				controlador.crearAlumne(nom.toUpperCase(), dni.toUpperCase(), edat, nivell.toUpperCase());
 				Msg.exit("Alumne creat correctament.");
+				actualitzarLlistatPersones(controlador.getPersones());
 				restaurarCampsAlumne();
 			}
 		} catch (NumberFormatException e) {
@@ -421,10 +483,10 @@ public class Finestra extends JFrame {
 	}
 
 	private void crearProfessor() {
-		String nom = textField_professor_nom.getText();
-		String dni = textField_professor_dni.getText();
-		String edatText = textField_professor_edat.getText();
-		String assignatura = textField_professor_assignatura.getText();
+		String nom = textField_professor_nom.getText().trim();
+		String dni = textField_professor_dni.getText().trim();
+		String edatText = textField_professor_edat.getText().trim();
+		String assignatura = textField_professor_assignatura.getText().trim();
 
 		StringBuilder campsBuits = new StringBuilder();
 
@@ -449,8 +511,9 @@ public class Finestra extends JFrame {
 		try {
 			int edat = Integer.parseInt(edatText);
 			if (controlador != null) {
-				controlador.crearProfessor(nom, dni, edat, assignatura);
+				controlador.crearProfessor(nom.toUpperCase(), dni.toUpperCase(), edat, assignatura.toUpperCase());
 				Msg.exit("Professor creat correctament.");
+				actualitzarLlistatPersones(controlador.getPersones());
 				restaurarCampsProfessor();
 			}
 		} catch (NumberFormatException e) {
@@ -472,14 +535,25 @@ public class Finestra extends JFrame {
 		textField_professor_assignatura.setText("");
 	}
 
-	private void mostrarLlistat(String titol, List<Persona> persones) {
-		StringBuilder sb = new StringBuilder();
+	private void actualitzarLlistatPersones(List<Persona> persones) {
+		DefaultListModel<Alumne> alumnesModel = new DefaultListModel<>();
+		DefaultListModel<Professor> professorsModel = new DefaultListModel<>();
 
-		for (Persona persona : persones) {
-			sb.append(persona.toString()).append("\n");
+		if(persones != null && !persones.isEmpty()) {
+			for(Persona persona : persones) {
+				if(persona instanceof Alumne) {
+					Alumne alumne = (Alumne) persona;
+					alumnesModel.addElement(alumne);
+
+				} else { // És un Professor.
+					Professor professor = (Professor) persona;
+					professorsModel.addElement(professor);
+				}
+			}
+
+			list_alumnes.setModel(alumnesModel);
+			list_professors.setModel(professorsModel);
 		}
-
-		Msg.simple(titol, sb.toString());
 	}
 
 	private String getSelectedButtonText(ButtonGroup buttonGroup_alumne) {
