@@ -22,6 +22,7 @@ public class Combinacion {
 		this.combinacion = combinacion;
 	}
 
+	@Override
 	public String toString() {
 		return Arrays.toString(combinacion);
 	}

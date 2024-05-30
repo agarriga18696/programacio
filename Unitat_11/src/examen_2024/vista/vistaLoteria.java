@@ -2,11 +2,11 @@ package examen_2024.vista;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
 
 import examen_2024.modelo.Combinacion;
 import examen_2024.modelo.Logica;
-import exercici_11_09.model.Alumne;
 
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
@@ -24,6 +24,8 @@ import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
+
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -35,9 +37,10 @@ public class vistaLoteria extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	public JList<Combinacion> list;
+	public JList<String> list;
 	private List<JSpinner> camposUsuario = new ArrayList<>();
 	private List<JSpinner> camposCombinacion = new ArrayList<>();
+	private JButton btn_generarComb;
 
 	public vistaLoteria() {
 		JMenuBar menuBar = new JMenuBar();
@@ -98,8 +101,9 @@ public class vistaLoteria extends JFrame {
 		panel_inferior.setLayout(null);
 
 		list = new JList<>();
-		list.setBounds(10, 10, 679, 136);
-		panel_inferior.add(list);
+		JScrollPane scrollPane = new JScrollPane(list);
+		scrollPane.setBounds(10, 10, 679, 164);
+		panel_inferior.add(scrollPane, BorderLayout.CENTER);
 
 		JLabel lbl_numUsuario = new JLabel("Números usuario");
 		lbl_numUsuario.setBounds(10, 10, 192, 34);
@@ -112,79 +116,41 @@ public class vistaLoteria extends JFrame {
 		panel_central.add(panel_numUsuario);
 		panel_numUsuario.setLayout(new GridLayout(0, 6, 10, 0));
 
-		JSpinner spinner_1_1 = new JSpinner(new SpinnerNumberModel(0, 0, Integer.MAX_VALUE, 1));
-		panel_numUsuario.add(spinner_1_1);
-		camposUsuario.add(spinner_1_1);
-
-		JSpinner spinner_1_2 = new JSpinner(new SpinnerNumberModel(0, 0, Integer.MAX_VALUE, 1));
-		panel_numUsuario.add(spinner_1_2);
-		camposUsuario.add(spinner_1_2);
-
-		JSpinner spinner_1_3 = new JSpinner(new SpinnerNumberModel(0, 0, Integer.MAX_VALUE, 1));
-		panel_numUsuario.add(spinner_1_3);
-		camposUsuario.add(spinner_1_3);
-
-		JSpinner spinner_1_4 = new JSpinner(new SpinnerNumberModel(0, 0, Integer.MAX_VALUE, 1));
-		panel_numUsuario.add(spinner_1_4);
-		camposUsuario.add(spinner_1_4);
-
-		JSpinner spinner_1_5 = new JSpinner(new SpinnerNumberModel(0, 0, Integer.MAX_VALUE, 1));
-		panel_numUsuario.add(spinner_1_5);
-		camposUsuario.add(spinner_1_5);
-
-		JSpinner spinner_1_6 = new JSpinner(new SpinnerNumberModel(0, 0, Integer.MAX_VALUE, 1));
-		panel_numUsuario.add(spinner_1_6);
-		camposUsuario.add(spinner_1_6);
+		for (int i = 0; i < 6; i++) {
+			JSpinner spinner = new JSpinner(new SpinnerNumberModel(0, 0, 49, 1));
+			panel_numUsuario.add(spinner);
+			camposUsuario.add(spinner);
+			spinner.addChangeListener(e -> validarCamposUsuario());
+		}
 
 		JPanel panel_numUsuario_1 = new JPanel();
 		panel_numUsuario_1.setBounds(212, 65, 477, 34);
 		panel_central.add(panel_numUsuario_1);
 		panel_numUsuario_1.setLayout(new GridLayout(0, 6, 10, 0));
 
-		JSpinner spinner_2_1 = new JSpinner(new SpinnerNumberModel(0, 0, Integer.MAX_VALUE, 1));
-		panel_numUsuario_1.add(spinner_2_1);
-		camposCombinacion.add(spinner_2_1);
-
-		JSpinner spinner_2_2 = new JSpinner(new SpinnerNumberModel(0, 0, Integer.MAX_VALUE, 1));
-		panel_numUsuario_1.add(spinner_2_2);
-		camposCombinacion.add(spinner_2_2);
-
-		JSpinner spinner_2_3 = new JSpinner(new SpinnerNumberModel(0, 0, Integer.MAX_VALUE, 1));
-		panel_numUsuario_1.add(spinner_2_3);
-		camposCombinacion.add(spinner_2_3);
-
-		JSpinner spinner_2_4 = new JSpinner(new SpinnerNumberModel(0, 0, Integer.MAX_VALUE, 1));
-		panel_numUsuario_1.add(spinner_2_4);
-		camposCombinacion.add(spinner_2_4);
-
-		JSpinner spinner_2_5 = new JSpinner(new SpinnerNumberModel(0, 0, Integer.MAX_VALUE, 1));
-		panel_numUsuario_1.add(spinner_2_5);
-		camposCombinacion.add(spinner_2_5);
-
-		JSpinner spinner_2_6 = new JSpinner(new SpinnerNumberModel(0, 0, Integer.MAX_VALUE, 1));
-		panel_numUsuario_1.add(spinner_2_6);
-		camposCombinacion.add(spinner_2_6);
-
 		JLabel lbl_numUsuario_1 = new JLabel("Combinación ganadora");
 		lbl_numUsuario_1.setFont(new Font("Tahoma", Font.BOLD, 14));
 		lbl_numUsuario_1.setBounds(10, 65, 192, 34);
 		panel_central.add(lbl_numUsuario_1);
 
-		JButton btn_generarComb = new JButton("Generar combinación");
-		btn_generarComb.setFont(new Font("Tahoma", Font.BOLD, 14));
-		btn_generarComb.setBounds(455, 122, 234, 46);
-		//btn_generarComb.setEnabled(sePuedeClicar());
+		for (int i = 0; i < 6; i++) {
+			JSpinner spinner = new JSpinner(new SpinnerNumberModel(0, 0, 49, 1));
+			panel_numUsuario_1.add(spinner);
+			camposCombinacion.add(spinner);
+		}
 
+		btn_generarComb = new JButton("Generar combinación");
+		btn_generarComb.setFont(new Font("Tahoma", Font.BOLD, 14));
+		btn_generarComb.setBounds(455, 132, 234, 46);
+		btn_generarComb.setEnabled(false);
 		btn_generarComb.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				Combinacion combinacionSecreta = generarCombinacion();
 				Combinacion combinacionUsuario = combUsuario();
-				
-				Logica.compararResultado(combinacionUsuario, combinacionSecreta);
 				Logica.agregarCombinacion(combinacionSecreta);
-				actualizarLista(Logica.lista_combinaciones);
+				actualizarLista(Logica.lista_combinaciones, combinacionUsuario);
 			}
 
 		});
@@ -203,22 +169,27 @@ public class vistaLoteria extends JFrame {
 		setTitle("Lotería");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		pack();
-		setMinimumSize(new Dimension(723, 490));
+		setMinimumSize(new Dimension(723, 520));
 		setResizable(false);
 		setLocationRelativeTo(null); 
+	}
+
+	private void validarCamposUsuario() {
+		boolean habilitar = camposUsuario.stream().allMatch(spinner -> (int) spinner.getValue() > 0);
+		btn_generarComb.setEnabled(habilitar);
 	}
 
 	private Combinacion combUsuario() {
 		Combinacion comb = new Combinacion();
 		int[] combUs = new int[6];
-		
+
 		for(int i = 0; i < 6; i++) {
 			JSpinner spinner = camposUsuario.get(i);
 			combUs[i] = (int) spinner.getValue();
 		}
-		
+
 		comb.setCombinacion(combUs);
-		
+
 		return comb;
 	}
 
@@ -236,8 +207,7 @@ public class vistaLoteria extends JFrame {
 	// Método para limpiar la lista.
 	private void limpiarLista() {
 		Logica.lista_combinaciones.clear();
-		list.removeAll();
-		actualizarLista(Logica.lista_combinaciones);
+		actualizarLista(Logica.lista_combinaciones, null);
 	}
 
 	private Combinacion generarCombinacion() {
@@ -245,21 +215,22 @@ public class vistaLoteria extends JFrame {
 
 		for(int i = 0; i < 6; i++) {
 			JSpinner spinner = camposCombinacion.get(i);
-
 			spinner.setValue(combinacion.getCombinacion()[i]);
 		}
-		
+
 		return combinacion; 
 	}
 
 	// Método para actualizar la lista.
-	private void actualizarLista(List<Combinacion> combinaciones) {
-		DefaultListModel<Combinacion> dlm = new DefaultListModel<>();
-		
-		for(Combinacion comb : combinaciones) {
-			dlm.addElement(comb);
+	private void actualizarLista(List<Combinacion> combinaciones,  Combinacion combUsuario) {
+		DefaultListModel<String> dlm = new DefaultListModel<>();
+
+		for (Combinacion comb : combinaciones) {
+			int aciertos = Logica.compararResultado(combUsuario, comb);
+			String resultado = String.format("La combinación %s tiene %d aciertos.", comb, aciertos);
+			dlm.addElement(resultado);
 		}
-		
+
 		list.setModel(dlm);
 	}
 }
