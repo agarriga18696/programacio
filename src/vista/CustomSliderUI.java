@@ -22,6 +22,7 @@ public class CustomSliderUI extends BasicSliderUI {
 	@Override
 	public void paintTrack(Graphics g) {
 		Graphics2D g2d = (Graphics2D) g;
+		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 	    int trackHeight = 6;
 	    int centerY = trackRect.y + (trackRect.height - trackHeight) / 2;
 	    g2d.setColor(GUIColor.SECUNDARIO);

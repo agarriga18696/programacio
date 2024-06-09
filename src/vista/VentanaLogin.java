@@ -5,8 +5,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -67,7 +69,14 @@ public class VentanaLogin extends JFrame {
 
 		// Asignar el icono de la aplicación.
 		try {
-			this.setIconImage(ImageIO.read(new File("resources/icon/icono.png")));
+			InputStream iconStream = getClass().getResourceAsStream("/icon/icono.png");
+			if(iconStream == null) {
+				throw new RuntimeException("Icono no encontrado");
+			}
+			BufferedImage icon = ImageIO.read(iconStream);
+			setIconImage(icon);
+			//this.setIconImage(ImageIO.read(new File("resources/icon/icono.png")));
+
 		} catch (IOException e) {
 			Mensaje.error(this, "Error al intentar asignar el icono de la aplicación:\n" + e);
 		}
