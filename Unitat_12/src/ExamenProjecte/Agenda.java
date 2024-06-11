@@ -8,11 +8,12 @@ import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
-
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class Agenda extends JFrame {
 
@@ -23,16 +24,24 @@ public class Agenda extends JFrame {
 	private JTabbedPane tabbedPane;
 	private JPanel panelContactes;
 	private JPanel panelCites;
+	private JLabel lblData;
+	private JLabel lblHora;
+	private JTable tableContactes;
+	private JTable tableCites;
+	private VerificarCita verificarCita;
 
 	public Agenda(ControladorBD controladorBD) {
 		this.controladorBD = controladorBD;
 
 		crearFrame();
-
+		panelSuperior();
 		panelContactes();
 		panelCites();
-
 		configurarFinestra();
+
+		actualitzarDadesTaules();
+		
+		inicialitzarRellotge();
 	}
 
 	// Crear el frame principal.
@@ -44,6 +53,31 @@ public class Agenda extends JFrame {
 
 		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		contentPane.add(tabbedPane, BorderLayout.CENTER);
+	}
+
+	// Panel superior.
+	private void panelSuperior() {
+		JPanel panelSuperior = new JPanel();
+		FlowLayout flowLayout = (FlowLayout) panelSuperior.getLayout();
+		flowLayout.setAlignment(FlowLayout.LEFT);
+		contentPane.add(panelSuperior, BorderLayout.NORTH);
+
+		JPanel panelData = new JPanel();
+		panelSuperior.add(panelData);
+		panelData.setLayout(new BoxLayout(panelData, BoxLayout.X_AXIS));
+
+		lblData = new JLabel("Data:");
+		panelData.add(lblData);
+
+		Component horizontalStrut = Box.createHorizontalStrut(15);
+		panelSuperior.add(horizontalStrut);
+
+		JPanel panelHora = new JPanel();
+		panelSuperior.add(panelHora);
+		panelHora.setLayout(new BoxLayout(panelHora, BoxLayout.X_AXIS));
+
+		lblHora = new JLabel();
+		panelHora.add(lblHora);
 	}
 
 	// Mètode per configurar la finestra.
@@ -60,24 +94,15 @@ public class Agenda extends JFrame {
 	private void panelContactes() {
 		panelContactes = new JPanel(new BorderLayout());
 
-		JScrollPane scrollPane = new JScrollPane();
-		panelContactes.add(scrollPane, BorderLayout.CENTER);
+		JScrollPane scrollPaneContactes = new JScrollPane();
+		panelContactes.add(scrollPaneContactes, BorderLayout.CENTER);
 
 		// Crear la taula de contactes.
-		JTable tableContactes = crearTaula(
-				new String[] {"Id", "Nom", "Telèfon", "Email"},
-				null
-				);
+		tableContactes = new JTable();
+		configurarTaula(tableContactes, new String[] {"Id", "Nom", "Telèfon", "Email"}, null);
 		// No mostrar la columna Id.
-		TableColumnModel columnModel = tableContactes.getColumnModel();
-		TableColumn column = columnModel.getColumn(0);
-		column.setMinWidth(0);
-		column.setMaxWidth(0);
-		column.setWidth(0);
-		column.setPreferredWidth(0);
-		column.setResizable(false);
-		//tableContactes.removeColumn(tableContactes.getColumnModel().getColumn(0));
-		scrollPane.setViewportView(tableContactes);
+		ocultarColumna(tableContactes, 0);
+		scrollPaneContactes.setViewportView(tableContactes);
 
 		JPanel panelBotonsContactes = new JPanel(new FlowLayout(FlowLayout.CENTER));
 		JButton btnAfegirContacte = new JButton("Afegir Contacte");
@@ -88,6 +113,7 @@ public class Agenda extends JFrame {
 		panelBotonsContactes.add(btnActualitzarContactes);
 
 		btnAfegirContacte.addActionListener(new ActionListener() {
+			@SuppressWarnings("unused")
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				CrearContacteForm form = new CrearContacteForm(controladorBD, tableContactes);
@@ -108,7 +134,8 @@ public class Agenda extends JFrame {
 							Agenda.this, 
 							"Eliminar contacte", 
 							"S'eliminarà el contacte seleccionat. Aquesta operació no es pot desfer, ¿vols continuar?", 
-							JOptionPane.WARNING_MESSAGE);
+							JOptionPane.WARNING_MESSAGE
+							);
 
 					if(opcio == JOptionPane.YES_OPTION) {
 						controladorBD.eliminarContacte(id);
@@ -136,24 +163,15 @@ public class Agenda extends JFrame {
 	private void panelCites() {
 		panelCites = new JPanel(new BorderLayout());
 
-		JScrollPane scrollPane = new JScrollPane();
-		panelCites.add(scrollPane, BorderLayout.CENTER);
+		JScrollPane scrollPaneCites = new JScrollPane();
+		panelCites.add(scrollPaneCites, BorderLayout.CENTER);
 
 		// Crear la taula de cites.
-		JTable tableCites = crearTaula(
-				new String[] {"Id", "Data", "Hora", "Descripció", "Contacte"},
-				null
-				);
+		tableCites = new JTable();
+		configurarTaula(tableCites, new String[] {"Id", "Data", "Hora", "Descripció", "Contacte"}, null);
 		// No mostrar la columna Id.
-		TableColumnModel columnModel = tableCites.getColumnModel();
-		TableColumn column = columnModel.getColumn(0);
-		column.setMinWidth(0);
-		column.setMaxWidth(0);
-		column.setWidth(0);
-		column.setPreferredWidth(0);
-		column.setResizable(false);
-		//tableCites.removeColumn(tableCites.getColumnModel().getColumn(0));
-		scrollPane.setViewportView(tableCites);
+		ocultarColumna(tableCites, 0);
+		scrollPaneCites.setViewportView(tableCites);
 
 		JPanel panelBotonsCites = new JPanel(new FlowLayout(FlowLayout.CENTER));
 		JButton btnAfegirCita = new JButton("Afegir Cita");
@@ -164,6 +182,7 @@ public class Agenda extends JFrame {
 		panelBotonsCites.add(btnActualitzarCites);
 
 		btnAfegirCita.addActionListener(new ActionListener() {
+			@SuppressWarnings("unused")
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				ArrayList<String> nomsContactes = controladorBD.obtenirNomsContactes();
@@ -176,7 +195,7 @@ public class Agenda extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				int selectedRow = tableCites.getSelectedRow();
 
-				if (selectedRow != -1) {
+				if(selectedRow != -1) {
 					int modelRow = tableCites.convertRowIndexToModel(selectedRow);
 					int idCita = (int) tableCites.getValueAt(modelRow, 0);
 
@@ -188,7 +207,7 @@ public class Agenda extends JFrame {
 							JOptionPane.WARNING_MESSAGE
 							);
 
-					if (opcio == JOptionPane.YES_OPTION) {
+					if(opcio == JOptionPane.YES_OPTION) {
 						controladorBD.eliminarCita(idCita);
 						controladorBD.actualitzarTaulaCites(tableCites);
 					}
@@ -211,7 +230,7 @@ public class Agenda extends JFrame {
 	}
 
 	// Mètode per crear una taula personalitzada.
-	private JTable crearTaula(String[] columnNames, Object[][] data) {
+	private void configurarTaula(JTable taula, String[] columnNames, Object[][] data) {
 		DefaultTableModel model = new DefaultTableModel(data, columnNames) {
 			private static final long serialVersionUID = 1L;
 
@@ -222,11 +241,11 @@ public class Agenda extends JFrame {
 			}
 		};
 
-		// Crear la taula.
-		JTable taula = new JTable(model);
+		// Assignar el model a la taula.
+		taula.setModel(model);
 
 		// Crear un sorter per filtrar les dades de la taula.
-		TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>(taula.getModel());
+		TableRowSorter<TableModel> sorter = new TableRowSorter<>(taula.getModel());
 		taula.setRowSorter(sorter);
 
 		// Configurar l'aparença de la taula.
@@ -239,12 +258,70 @@ public class Agenda extends JFrame {
 		// Configurar renderitzadors per a les cel·les.
 		DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
 		centerRenderer.setHorizontalAlignment(JLabel.CENTER);
-		for (int i = 0; i < taula.getColumnCount(); i++) {
+		for(int i = 0; i < taula.getColumnCount(); i++) {
 			taula.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
 		}
+	}
 
-		return taula;
+	// Mètode per ocultar una columna específica en una JTable.
+	private void ocultarColumna(JTable taula, int columnaIndex) {
+		TableColumnModel columnModel = taula.getColumnModel();
+		TableColumn column = columnModel.getColumn(columnaIndex);
+		column.setMinWidth(0);
+		column.setMaxWidth(0);
+		column.setWidth(0);
+		column.setPreferredWidth(0);
+		column.setResizable(false);
+	}
+
+	// Mètode per inicialitzar el rellotge.
+	private void inicialitzarRellotge() {
+		// Crear un temporitzador per actualitzar l'hora cada segon.
+		Timer timer = new Timer(1000, new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				actualitzarDataIHora();
+				verificarCitesPendents();
+			}
+		});
+		timer.start(); // Iniciar el temporitzador.
+
+		actualitzarDataIHora(); // Actualizar la data i l'hora immediatament.
+		verificarCitesPendents(); // Verificar les cites pendents immediatament.
+	}
+
+	// Mètode per actualitzar l'hora.
+	private void actualizarHora() {
+		SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+		String horaFormatejada = sdf.format(new Date());
+		lblHora.setText("Hora: " + horaFormatejada);
+	}
+
+	// Mètode per actualitzar la data.
+	private void actualizarData() {
+		SimpleDateFormat sdfData = new SimpleDateFormat("dd/MM/yyyy");
+		String dataFormatejada = sdfData.format(new Date());
+		lblData.setText("Data: " + dataFormatejada);
+	}
+
+	// Método para actualizar la hora y la fecha.
+	private void actualitzarDataIHora() {
+		actualizarData();
+		actualizarHora();
+	}
+
+	// Mètode per verificar les cites pendents.
+	private void verificarCitesPendents() {
+		if(verificarCita == null || !verificarCita.isAlive()) {
+			verificarCita = new VerificarCita(tableCites);
+			verificarCita.start();
+		}
+	}
+	
+	// Mètode per actualitzar les dades de les taules.
+	private void actualitzarDadesTaules() {
+		controladorBD.actualitzarTaulaContactes(tableContactes);
+		controladorBD.actualitzarTaulaCites(tableCites);
 	}
 
 }
-

@@ -12,6 +12,8 @@ import java.util.List;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
+import com.mysql.cj.jdbc.exceptions.CommunicationsException;
+
 public class ControladorBD {
 	// Dades de connexió a la base de dades MySQL.
 	private static final String URL = "jdbc:mysql://localhost:3306/agenda_personal";
@@ -72,7 +74,7 @@ public class ControladorBD {
 			model.setRowCount(0);
 
 			// Afegir les dades recuperades de la base de dades a la taula.
-			while (rs.next()) {
+			while(rs.next()) {
 				Object[] rowData = {
 						rs.getInt("id"),
 						rs.getString("nom"),
@@ -82,7 +84,12 @@ public class ControladorBD {
 				model.addRow(rowData);
 			}
 		} catch (SQLException e) {
-			Missatge.error(null, "Error en actualitzar la taula de contactes: " + e.getMessage());
+			if(e instanceof CommunicationsException) {
+				Missatge.error(null, "No s'ha pogut establir la connexió amb la base de dades.");
+
+			} else {
+				Missatge.error(null, "Error en actualitzar la taula de contactes: " + e.getMessage());
+			}	
 		}
 	}
 
@@ -93,7 +100,7 @@ public class ControladorBD {
 		try (Connection conn = DriverManager.getConnection(URL, USUARI, CONTRASENYA);
 				PreparedStatement pstmt = conn.prepareStatement(sql);
 				ResultSet rs = pstmt.executeQuery()) {
-			while (rs.next()) {
+			while(rs.next()) {
 				llistaContactes.add(rs.getString("nom"));
 			}
 		} catch (SQLException e) {
@@ -149,7 +156,7 @@ public class ControladorBD {
 			DefaultTableModel model = (DefaultTableModel) taula.getModel();
 			model.setRowCount(0);
 
-			while (rs.next()) {
+			while(rs.next()) {
 				Object[] rowData = {
 						rs.getInt("id"),
 						rs.getString("data"),
@@ -160,7 +167,12 @@ public class ControladorBD {
 				model.addRow(rowData);
 			}
 		} catch (SQLException e) {
-			Missatge.error(null, "Error en actualitzar la taula de cites: " + e.getMessage());
+			if(e instanceof CommunicationsException) {
+				Missatge.error(null, "No s'ha pogut establir la connexió amb la base de dades.");
+
+			} else {
+				Missatge.error(null, "Error en actualitzar la taula de contactes: " + e.getMessage());
+			}
 		}
 	}
 
@@ -173,7 +185,7 @@ public class ControladorBD {
 
 			pstmt.setInt(1, idContacte);
 			ResultSet rs = pstmt.executeQuery();
-			if (rs.next()) {
+			if(rs.next()) {
 				nomContacte = rs.getString("nom");
 			}
 		} catch (SQLException e) {
@@ -191,7 +203,7 @@ public class ControladorBD {
 				PreparedStatement pstmt = conn.prepareStatement(sql);
 				ResultSet rs = pstmt.executeQuery()) {
 
-			while (rs.next()) {
+			while(rs.next()) {
 				String nom = rs.getString("nom");
 				nomsContactes.add(nom);
 			}
@@ -213,7 +225,7 @@ public class ControladorBD {
 			pstmt.setString(1, nomContacte);
 			ResultSet rs = pstmt.executeQuery();
 
-			if (rs.next()) {
+			if(rs.next()) {
 				idContacte = rs.getInt("id");
 			}
 
