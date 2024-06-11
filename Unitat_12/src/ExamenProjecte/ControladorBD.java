@@ -157,12 +157,16 @@ public class ControladorBD {
 			model.setRowCount(0);
 
 			while(rs.next()) {
+				// Obtenir el nom del contacte.
+				int idContacte = rs.getInt("id_contacte");
+			    String nomContacte = obtenirNomContacte(idContacte);
+			    
 				Object[] rowData = {
 						rs.getInt("id"),
 						rs.getString("data"),
 						rs.getString("hora"),
 						rs.getString("descripcio"),
-						rs.getInt("id_contacte")
+						nomContacte
 				};
 				model.addRow(rowData);
 			}

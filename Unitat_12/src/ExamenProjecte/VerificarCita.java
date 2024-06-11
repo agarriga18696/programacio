@@ -50,7 +50,7 @@ public class VerificarCita extends Thread {
 				if(Math.abs(dataHoraCita.getTime() - dataHoraActual.getTime()) <= rang) {
 					// Si la cita no ha estat ja verificada, mostrar el missatge d'avís i marcar-la com a verificada.
 					if(!citesVerificades.contains(i)) {
-						Missatge.personalitzat(null, "Recordatori", "Tens una cita d'aquí 1 minut!");
+						Missatge.personalitzat(null, "Recordatori", "Tens una cita pendent!");
 						citesVerificades.add(i);
 					}
 				} else {
